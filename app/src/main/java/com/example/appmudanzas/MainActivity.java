@@ -15,5 +15,10 @@ public class MainActivity extends AppCompatActivity {
     }
     protected void hola(){
 
+
+
+    }
+    protected void numero(){
+
     }
 }
