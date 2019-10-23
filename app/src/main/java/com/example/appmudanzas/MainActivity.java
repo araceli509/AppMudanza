@@ -25,7 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public void prueba(){
+    public void prueba(int angel){
         System.out.println("hola");
     }
+
 }
