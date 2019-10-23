@@ -24,4 +24,8 @@ public class MainActivity extends AppCompatActivity {
     protected void valida(){
 
     }
+
+    public void prueba(){
+        System.out.println("hola");
+    }
 }
