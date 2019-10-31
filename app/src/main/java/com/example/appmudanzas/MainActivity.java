@@ -33,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void prueba(boolean araceli,int angel){
         System.out.println("hola");
+        System.out.println("nuevo");
     }
 
 }
