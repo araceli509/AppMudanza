@@ -6,11 +6,20 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".Registro_Datos_Fragment"
     android:orientation="vertical"
-    android:padding="15dp">
+    android:padding="10dp">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5"
+        android:text="Datos Personales"
+        android:gravity="center"
+        android:textSize="20dp"/>
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         android:id="@+id/prestador_nombre">
@@ -23,7 +32,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         android:id="@+id/prestador_apellidos">
@@ -36,7 +46,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         android:id="@+id/prestador_email">
@@ -49,7 +60,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         app:passwordToggleEnabled="true"
@@ -63,7 +75,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         android:id="@+id/prestador_direccion">
@@ -76,7 +89,8 @@
 
     <com.google.android.material.textfield.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
         android:id="@+id/prestador_telefono">
@@ -90,7 +104,8 @@
     <Button
         android:id="@+id/btn_registrar_datos_personales"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="0dp"
+        android:layout_weight="1"
         android:text="Continuar"
         android:textColor="@android:color/white"/>
 
