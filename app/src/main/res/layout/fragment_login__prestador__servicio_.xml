@@ -11,12 +11,12 @@
         android:layout_height="match_parent"
         android:gravity="center_horizontal"
         android:orientation="vertical"
-        android:padding="15dp"
-        android:layout_marginTop="30dp">
+        android:padding="15dp">
 
         <TextView
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Mudanzas ITO"
             android:gravity="center"
             android:textSize="30dp"/>
@@ -24,13 +24,15 @@
         <ImageView
             android:id="@+id/imageView"
             android:layout_width="match_parent"
-            android:layout_height="90dp"
+            android:layout_height="0dp"
+            android:layout_weight="2"
             android:src="@drawable/img_mudanza"
             android:layout_marginTop="40dp"/>
 
        <com.google.android.material.textfield.TextInputLayout
            android:layout_width="match_parent"
-           android:layout_height="wrap_content"
+           android:layout_height="0dp"
+           android:layout_weight="1"
            app:errorEnabled="true"
            app:counterEnabled="true"
            android:id="@+id/usuario_prestador">
@@ -45,7 +47,8 @@
 
         <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             app:errorEnabled="true"
             app:counterEnabled="true"
             app:passwordToggleEnabled="true"
@@ -62,16 +65,24 @@
         <Button
             android:id="@+id/btn_login_prestador"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Login"
             android:textColor="@android:color/white" />
 
         <Button
             android:id="@+id/btn_registrar_prestador"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="0dp"
+            android:layout_weight="1"
             android:text="Registrarse"
             android:textColor="@android:color/white"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="1"
+            />
 
     </LinearLayout>
 
