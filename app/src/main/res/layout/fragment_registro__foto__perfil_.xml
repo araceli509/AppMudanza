@@ -12,7 +12,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="IDENTIFICACION OFICIAL"
+        android:text="FOTO DE PERFIL"
         android:gravity="center"
         android:textSize="20dp"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:text="Asegurate de que tu identificacion oficial con CURP visible(IFE O INE) sea legible"
+        android:text="Adjunta una foto de perfil tuya en donde se pueda ver tu rostro"
         android:gravity="center"
         android:textSize="20dp"/>
 
@@ -35,14 +35,14 @@
         android:textColor="@android:color/white" />
 
     <ImageView
-        android:id="@+id/imageIne"
+        android:id="@+id/imagePerfil"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:src="@drawable/img_base" />
 
     <Button
-        android:id="@+id/btn_registrar_ine"
+        android:id="@+id/btn_registrar_foto_perfil"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
