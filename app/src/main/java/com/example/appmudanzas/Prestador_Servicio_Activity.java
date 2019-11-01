@@ -5,7 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.net.Uri;
 import android.os.Bundle;
 
-public class Prestador_Servicio_Activity extends AppCompatActivity implements Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener {
+public class Prestador_Servicio_Activity extends AppCompatActivity implements Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,Registro_Datos_Fragment.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
