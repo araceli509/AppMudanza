@@ -77,7 +77,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment);
+                fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment).addToBackStack(null);
                 fr.commit();
             }
         });

@@ -76,7 +76,7 @@ public class Registro_Ine_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_licencia_conducir_fragment);
+                fr.replace(R.id.contenedor,registro_licencia_conducir_fragment).addToBackStack(null);
                 fr.commit();
             }
         });

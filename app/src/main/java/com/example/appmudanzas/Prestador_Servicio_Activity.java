@@ -30,4 +30,14 @@ public class Prestador_Servicio_Activity extends AppCompatActivity implements
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    @Override
+    public void onBackPressed() {
+        if (getFragmentManager().getBackStackEntryCount() > 0) {
+            getFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
+        }
+
+    }
 }

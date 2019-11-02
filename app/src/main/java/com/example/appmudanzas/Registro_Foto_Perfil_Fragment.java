@@ -127,7 +127,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_ine_fragment);
+                fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
                 fr.commit();
             }
         });
