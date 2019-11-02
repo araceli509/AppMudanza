@@ -6,13 +6,13 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="20dp"
-    tools:context=".Registro_Foto_Perfil_Fragment">
+    tools:context=".Registro_Licencia_Conducir_Fragment">
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
-        android:text="FOTO DE PERFIL"
+        android:text="LICENCIA DE CONDUCIR"
         android:gravity="center"
         android:textSize="20dp"/>
 
@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="2"
-        android:text="Adjunta una foto de perfil tuya en donde se pueda ver tu rostro"
+        android:text="Licencia de conducir vigente"
         android:gravity="center"
         android:textSize="20dp"/>
 
@@ -35,14 +35,14 @@
         android:textColor="@android:color/white" />
 
     <ImageView
-        android:id="@+id/imagePerfil"
+        android:id="@+id/imageLicenciaConducir"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="4"
         android:src="@drawable/img_base" />
 
     <Button
-        android:id="@+id/btn_registrar_foto_perfil"
+        android:id="@+id/btn_registrar_licencia_conducir"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
