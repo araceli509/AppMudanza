@@ -7,11 +7,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
+
+import java.util.regex.Pattern;
 
 
 /**
@@ -36,6 +42,9 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private View vista;
     private Button btn_registrar_datos_personales;
+    private TextInputLayout inputNombre,inputCorreo,inputTelefono;
+    private TextInputEditText txtNombre,txtCorreo,txtTelefono;
+    private String nombre,correo,telefono;
 
     public Registro_Datos_Fragment() {
         // Required empty public constructor
@@ -73,19 +82,42 @@ public class Registro_Datos_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         vista=inflater.inflate(R.layout.fragment_registro__datos_, container, false);
-        btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
 
+        crearComponentes();
+
+
+        btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
-                fr.commit();
+                if(esNombreValido(txtNombre.getText().toString())){
+                    Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
+                    FragmentTransaction fr= getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
+                    fr.commit();
+                }
+
             }
         });
 
         return vista;
+    }
+
+    public void crearComponentes(){
+        inputNombre=vista.findViewById(R.id.prestador_nombre);
+        txtNombre=vista.findViewById(R.id.txtNombre);
+    }
+
+    private boolean esNombreValido(String nombre) {
+        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
+        if (!patron.matcher(nombre).matches() || nombre.length() > 30) {
+            inputNombre.setError("Nombre inválido");
+            return false;
+        } else {
+            inputNombre.setError(null);
+        }
+
+        return true;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
