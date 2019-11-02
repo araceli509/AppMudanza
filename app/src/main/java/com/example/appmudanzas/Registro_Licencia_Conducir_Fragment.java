@@ -5,10 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -30,6 +32,9 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+
+    private View vista;
+    private Button btn_registrar_licencia;
 
     public Registro_Licencia_Conducir_Fragment() {
         // Required empty public constructor
@@ -65,8 +70,18 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
+        vista=inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
+        btn_registrar_licencia=vista.findViewById(R.id.btn_registrar_licencia_conducir);
+        final Registro_Tarjeta_Circulacion_Fragment registro_tarjeta_circulacion_fragment= new Registro_Tarjeta_Circulacion_Fragment();
+        btn_registrar_licencia.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fr= getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment);
+                fr.commit();
+            }
+        });
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

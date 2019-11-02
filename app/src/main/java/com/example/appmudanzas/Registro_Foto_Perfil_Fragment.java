@@ -5,10 +5,12 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 
 /**
@@ -30,6 +32,8 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
+    private View vista;
+    private Button btn_registrar_foto_perfil;
 
     public Registro_Foto_Perfil_Fragment() {
         // Required empty public constructor
@@ -65,8 +69,20 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
+        vista=inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
+        btn_registrar_foto_perfil=vista.findViewById(R.id.btn_registrar_foto_perfil);
+        final Registro_Ine_Fragment registro_ine_fragment= new Registro_Ine_Fragment();
+
+        btn_registrar_foto_perfil.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FragmentTransaction fr= getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor,registro_ine_fragment);
+                fr.commit();
+            }
+        });
+
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event

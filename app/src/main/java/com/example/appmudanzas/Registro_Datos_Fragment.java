@@ -78,9 +78,9 @@ public class Registro_Datos_Fragment extends Fragment {
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Registro_Ine_Fragment registro_ine_fragment= new Registro_Ine_Fragment();
+                Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_ine_fragment);
+                fr.replace(R.id.contenedor,registro_foto_perfil_fragment);
                 fr.commit();
             }
         });
