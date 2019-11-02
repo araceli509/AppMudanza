@@ -5,23 +5,21 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Registro_Ine_Fragment.OnFragmentInteractionListener} interface
+ * {@link Foto_Frontal_Vehiculo_Fragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Registro_Ine_Fragment#newInstance} factory method to
+ * Use the {@link Foto_Frontal_Vehiculo_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Registro_Ine_Fragment extends Fragment {
+public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,10 +30,8 @@ public class Registro_Ine_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private View vista;
-    private Button btn_registrar_Ine;
 
-    public Registro_Ine_Fragment() {
+    public Foto_Frontal_Vehiculo_Fragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +41,11 @@ public class Registro_Ine_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Ine_Fragment.
+     * @return A new instance of fragment Foto_Frontal_Vehiculo_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Registro_Ine_Fragment newInstance(String param1, String param2) {
-        Registro_Ine_Fragment fragment = new Registro_Ine_Fragment();
+    public static Foto_Frontal_Vehiculo_Fragment newInstance(String param1, String param2) {
+        Foto_Frontal_Vehiculo_Fragment fragment = new Foto_Frontal_Vehiculo_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,21 +65,11 @@ public class Registro_Ine_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final Registro_Licencia_Conducir_Fragment registro_licencia_conducir_fragment= new Registro_Licencia_Conducir_Fragment();
-        vista=inflater.inflate(R.layout.fragment_registro__ine_, container, false);
-        btn_registrar_Ine=vista.findViewById(R.id.btn_registrar_ine);
-        btn_registrar_Ine.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_licencia_conducir_fragment).addToBackStack(null);
-                fr.commit();
-            }
-        });
-
-        return vista;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);

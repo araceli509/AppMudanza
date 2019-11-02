@@ -12,7 +12,12 @@ import android.os.Bundle;
 public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
         Registro_Datos_Fragment.OnFragmentInteractionListener,
-        Registro_Ine_Fragment.OnFragmentInteractionListener,Registro_Foto_Perfil_Fragment.OnFragmentInteractionListener,Registro_Licencia_Conducir_Fragment.OnFragmentInteractionListener,Registro_Tarjeta_Circulacion_Fragment.OnFragmentInteractionListener {
+        Registro_Ine_Fragment.OnFragmentInteractionListener,
+        Registro_Foto_Perfil_Fragment.OnFragmentInteractionListener
+        ,Registro_Licencia_Conducir_Fragment.OnFragmentInteractionListener,
+        Registro_Tarjeta_Circulacion_Fragment.OnFragmentInteractionListener,
+        Registro_Datos_Vehiculo_Fragment.OnFragmentInteractionListener,
+        Foto_Frontal_Vehiculo_Fragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
