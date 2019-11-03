@@ -13,10 +13,21 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.util.Hashtable;
+import java.util.Map;
 import java.util.regex.Pattern;
 
 
@@ -39,12 +50,12 @@ public class Registro_Datos_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-
+    private String UPLOAD_URL="http://192.168.1.73:80/api/auth/insertar";
     private View vista;
     private Button btn_registrar_datos_personales;
     private TextInputLayout inputNombre,inputCorreo,inputTelefono;
-    private TextInputEditText txtNombre,txtCorreo,txtTelefono;
-    private String nombre,correo,telefono;
+    private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono;
+    private String nombre,apellidos,correo,password,direccion,telefono;
 
     public Registro_Datos_Fragment() {
         // Required empty public constructor
@@ -85,18 +96,17 @@ public class Registro_Datos_Fragment extends Fragment {
 
         crearComponentes();
 
-
         btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 if(esNombreValido(txtNombre.getText().toString())){
+                    subirDatos();
                     Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
                     FragmentTransaction fr= getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
                 }
-
             }
         });
 
@@ -106,6 +116,48 @@ public class Registro_Datos_Fragment extends Fragment {
     public void crearComponentes(){
         inputNombre=vista.findViewById(R.id.prestador_nombre);
         txtNombre=vista.findViewById(R.id.txtNombre);
+        txtApellidos=vista.findViewById(R.id.txtApellidos);
+        txtDireccion=vista.findViewById(R.id.txtDireccion);
+        txtCorreo=vista.findViewById(R.id.txtEmail);
+        txtPassword=vista.findViewById(R.id.txtPassword);
+        txtTelefono=vista.findViewById(R.id.txtTelefono);
+    }
+
+    public void subirDatos(){
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                nombre=txtNombre.getText().toString();
+                apellidos=txtApellidos.getText().toString();
+                direccion=txtDireccion.getText().toString();
+                correo=txtCorreo.getText().toString();
+                password=txtPassword.getText().toString();
+                telefono=txtTelefono.getText().toString();
+                System.out.println(nombre+apellidos+telefono+correo+password+direccion);
+
+                Map<String, String> params = new Hashtable<>();
+                params.put("nombre", nombre);
+                params.put("apellidos",apellidos);
+                params.put("direccion", direccion);
+                params.put("telefono",telefono);
+                params.put("correo",correo);
+                params.put("password",password);
+                return params;
+            }
+        };
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        requestQueue.add(stringRequest);
     }
 
     private boolean esNombreValido(String nombre) {
