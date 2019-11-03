@@ -27,6 +27,8 @@ dependencies {
     implementation 'com.android.support:design:28.0.0'
     //libreria para el envio de imagenes a un servidor
     implementation 'com.android.volley:volley:1.1.0'
+    //libreria para subir imagenes cloudinary
+    implementation group: 'com.cloudinary', name: 'cloudinary-android', version: '1.24.0'
     implementation 'androidx.legacy:legacy-support-v4:1.0.0'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test.ext:junit:1.1.0'
