@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
@@ -200,7 +201,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                 return params;
             }
         };
-
         requestQueue.add(stringRequest);
     }
 
@@ -305,7 +305,18 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             switch (requestCode){
                 case COD_SELECCIONA:
                     Uri miPath=data.getData();
-                    path=miPath.getPath();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    //path=miPath.getPath();
+                    Cursor cursor = getActivity().getContentResolver().query(miPath, filePathColumn, null, null, null);
+                    // Move to first row
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+
+                    String imgDecodableString = cursor.getString(columnIndex);
+                    Long consecutivo=System.currentTimeMillis()/1000;
+                    nombreImagen=consecutivo.toString()+".jpg";
+                    fileImagen= new File(imgDecodableString);
+                    cursor.close();
                     imagePerfil.setImageURI(miPath);
                     break;
 
