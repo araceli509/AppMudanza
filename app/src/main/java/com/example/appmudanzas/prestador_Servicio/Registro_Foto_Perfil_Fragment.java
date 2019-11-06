@@ -26,7 +26,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -114,7 +113,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         telefono=datosRecuperados.getString("telefono");
         correo=datosRecuperados.getString("correo");
         password=datosRecuperados.getString("password");
-        System.out.println("hola "+nombre);
         vista=inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
 
         btnFoto=vista.findViewById(R.id.btnFoto);
