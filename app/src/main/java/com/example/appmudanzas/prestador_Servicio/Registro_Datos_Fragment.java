@@ -1,4 +1,4 @@
-package com.example.appmudanzas;
+package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
 import android.net.Uri;
@@ -7,14 +7,10 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -23,6 +19,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
+import com.example.appmudanzas.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
@@ -101,7 +98,7 @@ public class Registro_Datos_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(esNombreValido(txtNombre.getText().toString())){
-                    subirDatos();
+                    //subirDatos();
                     Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
                     FragmentTransaction fr= getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
@@ -124,6 +121,7 @@ public class Registro_Datos_Fragment extends Fragment {
     }
 
     public void subirDatos(){
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -144,7 +142,6 @@ public class Registro_Datos_Fragment extends Fragment {
                 correo=txtCorreo.getText().toString();
                 password=txtPassword.getText().toString();
                 telefono=txtTelefono.getText().toString();
-                System.out.println(nombre+apellidos+telefono+correo+password+direccion);
 
                 Map<String, String> params = new Hashtable<>();
                 params.put("nombre", nombre);
@@ -156,7 +153,7 @@ public class Registro_Datos_Fragment extends Fragment {
                 return params;
             }
         };
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+
         requestQueue.add(stringRequest);
     }
 

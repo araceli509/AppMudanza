@@ -1,4 +1,4 @@
-package com.example.appmudanzas;
+package com.example.appmudanzas.prestador_Servicio;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
@@ -8,6 +8,8 @@ import android.Manifest;
 import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
+
+import com.example.appmudanzas.R;
 
 public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,

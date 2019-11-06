@@ -1,7 +1,5 @@
-package com.example.appmudanzas;
+package com.example.appmudanzas.prestador_Servicio;
 
-import android.Manifest;
-import android.Manifest.permission;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,8 +13,6 @@ import android.os.Build;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
-import androidx.core.app.ActivityCompat;
-import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -30,7 +26,15 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
+
+import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
+import com.cloudinary.utils.ObjectUtils;
+import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
+
 import java.io.File;
+import java.io.IOException;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -51,6 +55,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
     private static final String CARPETA_IMAGEN="imagenes";
+    private String nombre;
     private static final String DIRECTORIO_IMAGEN=CARPETA_PRINCIPAL+CARPETA_IMAGEN;
     private String path;
     private File fileImagen;
@@ -126,6 +131,19 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         btn_registrar_foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                        try {
+                            cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","fotoperfil"));
+                            cloud.url().generate(nombre);
+                        } catch (IOException e) {
+                            System.out.println(e.getMessage());
+                        }
+                    }
+                }).start();
+
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
                 fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
                 fr.commit();
@@ -212,7 +230,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
 
         if(isCreada){
             Long consecutivo=System.currentTimeMillis()/1000;
-            String nombre=consecutivo.toString()+".jpg";
+            nombre=consecutivo.toString()+".jpg";
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN+
                     File.separator+nombre;
             fileImagen= new File(path);
@@ -238,26 +256,24 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         super.onActivityResult(requestCode, resultCode, data);
 
         if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case COD_SELECCIONA:
+                    Uri miPath=data.getData();
+                    imagePerfil.setImageURI(miPath);
+                    break;
 
+                case COD_FOTO:
+                    MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path",path);
+                                }
+                            });
+                    bitmap= BitmapFactory.decodeFile(path);
+                    imagePerfil.setImageBitmap(bitmap);
+                    break;
         }
-
-        switch (requestCode){
-            case COD_SELECCIONA:
-                Uri miPath=data.getData();
-                imagePerfil.setImageURI(miPath);
-                break;
-
-            case COD_FOTO:
-                MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
-                        new MediaScannerConnection.OnScanCompletedListener() {
-                            @Override
-                            public void onScanCompleted(String path, Uri uri) {
-                                Log.i("Path",path);
-                            }
-                        });
-                bitmap= BitmapFactory.decodeFile(path);
-                imagePerfil.setImageBitmap(bitmap);
-                break;
         }
     }
 

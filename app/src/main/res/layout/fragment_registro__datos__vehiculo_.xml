@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:padding="10dp"
-    tools:context=".Registro_Datos_Vehiculo_Fragment">
+    tools:context=".prestador_Servicio.Registro_Datos_Vehiculo_Fragment">
 
     <TextView
         android:layout_width="match_parent"

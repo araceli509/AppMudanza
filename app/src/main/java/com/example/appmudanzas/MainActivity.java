@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+
+import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio_Activity;
 //araceli
 
 public class MainActivity extends AppCompatActivity {
@@ -19,7 +21,7 @@ public class MainActivity extends AppCompatActivity {
         btn_prestador_servicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent i= new Intent(getApplicationContext(),Prestador_Servicio_Activity.class);
+                Intent i= new Intent(getApplicationContext(), Prestador_Servicio_Activity.class);
                 startActivity(i);
             }
         });

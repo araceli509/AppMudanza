@@ -1,4 +1,4 @@
-package com.example.appmudanzas;
+package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
 import android.net.Uri;
@@ -12,16 +12,18 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 
+import com.example.appmudanzas.R;
+
 
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link Registro_Ine_Fragment.OnFragmentInteractionListener} interface
+ * {@link Registro_Licencia_Conducir_Fragment.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link Registro_Ine_Fragment#newInstance} factory method to
+ * Use the {@link Registro_Licencia_Conducir_Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Registro_Ine_Fragment extends Fragment {
+public class Registro_Licencia_Conducir_Fragment extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -32,10 +34,11 @@ public class Registro_Ine_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private View vista;
-    private Button btn_registrar_Ine;
 
-    public Registro_Ine_Fragment() {
+    private View vista;
+    private Button btn_registrar_licencia;
+
+    public Registro_Licencia_Conducir_Fragment() {
         // Required empty public constructor
     }
 
@@ -45,11 +48,11 @@ public class Registro_Ine_Fragment extends Fragment {
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Ine_Fragment.
+     * @return A new instance of fragment Registro_Licencia_Conducir_Fragment.
      */
     // TODO: Rename and change types and number of parameters
-    public static Registro_Ine_Fragment newInstance(String param1, String param2) {
-        Registro_Ine_Fragment fragment = new Registro_Ine_Fragment();
+    public static Registro_Licencia_Conducir_Fragment newInstance(String param1, String param2) {
+        Registro_Licencia_Conducir_Fragment fragment = new Registro_Licencia_Conducir_Fragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -69,21 +72,21 @@ public class Registro_Ine_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        final Registro_Licencia_Conducir_Fragment registro_licencia_conducir_fragment= new Registro_Licencia_Conducir_Fragment();
-        vista=inflater.inflate(R.layout.fragment_registro__ine_, container, false);
-        btn_registrar_Ine=vista.findViewById(R.id.btn_registrar_ine);
-        btn_registrar_Ine.setOnClickListener(new View.OnClickListener() {
+        vista=inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
+        btn_registrar_licencia=vista.findViewById(R.id.btn_registrar_licencia_conducir);
+        final Registro_Tarjeta_Circulacion_Fragment registro_tarjeta_circulacion_fragment= new Registro_Tarjeta_Circulacion_Fragment();
+        btn_registrar_licencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_licencia_conducir_fragment).addToBackStack(null);
+                fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment).addToBackStack(null);
                 fr.commit();
             }
         });
-
         return vista;
     }
 
+    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
