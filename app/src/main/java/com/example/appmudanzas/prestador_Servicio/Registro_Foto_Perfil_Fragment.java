@@ -27,6 +27,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
@@ -35,6 +42,8 @@ import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
@@ -49,13 +58,13 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class Registro_Foto_Perfil_Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+    private String UPLOAD_URL="http://192.168.1.73:80/api/auth/insertar";
+    private String nombre,apellidos,correo,password,direccion,telefono;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
     private static final String CARPETA_IMAGEN="imagenes";
-    private String nombre;
+    private String nombreImagen;
     private static final String DIRECTORIO_IMAGEN=CARPETA_PRINCIPAL+CARPETA_IMAGEN;
     private String path;
     private File fileImagen;
@@ -106,6 +115,14 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
+        Bundle datosRecuperados = getArguments();
+        nombre=datosRecuperados.getString("nombre");
+        apellidos=datosRecuperados.getString("apellidos");
+        direccion=datosRecuperados.getString("direccion");
+        telefono=datosRecuperados.getString("telefono");
+        correo=datosRecuperados.getString("correo");
+        password=datosRecuperados.getString("password");
+        System.out.println("hola "+nombre);
         vista=inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
 
         btnFoto=vista.findViewById(R.id.btnFoto);
@@ -136,13 +153,15 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     public void run() {
                         Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
                         try {
-                            cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","fotoperfil"));
-                            cloud.url().generate(nombre);
+                            cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","foto_perfil/"+nombreImagen));
+                            cloud.url().generate(nombreImagen);
                         } catch (IOException e) {
                             System.out.println(e.getMessage());
                         }
                     }
                 }).start();
+
+                subirDatos();
 
                 FragmentTransaction fr= getFragmentManager().beginTransaction();
                 fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
@@ -151,6 +170,38 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         });
 
         return vista;
+    }
+
+    private void subirDatos() {
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
+                    }
+                }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                //Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+
+                Map<String, String> params = new Hashtable<>();
+                params.put("nombre", nombre);
+                params.put("apellidos",apellidos);
+                params.put("direccion", direccion);
+                params.put("telefono",telefono);
+                params.put("correo",correo);
+                params.put("password",password);
+                params.put("foto_perfil",nombreImagen);
+                return params;
+            }
+        };
+
+        requestQueue.add(stringRequest);
     }
 
     private boolean validaPermisos() {
@@ -173,7 +224,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-
         if(requestCode==100){
             if(grantResults.length==2&&grantResults[0]==PackageManager.PERMISSION_GRANTED&&grantResults[1]==PackageManager.PERMISSION_GRANTED){
                 btnFoto.setEnabled(true);
@@ -204,7 +254,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             public void onClick(DialogInterface dialog, int i) {
                 if(opciones[i].equals("Tomar Foto")){
                     abrirCamara();
-                    Toast.makeText(getContext(),"Tomando foto del dispositivo",Toast.LENGTH_SHORT).show();
                 }else {
                     if(opciones[i].equals("Elegir de Galeria")){
                         Intent intent= new Intent(Intent.ACTION_PICK,
@@ -230,11 +279,10 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
 
         if(isCreada){
             Long consecutivo=System.currentTimeMillis()/1000;
-            nombre=consecutivo.toString()+".jpg";
+            nombreImagen=consecutivo.toString()+".jpg";
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN+
-                    File.separator+nombre;
+                    File.separator+nombreImagen;
             fileImagen= new File(path);
-
             Intent intent=null;
             intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
 
@@ -247,8 +295,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             }
             startActivityForResult(intent,COD_FOTO);;
         }
-
-
     }
 
     @Override
@@ -259,6 +305,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             switch (requestCode){
                 case COD_SELECCIONA:
                     Uri miPath=data.getData();
+                    path=miPath.getPath();
                     imagePerfil.setImageURI(miPath);
                     break;
 

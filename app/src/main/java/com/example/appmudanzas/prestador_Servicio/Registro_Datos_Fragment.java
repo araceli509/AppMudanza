@@ -47,7 +47,6 @@ public class Registro_Datos_Fragment extends Fragment {
     private String mParam2;
 
     private OnFragmentInteractionListener mListener;
-    private String UPLOAD_URL="http://192.168.1.73:80/api/auth/insertar";
     private View vista;
     private Button btn_registrar_datos_personales;
     private TextInputLayout inputNombre,inputCorreo,inputTelefono;
@@ -98,8 +97,17 @@ public class Registro_Datos_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(esNombreValido(txtNombre.getText().toString())){
-                    //subirDatos();
+                    obtenerDatos();
+                    Bundle datos= new Bundle();
+                    datos.putString("nombre",nombre);
+                    datos.putString("apellidos",apellidos);
+                    datos.putString("direccion",direccion);
+                    datos.putString("telefono",telefono);
+                    datos.putString("correo",correo);
+                    datos.putString("password",password);
                     Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
+                    registro_foto_perfil_fragment.setArguments(datos);
+
                     FragmentTransaction fr= getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
@@ -120,41 +128,13 @@ public class Registro_Datos_Fragment extends Fragment {
         txtTelefono=vista.findViewById(R.id.txtTelefono);
     }
 
-    public void subirDatos(){
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
-                    }
-                }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                nombre=txtNombre.getText().toString();
-                apellidos=txtApellidos.getText().toString();
-                direccion=txtDireccion.getText().toString();
-                correo=txtCorreo.getText().toString();
-                password=txtPassword.getText().toString();
-                telefono=txtTelefono.getText().toString();
-
-                Map<String, String> params = new Hashtable<>();
-                params.put("nombre", nombre);
-                params.put("apellidos",apellidos);
-                params.put("direccion", direccion);
-                params.put("telefono",telefono);
-                params.put("correo",correo);
-                params.put("password",password);
-                return params;
-            }
-        };
-
-        requestQueue.add(stringRequest);
+    public void obtenerDatos(){
+        nombre=txtNombre.getText().toString();
+        apellidos=txtApellidos.getText().toString();
+        direccion=txtDireccion.getText().toString();
+        correo=txtCorreo.getText().toString();
+        password=txtPassword.getText().toString();
+        telefono=txtTelefono.getText().toString();
     }
 
     private boolean esNombreValido(String nombre) {
@@ -169,7 +149,6 @@ public class Registro_Datos_Fragment extends Fragment {
         return true;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -193,16 +172,6 @@ public class Registro_Datos_Fragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
