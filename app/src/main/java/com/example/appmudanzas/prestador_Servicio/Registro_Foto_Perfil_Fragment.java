@@ -85,15 +85,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
 
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Foto_Perfil_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Registro_Foto_Perfil_Fragment newInstance(String param1, String param2) {
         Registro_Foto_Perfil_Fragment fragment = new Registro_Foto_Perfil_Fragment();
         Bundle args = new Bundle();
@@ -189,7 +180,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         }){
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
-
                 Map<String, String> params = new Hashtable<>();
                 params.put("nombre", nombre);
                 params.put("apellidos",apellidos);
@@ -300,18 +290,14 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
         if(resultCode==RESULT_OK){
             switch (requestCode){
                 case COD_SELECCIONA:
                     Uri miPath=data.getData();
                     String[] filePathColumn = {MediaStore.Images.Media.DATA};
-                    //path=miPath.getPath();
                     Cursor cursor = getActivity().getContentResolver().query(miPath, filePathColumn, null, null, null);
-                    // Move to first row
                     cursor.moveToFirst();
                     int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
-
                     String imgDecodableString = cursor.getString(columnIndex);
                     Long consecutivo=System.currentTimeMillis()/1000;
                     nombreImagen=consecutivo.toString()+".jpg";
@@ -331,7 +317,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     bitmap= BitmapFactory.decodeFile(path);
                     imagePerfil.setImageBitmap(bitmap);
                     break;
-        }
+            }
         }
     }
 
@@ -359,7 +345,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
