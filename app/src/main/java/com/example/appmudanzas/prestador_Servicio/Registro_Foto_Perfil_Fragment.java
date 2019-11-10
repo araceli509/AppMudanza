@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -9,6 +10,8 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaScannerConnection;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -59,7 +62,7 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class Registro_Foto_Perfil_Fragment extends Fragment {
-    private String UPLOAD_URL="http://192.168.1.73:80/api/auth/insertar";
+    private String UPLOAD_URL="http://192.168.1.79:80/api/auth/insertar";
     private String nombre,apellidos,correo,password,direccion,telefono;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -74,13 +77,12 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     private static final int COD_FOTO=20;
     private String mParam1;
     private String mParam2;
-
     private OnFragmentInteractionListener mListener;
     private View vista;
     private Button btn_registrar_foto_perfil;
     private Button btnFoto;
     private ImageView imagePerfil;
-
+    private ProgressDialog progreso;
     public Registro_Foto_Perfil_Fragment() {
 
     }
@@ -169,33 +171,43 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     }
 
     private void subirDatos() {
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
-                new Response.Listener<String>() {
-                    @Override
-                    public void onResponse(String response) {
-                        //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
-                    }
-                },new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                //Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();
-            }
-        }){
-            @Override
-            protected Map<String, String> getParams() throws AuthFailureError {
-                Map<String, String> params = new Hashtable<>();
-                params.put("nombre", nombre);
-                params.put("apellidos",apellidos);
-                params.put("direccion", direccion);
-                params.put("telefono",telefono);
-                params.put("correo",correo);
-                params.put("password",password);
-                params.put("foto_perfil",nombreImagen);
-                return params;
-            }
-        };
-        requestQueue.add(stringRequest);
+        progreso= new ProgressDialog(getContext());
+        progreso.setMessage("Enviando");
+        progreso.show();
+        if(compruebaConexion(getContext())){
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+                            Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                            progreso.hide();
+                        }
+                    },new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    progreso.hide();
+                }
+            }){
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<>();
+                    params.put("nombre", nombre);
+                    params.put("apellidos",apellidos);
+                    params.put("direccion", direccion);
+                    params.put("telefono",telefono);
+                    params.put("correo",correo);
+                    params.put("password",password);
+                    params.put("foto_perfil",nombreImagen);
+                    return params;
+                }
+            };
+            requestQueue.add(stringRequest);
+        }else{
+            progreso.dismiss();
+            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     private boolean validaPermisos() {
@@ -342,6 +354,19 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         }
     }
 
+    public static boolean compruebaConexion(Context context) {
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
     @Override
     public void onDetach() {
         super.onDetach();

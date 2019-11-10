@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -36,6 +37,7 @@ public class Registro_Ine_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
+    private ProgressDialog progreso;
     private OnFragmentInteractionListener mListener;
     private View vista;
     private Button btn_registrar_Ine,btnFoto;

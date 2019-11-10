@@ -51,4 +51,6 @@
         android:text="Continuar"
         android:textColor="@android:color/white"/>
 
+
+
 </LinearLayout>

@@ -117,7 +117,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarNombre() {
         nombre=inputNombre.getEditText().getText().toString();
-        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
+        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
         if (!patron.matcher(nombre).matches()) {
             inputNombre.setError("Nombre inválido");
             return false;
@@ -132,7 +132,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarApellidos(){
         apellidos=inputApellidos.getEditText().getText().toString().trim();
-        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
+        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
         if (!patron.matcher(apellidos).matches()) {
             inputApellidos.setError("Apellido inválido");
             return false;
