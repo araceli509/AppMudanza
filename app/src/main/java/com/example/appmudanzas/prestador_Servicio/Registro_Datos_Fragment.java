@@ -67,25 +67,24 @@ public class Registro_Datos_Fragment extends Fragment {
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //if(validarNombre()&&validarApellidos()&&validarEmail()&&validarPassword()&&validarDireccion()&&validarTelefono()){
-                  //  obtenerDatos();
-                if(!validarNombre()|!validarApellidos()|validarDireccion()|!validarEmail()|!validarPassword()|!validarTelefono()){
+                if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
-                }
-                    Bundle datos= new Bundle();
-                    datos.putString("nombre",nombre);
-                    datos.putString("apellidos",apellidos);
-                    datos.putString("direccion",direccion);
-                    datos.putString("telefono",telefono);
-                    datos.putString("correo",correo);
-                    datos.putString("password",password);
-                    Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment= new Registro_Foto_Perfil_Fragment();
+                }else {
+                    Bundle datos = new Bundle();
+                    datos.putString("nombre", nombre);
+                    datos.putString("apellidos", apellidos);
+                    datos.putString("direccion", direccion);
+                    datos.putString("telefono", telefono);
+                    datos.putString("correo", correo);
+                    datos.putString("password", password);
+                    Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
                     registro_foto_perfil_fragment.setArguments(datos);
 
-                    FragmentTransaction fr= getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
+                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
-                //}
+                    //}
+                }
             }
         });
 

@@ -26,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
@@ -138,24 +139,29 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         btn_registrar_foto_perfil.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
-                        try {
-                            cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","foto_perfil/"+nombreImagen));
-                            cloud.url().generate(nombreImagen);
-                        } catch (IOException e) {
-                            System.out.println(e.getMessage());
+                if(fileImagen!=null){
+                    new Thread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                            try {
+                                cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","foto_perfil/"+nombreImagen));
+                                cloud.url().generate(nombreImagen);
+                            } catch (IOException e) {
+                                System.out.println(e.getMessage());
+                            }
                         }
-                    }
-                }).start();
+                    }).start();
 
-                subirDatos();
+                    subirDatos();
 
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
-                fr.commit();
+                    FragmentTransaction fr= getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
+                    fr.commit();
+                }else{
+                    Toast.makeText(getContext(),"Debes seleccionar una imagen",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 
