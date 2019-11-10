@@ -6,7 +6,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".prestador_Servicio.Registro_Datos_Fragment"
     android:orientation="vertical"
-    android:padding="10dp">
+    android:padding="20dp">
 
     <TextView
         android:layout_width="match_parent"
@@ -115,7 +115,9 @@
         android:id="@+id/btn_registrar_datos_personales"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"
+        android:layout_weight="0.8"
+        android:background="@drawable/btn_continuar"
+        android:layout_marginTop="5dp"
         android:text="Continuar"
         android:textColor="@android:color/white"/>
 
