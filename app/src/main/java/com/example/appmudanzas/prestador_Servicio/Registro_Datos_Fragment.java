@@ -27,15 +27,6 @@ import java.util.Hashtable;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Registro_Datos_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Registro_Datos_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Registro_Datos_Fragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
