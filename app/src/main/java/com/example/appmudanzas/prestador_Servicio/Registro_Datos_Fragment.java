@@ -7,24 +7,17 @@ import android.os.Bundle;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
-import com.android.volley.AuthFailureError;
-import com.android.volley.Request;
-import com.android.volley.RequestQueue;
-import com.android.volley.Response;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.StringRequest;
-import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 
-import java.util.Hashtable;
-import java.util.Map;
 import java.util.regex.Pattern;
 
 public class Registro_Datos_Fragment extends Fragment {
@@ -36,7 +29,7 @@ public class Registro_Datos_Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private View vista;
     private Button btn_registrar_datos_personales;
-    private TextInputLayout inputNombre,inputCorreo,inputTelefono;
+    private TextInputLayout inputNombre,inputApellidos,inputCorreo,inputTelefono,inputPassword,inputDireccion;
     private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono;
     private String nombre,apellidos,correo,password,direccion,telefono;
 
@@ -44,15 +37,6 @@ public class Registro_Datos_Fragment extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Registro_Datos_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Registro_Datos_Fragment newInstance(String param1, String param2) {
         Registro_Datos_Fragment fragment = new Registro_Datos_Fragment();
         Bundle args = new Bundle();
@@ -83,8 +67,11 @@ public class Registro_Datos_Fragment extends Fragment {
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(esNombreValido(txtNombre.getText().toString())){
-                    obtenerDatos();
+                //if(validarNombre()&&validarApellidos()&&validarEmail()&&validarPassword()&&validarDireccion()&&validarTelefono()){
+                  //  obtenerDatos();
+                if(!validarNombre()|!validarApellidos()|validarDireccion()|!validarEmail()|!validarPassword()|!validarTelefono()){
+                    return;
+                }
                     Bundle datos= new Bundle();
                     datos.putString("nombre",nombre);
                     datos.putString("apellidos",apellidos);
@@ -98,7 +85,7 @@ public class Registro_Datos_Fragment extends Fragment {
                     FragmentTransaction fr= getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor,registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
-                }
+                //}
             }
         });
 
@@ -107,6 +94,11 @@ public class Registro_Datos_Fragment extends Fragment {
 
     public void crearComponentes(){
         inputNombre=vista.findViewById(R.id.prestador_nombre);
+        inputApellidos=vista.findViewById(R.id.prestador_apellidos);
+        inputCorreo=vista.findViewById(R.id.prestador_email);
+        inputDireccion=vista.findViewById(R.id.prestador_direccion);
+        inputTelefono=vista.findViewById(R.id.prestador_telefono);
+        inputPassword=vista.findViewById(R.id.prestador_password);
         txtNombre=vista.findViewById(R.id.txtNombre);
         txtApellidos=vista.findViewById(R.id.txtApellidos);
         txtDireccion=vista.findViewById(R.id.txtDireccion);
@@ -119,21 +111,95 @@ public class Registro_Datos_Fragment extends Fragment {
         nombre=txtNombre.getText().toString();
         apellidos=txtApellidos.getText().toString();
         direccion=txtDireccion.getText().toString();
-        correo=txtCorreo.getText().toString();
+        correo=txtCorreo.getText().toString().trim();
         password=txtPassword.getText().toString();
         telefono=txtTelefono.getText().toString();
     }
 
-    private boolean esNombreValido(String nombre) {
+    private boolean validarNombre() {
+        nombre=inputNombre.getEditText().getText().toString();
         Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
-        if (!patron.matcher(nombre).matches() || nombre.length() > 30) {
+        if (!patron.matcher(nombre).matches()) {
             inputNombre.setError("Nombre inválido");
+            return false;
+        }else if(nombre.isEmpty()){
+            inputNombre.setError("El campo no puede estar vacío");
             return false;
         } else {
             inputNombre.setError(null);
+            return true;
         }
+    }
 
-        return true;
+    private boolean validarApellidos(){
+        apellidos=inputApellidos.getEditText().getText().toString().trim();
+        Pattern patron = Pattern.compile("^[a-zA-Z ]+$");
+        if (!patron.matcher(apellidos).matches()) {
+            inputApellidos.setError("Apellido inválido");
+            return false;
+        }else if(apellidos.isEmpty()){
+            inputApellidos.setError("El campo no puede estar vacío");
+            return false;
+        } else {
+            inputApellidos.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarEmail(){
+        correo=inputCorreo.getEditText().getText().toString().trim();
+        if(correo.isEmpty()){
+            inputCorreo.setError("El campo no puede estar vacío");
+            return false;
+        }else if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
+            inputCorreo.setError("Correo Invalido");
+            return false;
+        }else {
+            inputCorreo.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarPassword(){
+        password=inputPassword.getEditText().getText().toString();
+        if(password.isEmpty()){
+            inputPassword.setError("El campo no puede estar vacío");
+            return false;
+        }else if(password.length()<6){
+            inputPassword.setError("La contraseña debe tener al menos 6 caracteres");
+            return false;
+        }else if(password.length()>20){
+            inputPassword.setError("La contraseña no puede ser mayor a 20 caracteres");
+            return false;
+        }else {
+            inputPassword.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarDireccion(){
+        direccion=inputDireccion.getEditText().getText().toString();
+        if(direccion.isEmpty()){
+            inputDireccion.setError("El campo no puede estar vacio");
+            return false;
+        }else {
+            inputDireccion.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarTelefono(){
+        telefono=inputTelefono.getEditText().getText().toString().trim();
+        if(telefono.isEmpty()){
+            inputTelefono.setError("El campo no puede quedar vacio");
+            return false;
+        }else if(!Patterns.PHONE.matcher(telefono).matches()||telefono.length()!=10){
+            inputTelefono.setError("El numero telefonico es invalido");
+            return false;
+        }else {
+            inputTelefono.setError(null);
+            return true;
+        }
     }
 
     public void onButtonPressed(Uri uri) {

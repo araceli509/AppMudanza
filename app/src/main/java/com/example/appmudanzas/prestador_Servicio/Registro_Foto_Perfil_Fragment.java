@@ -170,7 +170,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     public void onResponse(String response) {
                         //Toast.makeText(getContext(), response, Toast.LENGTH_LONG).show();
                     }
-                }, new Response.ErrorListener() {
+                },new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
                 //Toast.makeText(getContext(), error.getMessage().toString(), Toast.LENGTH_LONG).show();

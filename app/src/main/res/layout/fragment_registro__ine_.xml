@@ -31,7 +31,7 @@
         android:layout_weight="1"
         android:text="Foto"
         android:layout_gravity="center"
-        android:background="@color/colorAccent"
+        android:background="@drawable/btn_foto"
         android:textColor="@android:color/white" />
 
     <ImageView
@@ -47,6 +47,7 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:background="@drawable/btn_blue_grey"
         android:text="Continuar"
         android:textColor="@android:color/white"/>
 
