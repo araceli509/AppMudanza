@@ -53,17 +53,9 @@ import static android.Manifest.permission.CAMERA;
 import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Registro_Foto_Perfil_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Registro_Foto_Perfil_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Registro_Foto_Perfil_Fragment extends Fragment {
-    private String UPLOAD_URL="http://192.168.1.79:80/api/auth/insertar";
-    private String nombre,apellidos,correo,password,direccion,telefono;
+    private String UPLOAD_URL="http://192.168.1.79:80/api/auth/prestador_servicio/insertar";
+    private String nombre,apellidos,correo,password,codigo_postal,direccion,telefono;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -83,6 +75,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     private Button btnFoto;
     private ImageView imagePerfil;
     private ProgressDialog progreso;
+    private boolean enviado=false;
     public Registro_Foto_Perfil_Fragment() {
 
     }
@@ -116,6 +109,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         telefono=datosRecuperados.getString("telefono");
         correo=datosRecuperados.getString("correo");
         password=datosRecuperados.getString("password");
+        codigo_postal=datosRecuperados.getString("codigo_postal");
         vista=inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
 
         btnFoto=vista.findViewById(R.id.btnFoto);
@@ -133,7 +127,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                 mostrarDialogOpciones();
             }
         });
-
 
         btn_registrar_foto_perfil=vista.findViewById(R.id.btn_registrar_foto_perfil);
         final Registro_Ine_Fragment registro_ine_fragment= new Registro_Ine_Fragment();
@@ -155,11 +148,15 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                         }
                     }).start();
 
-                    subirDatos();
+                    if(compruebaConexion(getContext())){
+                        subirDatos();
+                        FragmentTransaction fr= getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
+                        fr.commit();
+                    }else{
+                        Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_LONG).show();
+                    }
 
-                    FragmentTransaction fr= getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
-                    fr.commit();
                 }else{
                     Toast.makeText(getContext(),"Debes seleccionar una imagen",Toast.LENGTH_SHORT).show();
                 }
@@ -174,18 +171,19 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-        if(compruebaConexion(getContext())){
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-                            Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                            enviado=true;
                             progreso.hide();
                         }
                     },new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
+                    enviado=false;
+                    Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
                     progreso.hide();
                 }
             }){
@@ -197,16 +195,12 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     params.put("direccion", direccion);
                     params.put("telefono",telefono);
                     params.put("correo",correo);
-                    params.put("password",password);
+                    params.put("codigo_postal",codigo_postal);
                     params.put("foto_perfil",nombreImagen);
                     return params;
                 }
             };
             requestQueue.add(stringRequest);
-        }else{
-            progreso.dismiss();
-            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
-        }
 
     }
 
