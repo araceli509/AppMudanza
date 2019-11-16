@@ -118,6 +118,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     app:errorEnabled="true"
+                    app:counterMaxLength="5"
                     app:counterEnabled="true"
                     android:id="@+id/prestador_codigo_postal">
                     <com.google.android.material.textfield.TextInputEditText
@@ -125,7 +126,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Codigo Postal"
-                        android:inputType="text" />
+                        android:inputType="number" />
                 </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout

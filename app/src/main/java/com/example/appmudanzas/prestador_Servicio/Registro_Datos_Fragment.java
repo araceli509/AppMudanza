@@ -109,16 +109,6 @@ public class Registro_Datos_Fragment extends Fragment {
         txtTelefono=vista.findViewById(R.id.txtTelefono);
     }
 
-    public void obtenerDatos(){
-        nombre=txtNombre.getText().toString();
-        apellidos=txtApellidos.getText().toString();
-        direccion=txtDireccion.getText().toString();
-        correo=txtCorreo.getText().toString().trim();
-        password=txtPassword.getText().toString();
-        codigoPostal=txtCodigoPodtal.getText().toString();
-        telefono=txtTelefono.getText().toString();
-    }
-
     private boolean validarNombre() {
         nombre=inputNombre.getEditText().getText().toString();
         Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
