@@ -29,9 +29,9 @@ public class Registro_Datos_Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
     private View vista;
     private Button btn_registrar_datos_personales;
-    private TextInputLayout inputNombre,inputApellidos,inputCorreo,inputTelefono,inputPassword,inputDireccion;
-    private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono;
-    private String nombre,apellidos,correo,password,direccion,telefono;
+    private TextInputLayout inputNombre,inputApellidos,inputCorreo,inputTelefono,inputPassword,inputDireccion,inputCodigoPostal;
+    private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono,txtCodigoPodtal;
+    private String nombre,apellidos,correo,password,direccion,telefono,codigoPostal;
 
     public Registro_Datos_Fragment() {
         // Required empty public constructor
@@ -67,7 +67,7 @@ public class Registro_Datos_Fragment extends Fragment {
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarEmail()|!validarPassword()|!validarTelefono()){
+                if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarCodigoPostal()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
                 }else {
                     Bundle datos = new Bundle();
@@ -77,6 +77,7 @@ public class Registro_Datos_Fragment extends Fragment {
                     datos.putString("telefono", telefono);
                     datos.putString("correo", correo);
                     datos.putString("password", password);
+                    datos.putString("codigo_postal",codigoPostal);
                     Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
                     registro_foto_perfil_fragment.setArguments(datos);
 
@@ -98,11 +99,13 @@ public class Registro_Datos_Fragment extends Fragment {
         inputDireccion=vista.findViewById(R.id.prestador_direccion);
         inputTelefono=vista.findViewById(R.id.prestador_telefono);
         inputPassword=vista.findViewById(R.id.prestador_password);
+        inputCodigoPostal=vista.findViewById(R.id.prestador_codigo_postal);
         txtNombre=vista.findViewById(R.id.txtNombre);
         txtApellidos=vista.findViewById(R.id.txtApellidos);
         txtDireccion=vista.findViewById(R.id.txtDireccion);
         txtCorreo=vista.findViewById(R.id.txtEmail);
         txtPassword=vista.findViewById(R.id.txtPassword);
+        txtCodigoPodtal=vista.findViewById(R.id.txtCodigoPostal);
         txtTelefono=vista.findViewById(R.id.txtTelefono);
     }
 
@@ -112,6 +115,7 @@ public class Registro_Datos_Fragment extends Fragment {
         direccion=txtDireccion.getText().toString();
         correo=txtCorreo.getText().toString().trim();
         password=txtPassword.getText().toString();
+        codigoPostal=txtCodigoPodtal.getText().toString();
         telefono=txtTelefono.getText().toString();
     }
 
@@ -197,6 +201,20 @@ public class Registro_Datos_Fragment extends Fragment {
             return false;
         }else {
             inputTelefono.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarCodigoPostal(){
+        codigoPostal=inputCodigoPostal.getEditText().getText().toString().trim();
+        if(codigoPostal.isEmpty()){
+            inputCodigoPostal.setError("El campo no puede estar vacio");
+            return false;
+        }else if(codigoPostal.length()!=5){
+            inputCodigoPostal.setError("El codigo postal es invalido");
+            return false;
+        }else{
+            inputCodigoPostal.setError(null);
             return true;
         }
     }
