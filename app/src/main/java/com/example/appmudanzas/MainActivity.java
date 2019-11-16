@@ -9,6 +9,8 @@ import android.view.View;
 import android.widget.Button;
 
 import com.example.appmudanzas.Cotizacion.ContentClient;
+import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
+import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio;
 import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio_Activity;
 //araceli
 
@@ -22,7 +24,7 @@ public class MainActivity extends AppCompatActivity {
         btn_prestador_servicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //para probar el mapa se cambiar Prestador_Servicio_Activity.class por MapsClienteFragment
+                //para probar el mapa se cambiar Prestador_Servicio_Activity.class por ContentClient
                 Intent i= new Intent(getApplicationContext(), Prestador_Servicio_Activity.class);
                 startActivity(i);
             }

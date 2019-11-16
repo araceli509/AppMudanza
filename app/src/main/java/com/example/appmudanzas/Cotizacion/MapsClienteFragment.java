@@ -4,14 +4,12 @@ import android.Manifest;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Geocoder;
 import android.location.Location;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import androidx.core.app.ActivityCompat;
@@ -58,17 +56,16 @@ import java.util.Locale;
 
 public class MapsClienteFragment extends Fragment implements OnMapReadyCallback {
 
-    GoogleMap map;
-    Boolean actualPosition = true;
-    JSONObject jso;
-    Double longitudOrigen, latitudOrigen;
-    List<MarkerOptions> listaMarker = new ArrayList<>();
-    Button getOrigen, getDestino;
-    TextView tvLocInfo;
-    FloatingActionButton fabTaxi;
-    List<Polyline> polylines = new ArrayList<>();
+    private GoogleMap map;
+    private Boolean actualPosition = true;
+    private JSONObject jso;
+    private Double longitudOrigen, latitudOrigen;
+    private List<MarkerOptions> listaMarker = new ArrayList<>();
+    private Button getOrigen, getDestino;
+    private TextView tvLocInfo;
+    private FloatingActionButton fabTaxi;
+    private List<Polyline> polylines = new ArrayList<>();
     // TODO: Rename and change types of parameters
-    private String key;
     private OnFragmentInteractionListener mListener;
     private MarkerOptions origen, destino;
     private String direccionOrigen, direccionDestino;
@@ -81,7 +78,6 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            key = getArguments().getString("key");
         }
     }
 
