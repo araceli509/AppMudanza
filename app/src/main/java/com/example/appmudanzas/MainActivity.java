@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
         btn_prestador_servicio.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //para probar el mapa se cambiar Prestador_Servicio_Activity.class por MapsClienteFragment
+
                 Intent i= new Intent(getApplicationContext(), Prestador_Servicio_Activity.class);
                 startActivity(i);
             }

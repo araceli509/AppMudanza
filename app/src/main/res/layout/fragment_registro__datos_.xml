@@ -160,7 +160,6 @@
                 android:layout_marginTop="3dp"
                 android:text="Continuar"
                 android:textColor="@android:color/white"/>
-
         </LinearLayout>
 
     </LinearLayout>
