@@ -197,7 +197,7 @@ public class Cotizacion extends Fragment{
         String dia, mes, anio, hora, minutos, segundos, fecha_hora = "";
         final Calendar c  = Calendar.getInstance();
         dia = c.get(Calendar.DAY_OF_MONTH)+"";
-        mes = c.get(Calendar.MONTH)+"";
+        mes = (c.get(Calendar.MONTH)+1)+"";
         anio = c.get(Calendar.YEAR)+"";
         hora = c.get(Calendar.HOUR_OF_DAY)+"";
         minutos = c.get(Calendar.MINUTE)+"";
