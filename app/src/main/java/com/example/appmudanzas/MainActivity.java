@@ -10,7 +10,6 @@ import android.widget.Button;
 
 import com.example.appmudanzas.Cotizacion.ContentClient;
 import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
-import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio;
 import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio_Activity;
 //araceli
 

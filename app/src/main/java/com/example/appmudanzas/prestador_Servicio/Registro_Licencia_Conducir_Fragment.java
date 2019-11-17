@@ -24,10 +24,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -49,9 +54,9 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     private Bitmap bitmap;
     private static final int COD_SELECCIONA =10 ;
     private static final int COD_FOTO=20;
-
+    private String ine;
     public Registro_Licencia_Conducir_Fragment() {
-        // Required empty public constructor
+
     }
 
     public static Registro_Licencia_Conducir_Fragment newInstance(String param1, String param2) {
@@ -75,8 +80,11 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle datosRecuperados = getArguments();
+        ine=datosRecuperados.getString("foto_ine");
+
         vista=inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
-       crearComponentes();
+        crearComponentes();
 
        btnFoto.setOnClickListener(new View.OnClickListener() {
            @Override
@@ -89,9 +97,37 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
         btn_registrar_licencia.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment).addToBackStack(null);
-                fr.commit();
+                if(fileImagen!=null){
+                    if(Conexion_Intenet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try{
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","licencia_conducir/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                }catch (IOException e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
+                        Bundle datos= new Bundle();
+                        datos.putString("foto_ine",ine);
+                        datos.putString("foto_licencia_conducir",nombreImagen);
+                        registro_tarjeta_circulacion_fragment.setArguments(datos);
+
+                        FragmentTransaction fr= getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor,registro_tarjeta_circulacion_fragment).addToBackStack(null);
+                        fr.commit();
+                    }else{
+                        Toast.makeText(getContext(),"Verifica tu conexion a internet",Toast.LENGTH_SHORT).show();
+
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
         return vista;

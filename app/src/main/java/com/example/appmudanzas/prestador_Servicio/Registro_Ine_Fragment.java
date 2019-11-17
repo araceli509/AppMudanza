@@ -25,10 +25,15 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -90,9 +95,35 @@ public class Registro_Ine_Fragment extends Fragment {
         btn_registrar_Ine.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_licencia_conducir_fragment).addToBackStack(null);
-                fr.commit();
+                if(fileImagen!=null){
+                    if(Conexion_Intenet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try{
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","ine/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                }catch (IOException e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
+
+                        Bundle datos= new Bundle();
+                        datos.putString("foto_ine",nombreImagen);
+                        FragmentTransaction fr= getFragmentManager().beginTransaction();
+                        registro_licencia_conducir_fragment.setArguments(datos);
+
+                        fr.replace(R.id.contenedor,registro_licencia_conducir_fragment).addToBackStack(null);
+                        fr.commit();
+                    }else{
+                        Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
 

@@ -111,7 +111,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarNombre() {
         nombre=inputNombre.getEditText().getText().toString();
-        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
+        Pattern patron = Pattern.compile("^[A-Za-záéíóúÁÉÍÓÚ]*\\s()[A-Za-záéíóúÁÉÍÓÚ]*|^[A-Za-záéíóúÁÉÍÓÚ]*$");
         if (!patron.matcher(nombre).matches()) {
             inputNombre.setError("Nombre inválido");
             return false;
@@ -126,7 +126,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarApellidos(){
         apellidos=inputApellidos.getEditText().getText().toString().trim();
-        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
+        Pattern patron = Pattern.compile("^[A-Za-záéíóúÁÉÍÓÚ]*\\s()[A-Za-záéíóúÁÉÍÓÚ]*|^[A-Za-záéíóúÁÉÍÓÚ]*$");
         if (!patron.matcher(apellidos).matches()) {
             inputApellidos.setError("Apellido inválido");
             return false;
@@ -233,7 +233,6 @@ public class Registro_Datos_Fragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }

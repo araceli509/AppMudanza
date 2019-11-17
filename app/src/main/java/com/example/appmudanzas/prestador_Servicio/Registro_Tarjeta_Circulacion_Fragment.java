@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,10 +25,29 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
+import com.android.volley.toolbox.Volley;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Hashtable;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -41,6 +61,7 @@ import static android.app.Activity.RESULT_OK;
  * create an instance of this fragment.
  */
 public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
+    private String UPLOAD_URL="http://mudanzito.site/api/auth/documentos/insertar";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -58,7 +79,11 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
     private Bitmap bitmap;
     private static final int COD_SELECCIONA =10 ;
     private static final int COD_FOTO=20;
-
+    private String ine,licencia_vigente;
+    private String id_prestador="";
+    private ProgressDialog progreso;
+    private boolean enviado=false;
+    private int i=0;
 
     public Registro_Tarjeta_Circulacion_Fragment() {
     }
@@ -84,6 +109,13 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle datosRecuperados=getArguments();
+
+        id_prestador=ultimoPrestadorRegistrado();
+        ine=datosRecuperados.getString("foto_ine");
+        licencia_vigente=datosRecuperados.getString("foto_licencia_conducir");
+        Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_SHORT).show();
+
         vista=inflater.inflate(R.layout.fragment_registro__tarjeta__circulacion_, container, false);
         crearComponentes();
 
@@ -97,10 +129,35 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
         btn_registrar_tarjeta_circulacion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Registro_Datos_Vehiculo_Fragment registro_datos_vehiculo_fragment= new Registro_Datos_Vehiculo_Fragment();
-                FragmentTransaction fr= getFragmentManager().beginTransaction();
-                fr.replace(R.id.contenedor,registro_datos_vehiculo_fragment).addToBackStack(null);
-                fr.commit();
+                if(fileImagen!=null){
+                    if(Conexion_Intenet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try {
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","tarjeta_circulacion/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                } catch (IOException e) {
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
+                        subirDatos();
+
+                        Registro_Datos_Vehiculo_Fragment registro_datos_vehiculo_fragment= new Registro_Datos_Vehiculo_Fragment();
+                        FragmentTransaction fr= getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor,registro_datos_vehiculo_fragment).addToBackStack(null);
+                        fr.commit();
+                    }else{
+                        Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
+
+                    }
+                }else{
+                    Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();
+                }
+
+
             }
         });
         return vista;
@@ -223,5 +280,68 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                     break;
             }
         }
+    }
+
+    private void subirDatos(){
+        progreso= new ProgressDialog(getContext());
+        progreso.setMessage("Enviando");
+        progreso.show();
+        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        enviado=true;
+                        progreso.hide();
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                enviado=false;
+                Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                progreso.hide();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<>();
+                params.put("id_prestador",id_prestador);
+                params.put("ine", ine);
+                params.put("licencia_vigente",licencia_vigente);
+                params.put("tarjeta_circulacion", nombreImagen);
+                return params;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
+    public String ultimoPrestadorRegistrado(){
+        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
+        JsonObjectRequest request;
+        request= new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
+            @Override
+            public void onResponse(JSONObject response) {
+                try {
+                    JSONArray mJsonArray = response.getJSONArray("Prestador");
+                    Toast.makeText(getContext()," "+mJsonArray,Toast.LENGTH_SHORT).show();
+                    for(i=0; i<mJsonArray.length(); i++){
+
+                    }
+                    JSONObject mjJsonObject =mJsonArray.getJSONObject(1);
+                    id_prestador =String.valueOf(mjJsonObject.getInt("id_prestador"));
+
+                }catch (JSONException j){
+                    System.out.println(j.getMessage());
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
+            }
+        }
+        );
+        requestQueue.add(request);
+        return id_prestador;
     }
 }
