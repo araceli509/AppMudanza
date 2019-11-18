@@ -171,7 +171,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            //RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -200,8 +200,8 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     return params;
                 }
             };
-            requestQueue.add(stringRequest);
-
+            //requestQueue.add(stringRequest);
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private boolean validaPermisos() {

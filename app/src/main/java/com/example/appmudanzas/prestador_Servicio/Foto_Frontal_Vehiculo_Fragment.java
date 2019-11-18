@@ -149,6 +149,7 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
     private void crearComponentes(){
         btn_registrar_foto_frontal=vista.findViewById(R.id.btn_registrar_foto_frontal);
         btnFoto=vista.findViewById(R.id.btnFoto);
+        imageFotoFrontal=vista.findViewById(R.id.imageFotoTrasera);
     }
 
     private void mostrarDialogoOpciones() {

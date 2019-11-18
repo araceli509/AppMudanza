@@ -52,7 +52,7 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
     private OnFragmentInteractionListener mListener;
 
     public Foto_Trasera_Vehiculo_Fragment() {
-        // Required empty public constructor
+
     }
 
     public static Foto_Trasera_Vehiculo_Fragment newInstance(String param1, String param2) {
@@ -142,6 +142,7 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
     private void crearComponentes(){
         btn_registrar_foto_trasera=vista.findViewById(R.id.btn_registrar_foto_trasera);
         btnFoto=vista.findViewById(R.id.btnFoto);
+        imageFotoTrasera=vista.findViewById(R.id.imageFotoTrasera);
     }
 
     private void mostrarDialogoOpciones() {

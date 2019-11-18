@@ -140,7 +140,7 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
     }
 
     private boolean validarCapacidadCarga(){
-        capacidad_carga=inputPlacas.getEditText().getText().toString();
+        capacidad_carga=inputCapacidadCarga.getEditText().getText().toString();
         if(capacidad_carga.isEmpty()){
             inputCapacidadCarga.setError("El campo no puede estar vacio");
             return false;

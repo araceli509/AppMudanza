@@ -287,7 +287,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+        //RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -314,10 +314,11 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             }
         };
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        requestQueue.add(stringRequest);
+        //requestQueue.add(stringRequest);
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
     public String ultimoPrestadorRegistrado(){
-        RequestQueue requestQueue= Volley.newRequestQueue(getContext());
+        //RequestQueue requestQueue= Volley.newRequestQueue(getContext());
         String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
         JsonObjectRequest request;
         request= new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
@@ -343,8 +344,8 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             }
         }
         );
-
-        requestQueue.add(request);
+        //requestQueue.add(request);
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(request);
         return id_prestador;
     }
 }
