@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1001098740423",
+    "firebase_url": "https://appmudanza-258205.firebaseio.com",
+    "project_id": "appmudanza-258205",
+    "storage_bucket": "appmudanza-258205.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1001098740423:android:9bfef3add82ac5f41af4e2",
+        "android_client_info": {
+          "package_name": "com.example.appmudanzas"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1001098740423-s1lr0vdkp9245ld5fsqo16ehnuuc6vet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appmudanzas",
+            "certificate_hash": "9e9f7c071c76bf1f4908335b41a57e7028bf880b"
+          }
+        },
+        {
+          "client_id": "1001098740423-g8coickdrjq6ul9bmecrvd3b2rkutlsn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXDKm2Op1jQPT1KCgYLaXhPR8iI3Vhdi4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1001098740423-g8coickdrjq6ul9bmecrvd3b2rkutlsn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
