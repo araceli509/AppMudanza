@@ -30,8 +30,9 @@
         android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
-        android:id="@+id/modelo_vehiculo">
+        android:id="@+id/vehiculo_modelo">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtModelo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Modelo"
@@ -46,6 +47,7 @@
         app:counterEnabled="true"
         android:id="@+id/vehiculo_placas">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtPlacas"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Placas"
@@ -60,6 +62,7 @@
         app:counterEnabled="true"
         android:id="@+id/vehiculo_capacidad_carga">
         <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtCapacidadCarga"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="Capacidad de carga (Toneladas)"

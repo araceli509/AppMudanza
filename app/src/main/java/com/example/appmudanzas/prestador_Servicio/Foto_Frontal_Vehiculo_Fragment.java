@@ -1,51 +1,64 @@
 package com.example.appmudanzas.prestador_Servicio;
 
+import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.database.Cursor;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaScannerConnection;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.Toast;
 
 import com.example.appmudanzas.R;
 
+import java.io.File;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Foto_Frontal_Vehiculo_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Foto_Frontal_Vehiculo_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+import static android.app.Activity.RESULT_OK;
+
 public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
-    // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
-
+    private String modelo,placas,capacidad_carga;
+    private View vista;
+    private Button btn_registrar_foto_frontal,btnFoto;
+    private static final String CARPETA_PRINCIPAL="misImagenesApp/";
+    private static final String CARPETA_IMAGEN="imagenes";
+    private String nombreImagen;
+    private static final String DIRECTORIO_IMAGEN=CARPETA_PRINCIPAL+CARPETA_IMAGEN;
+    private String path;
+    private File fileImagen;
+    private Bitmap bitmap;
+    private static final int COD_SELECCIONA =10 ;
+    private static final int COD_FOTO=20;
+    private ImageView imageFotoFrontal;
+    private ProgressDialog progreso;
+    private boolean enviado=false;
     private OnFragmentInteractionListener mListener;
 
     public Foto_Frontal_Vehiculo_Fragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Foto_Frontal_Vehiculo_Fragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static Foto_Frontal_Vehiculo_Fragment newInstance(String param1, String param2) {
         Foto_Frontal_Vehiculo_Fragment fragment = new Foto_Frontal_Vehiculo_Fragment();
         Bundle args = new Bundle();
@@ -67,11 +80,33 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
+        Bundle datosRecuperados=getArguments();
+        modelo=datosRecuperados.getString("modelo");
+        placas=datosRecuperados.getString("placas");
+        capacidad_carga=datosRecuperados.getString("capacidad_carga");
+        
+        vista=inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
+        crearComponentes();
+        btnFoto.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mostrarDialogoOpciones();
+            }
+        });
+
+        btn_registrar_foto_frontal.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(fileImagen!=null){
+
+                }else{
+                    Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+        return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -95,18 +130,99 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
         mListener = null;
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    private void crearComponentes(){
+        btn_registrar_foto_frontal=vista.findViewById(R.id.btn_registrar_foto_frontal);
+        btnFoto=vista.findViewById(R.id.btnFoto);
+    }
+
+    private void mostrarDialogoOpciones() {
+        final CharSequence []opciones={"Tomar Foto","Elegir de Galeria","Cancelar"};
+        final AlertDialog.Builder builder= new AlertDialog.Builder(getContext());
+        builder.setTitle("Elige una opcion");
+        builder.setItems(opciones, new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int i) {
+                if(opciones[i].equals("Tomar Foto")){
+                    abrirCamara();
+                }else {
+                    if(opciones[i].equals("Elegir de Galeria")){
+                        Intent intent= new Intent(Intent.ACTION_PICK,
+                                MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        intent.setType("image/");
+                        startActivityForResult(intent.createChooser(intent,"Seleccione"),COD_SELECCIONA);
+                    }else{
+                        dialog.dismiss();
+                    }
+                }
+            }
+        });
+        builder.show();
+    }
+
+    private void abrirCamara() {
+        File miFile=new File(Environment.getExternalStorageDirectory(),DIRECTORIO_IMAGEN);
+        boolean isCreada=miFile.exists();
+
+        if(isCreada==false){
+            isCreada=miFile.mkdirs();
+        }
+
+        if(isCreada){
+            Long consecutivo=System.currentTimeMillis()/1000;
+            nombreImagen=consecutivo.toString()+".jpg";
+            path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN+
+                    File.separator+nombreImagen;
+            fileImagen= new File(path);
+            Intent intent=null;
+            intent=new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+
+            if(Build.VERSION.SDK_INT>=Build.VERSION_CODES.N){
+                String authorities=getContext().getPackageName()+".provider";
+                Uri imageUri= FileProvider.getUriForFile(getContext(),authorities,fileImagen);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,imageUri);
+            }else{
+                intent.putExtra(MediaStore.EXTRA_OUTPUT,Uri.fromFile(fileImagen));
+            }
+            startActivityForResult(intent,COD_FOTO);;
+        }
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(resultCode==RESULT_OK){
+            switch (requestCode){
+                case COD_SELECCIONA:
+                    Uri miPath=data.getData();
+                    String[] filePathColumn = {MediaStore.Images.Media.DATA};
+                    Cursor cursor = getActivity().getContentResolver().query(miPath, filePathColumn, null, null, null);
+                    cursor.moveToFirst();
+                    int columnIndex = cursor.getColumnIndex(filePathColumn[0]);
+                    String imgDecodableString = cursor.getString(columnIndex);
+                    Long consecutivo=System.currentTimeMillis()/1000;
+                    nombreImagen=consecutivo.toString()+".jpg";
+                    fileImagen= new File(imgDecodableString);
+                    cursor.close();
+                    imageFotoFrontal.setImageURI(miPath);
+                    break;
+
+                case COD_FOTO:
+                    MediaScannerConnection.scanFile(getContext(), new String[]{path}, null,
+                            new MediaScannerConnection.OnScanCompletedListener() {
+                                @Override
+                                public void onScanCompleted(String path, Uri uri) {
+                                    Log.i("Path",path);
+                                }
+                            });
+                    bitmap= BitmapFactory.decodeFile(path);
+                    imageFotoFrontal.setImageBitmap(bitmap);
+                    break;
+            }
+        }
+    }
+
 }
