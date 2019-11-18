@@ -13,7 +13,6 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder;
 
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.mData.reservacion;
-import com.example.appmudanzas.prestador_Servicio.solicitudes.*;
 
 import java.util.ArrayList;
 
@@ -46,7 +45,7 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
 
             holder.distancia.setText("0");
             holder.fecha.setText(solicitudes.getFecha().toString());
-            holder.nombrecliente.setText(solicitudes.getCliente().getNombre()+" "+solicitudes.getCliente().getApellidos());
+           // holder.nombrecliente.setText(solicitudes.getCliente().getNombre()+" "+solicitudes.getCliente().getApellidos());
             holder.monto.setText(String.valueOf(solicitudes.getMonto()));
 
 
