@@ -54,7 +54,7 @@ import static android.Manifest.permission.WRITE_EXTERNAL_STORAGE;
 import static android.app.Activity.RESULT_OK;
 
 public class Registro_Foto_Perfil_Fragment extends Fragment {
-    private String UPLOAD_URL="http://192.168.1.79:80/api/auth/prestador_servicio/insertar";
+    private String UPLOAD_URL="http://mudanzito.site/api/auth/prestador_servicio/insertar";
     private String nombre,apellidos,correo,password,codigo_postal,direccion,telefono;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -171,7 +171,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            //RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -200,8 +200,8 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     return params;
                 }
             };
-            requestQueue.add(stringRequest);
-
+            //requestQueue.add(stringRequest);
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private boolean validaPermisos() {

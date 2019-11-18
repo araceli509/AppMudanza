@@ -1,5 +1,11 @@
 <resources>
     <string name="app_name">AppMudanzas</string>
+    <string name="navegador_abrir_drawer">Abrir Aplicacion</string>
+    <string name="navegador_cerrar_drawer">Cerrar Aplicacion</string>
+    <string name="nav_titulo_cabecera">App mudanzas</string>
+    <string name="nav_subtitulo_cabecera">appmudanzas@gmail.com</string>
+    <string name="nav_cabecera_desc">Navegador</string>
+    <string name="accion_opciones">Opciones</string>
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>

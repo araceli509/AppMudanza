@@ -3,17 +3,13 @@ package com.example.appmudanzas.prestador_Servicio;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
-
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
-
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.Toast;
-
 import com.example.appmudanzas.R;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
@@ -84,7 +80,7 @@ public class Registro_Datos_Fragment extends Fragment {
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
-                    //}
+
                 }
             }
         });
@@ -111,7 +107,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarNombre() {
         nombre=inputNombre.getEditText().getText().toString();
-        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
+        Pattern patron = Pattern.compile("^[A-Za-záéíóúÁÉÍÓÚ]*\\s()[A-Za-záéíóúÁÉÍÓÚ]*|^[A-Za-záéíóúÁÉÍÓÚ]*$");
         if (!patron.matcher(nombre).matches()) {
             inputNombre.setError("Nombre inválido");
             return false;
@@ -126,7 +122,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
     private boolean validarApellidos(){
         apellidos=inputApellidos.getEditText().getText().toString().trim();
-        Pattern patron = Pattern.compile("^[A-Za-z]*\\s()[A-Za-z]*|^[A-Za-z]*$");
+        Pattern patron = Pattern.compile("^[A-Za-záéíóúÁÉÍÓÚ]*\\s()[A-Za-záéíóúÁÉÍÓÚ]*|^[A-Za-záéíóúÁÉÍÓÚ]*$");
         if (!patron.matcher(apellidos).matches()) {
             inputApellidos.setError("Apellido inválido");
             return false;
@@ -233,7 +229,6 @@ public class Registro_Datos_Fragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
