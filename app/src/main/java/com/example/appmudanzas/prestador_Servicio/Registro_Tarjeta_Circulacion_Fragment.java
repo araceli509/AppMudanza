@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -131,6 +132,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             public void onClick(View v) {
                 if(fileImagen!=null){
                     if(Conexion_Intenet.compruebaConexion(getContext())){
+                        subirDatos();
                         new Thread(new Runnable() {
                             @Override
                             public void run() {
@@ -143,7 +145,6 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                                 }
                             }
                         }).start();
-                        subirDatos();
 
                         Registro_Datos_Vehiculo_Fragment registro_datos_vehiculo_fragment= new Registro_Datos_Vehiculo_Fragment();
                         FragmentTransaction fr= getFragmentManager().beginTransaction();
@@ -312,6 +313,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                 return params;
             }
         };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         requestQueue.add(stringRequest);
     }
     public String ultimoPrestadorRegistrado(){
@@ -323,7 +325,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             public void onResponse(JSONObject response) {
                 try {
                     JSONArray mJsonArray = response.getJSONArray("Prestador");
-                    Toast.makeText(getContext()," "+mJsonArray,Toast.LENGTH_SHORT).show();
+                   // Toast.makeText(getContext()," "+mJsonArray,Toast.LENGTH_SHORT).show();
                     for(i=0; i<mJsonArray.length(); i++){
 
                     }
@@ -341,6 +343,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             }
         }
         );
+
         requestQueue.add(request);
         return id_prestador;
     }
