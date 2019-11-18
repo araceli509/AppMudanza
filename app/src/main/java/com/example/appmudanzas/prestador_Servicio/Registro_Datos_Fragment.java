@@ -80,7 +80,7 @@ public class Registro_Datos_Fragment extends Fragment {
                     FragmentTransaction fr = getFragmentManager().beginTransaction();
                     fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
                     fr.commit();
-                    //}
+
                 }
             }
         });

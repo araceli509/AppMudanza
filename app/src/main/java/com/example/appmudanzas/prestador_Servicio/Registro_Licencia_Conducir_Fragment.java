@@ -98,7 +98,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(fileImagen!=null){
-                    if(Conexion_Intenet.compruebaConexion(getContext())){
+                    if(Conexion_Internet.compruebaConexion(getContext())){
                         new Thread(new Runnable() {
                             @Override
                             public void run() {

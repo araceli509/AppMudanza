@@ -15,6 +15,7 @@ import android.os.Bundle;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -84,7 +85,7 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
         capacidad_carga=datosRecuperados.getString("capacidad_carga");
-        
+
         vista=inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
         crearComponentes();
         btnFoto.setOnClickListener(new View.OnClickListener() {
@@ -98,6 +99,17 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(fileImagen!=null){
+                    Bundle datos= new Bundle();
+                    datos.putString("modelo",modelo);
+                    datos.putString("placas",placas);
+                    datos.putString("capacidad_carga",capacidad_carga);
+                    datos.putString("foto_frontal",nombreImagen);
+                    Foto_Lateral_Vehiculo_Fragment foto_lateral_vehiculo_fragment= new Foto_Lateral_Vehiculo_Fragment();
+                    foto_lateral_vehiculo_fragment.setArguments(datos);
+
+                    FragmentTransaction fr=getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor,foto_lateral_vehiculo_fragment).addToBackStack(null);
+                    fr.commit();
 
                 }else{
                     Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();

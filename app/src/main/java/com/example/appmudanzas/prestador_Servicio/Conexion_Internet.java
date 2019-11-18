@@ -7,7 +7,7 @@ import android.net.NetworkInfo;
 import com.android.volley.RequestQueue;
 import com.android.volley.toolbox.Volley;
 
-public class Conexion_Intenet {
+public class Conexion_Internet {
 
     public static boolean compruebaConexion(Context context) {
         boolean connected = false;

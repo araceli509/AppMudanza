@@ -131,7 +131,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(fileImagen!=null){
-                    if(Conexion_Intenet.compruebaConexion(getContext())){
+                    if(Conexion_Internet.compruebaConexion(getContext())){
                         subirDatos();
                         new Thread(new Runnable() {
                             @Override
