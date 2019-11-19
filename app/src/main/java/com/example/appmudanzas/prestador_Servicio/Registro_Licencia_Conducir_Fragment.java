@@ -26,6 +26,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
@@ -224,6 +225,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
     public void subirDatos(){
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
@@ -239,7 +241,6 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
 
         JSONArray json=response.optJSONArray("Prestador");
         JSONObject jsonObject=null;
-
         try {
             for(i=0; i<json.length(); i++){
             }
