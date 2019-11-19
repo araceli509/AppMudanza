@@ -1,17 +1,17 @@
 package com.example.appmudanzas.Login;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.appmudanzas.R;
-import com.example.appmudanzas.RecycleView.MainActivityRecycle;
+import com.example.appmudanzas.RecyclerView.MainActivityRecycler;
 import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio_Activity;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -75,7 +75,7 @@ public class LoginPrincipal extends AppCompatActivity implements GoogleApiClient
     }
 
     private void goMainScreen() {
-        Intent intent= new Intent(this, MainActivityRecycle.class);
+        Intent intent= new Intent(this, MainActivityRecycler.class);
         //Intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP|Intent.FLAG_ACTIVITY_CLEAR_TASK|Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(intent);
     }
