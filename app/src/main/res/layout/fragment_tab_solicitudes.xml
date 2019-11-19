@@ -3,11 +3,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Fragment_Tab_Solicitudes">
+    tools:context=".RecyclerView.Fragment_Tab_Solicitudes">
 
     <!-- TODO: Update blank fragment layout -->
 
-    <android.support.v7.widget.RecyclerView
+    <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/RecyclerColgadores"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
