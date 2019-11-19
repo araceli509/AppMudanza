@@ -28,6 +28,10 @@
         android:id="@+id/nav_solicitudes"
         android:icon="@drawable/baseline_filter_6_24"
         android:title="Solicitudes"/>
+        <item
+            android:id="@+id/nav_cerrarsesion"
+            android:icon="@drawable/baseline_filter_7_24"
+            android:title="Cerrar sesion"/>
 </group>
 
 </menu>
