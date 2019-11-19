@@ -77,6 +77,8 @@ public class Registro_Datos_Fragment extends Fragment {
                     return;
                 }else {
                     registrarPrestadorFirebase();
+                    FirebaseAuth.getInstance().signOut();
+                    firebaseAuth.signOut();
                     Bundle datos = new Bundle();
                     datos.putString("nombre", nombre);
                     datos.putString("apellidos", apellidos);

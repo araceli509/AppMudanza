@@ -32,7 +32,7 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private Button btn_registrar_prestador;
+    private Button btn_registrar_prestador,btn_reset_password;
     private View vista;
     private OnFragmentInteractionListener mListener;
 
@@ -61,7 +61,8 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_login__prestador__servicio_, container, false);
-        btn_registrar_prestador=vista.findViewById(R.id.btn_registrar_prestador);
+        crearComponentes();
+
         btn_registrar_prestador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -71,10 +72,20 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
                 fr.commit();
             }
         });
+
+        btn_reset_password.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Reestablecer_Password_Fragment reestablecer_password_fragment= new Reestablecer_Password_Fragment();
+                FragmentTransaction fr= getFragmentManager().beginTransaction();
+                fr.replace(R.id.contenedor,reestablecer_password_fragment).addToBackStack(null);
+                fr.commit();
+            }
+        });
         return vista;
     }
 
-    // TODO: Rename method, update argument and hook method into UI event
+
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
             mListener.onFragmentInteraction(uri);
@@ -101,5 +112,10 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+
+    private void crearComponentes(){
+        btn_registrar_prestador=vista.findViewById(R.id.btn_registrar_prestador);
+        btn_reset_password=vista.findViewById(R.id.btn_reset_password);
     }
 }

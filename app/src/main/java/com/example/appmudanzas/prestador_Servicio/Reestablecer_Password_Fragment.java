@@ -72,7 +72,7 @@ public class Reestablecer_Password_Fragment extends Fragment {
                }else{
                    if(Conexion_Internet.compruebaConexion(getContext())){
                        progreso.setMessage("Enviando");
-                       progreso.setCanceledOnTouchOutside(false);
+                       //progreso.setCanceledOnTouchOutside(false);
                        progreso.show();
                         resetPassword();
                    }else{
@@ -96,8 +96,8 @@ public class Reestablecer_Password_Fragment extends Fragment {
 
                 }else{
                     Toast.makeText(getContext(),"No se pudo enviar el correo",Toast.LENGTH_SHORT).show();
-
                 }
+                progreso.dismiss();
             }
         });
     }
