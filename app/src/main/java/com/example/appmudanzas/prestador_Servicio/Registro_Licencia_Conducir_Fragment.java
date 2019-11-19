@@ -26,17 +26,25 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.cloudinary.Cloudinary;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.mCloud.MyConfiguration;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
-public class Registro_Licencia_Conducir_Fragment extends Fragment {
+public class Registro_Licencia_Conducir_Fragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -55,6 +63,10 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     private static final int COD_SELECCIONA =10 ;
     private static final int COD_FOTO=20;
     private String ine;
+    JsonObjectRequest jsonObjectRequest;
+    String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
+    private int i=0;
+    private String id_prestador;
     public Registro_Licencia_Conducir_Fragment() {
 
     }
@@ -206,6 +218,37 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    public void subirDatos(){
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),"No se pudo Consultar "+error.toString(),Toast.LENGTH_SHORT).show();
+        Log.i("ERROR",error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Prestador p=new Prestador();
+
+        JSONArray json=response.optJSONArray("Prestador");
+        JSONObject jsonObject=null;
+
+        try {
+            for(i=0; i<json.length(); i++){
+            }
+            jsonObject=json.getJSONObject(i-1);
+            p.setId_prestador(jsonObject.optInt("id_prestador"));
+            id_prestador=String.valueOf(p.getId_prestador());
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 
     public interface OnFragmentInteractionListener {
