@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.util.Patterns;
 import android.view.LayoutInflater;
@@ -70,14 +71,11 @@ public class Reestablecer_Password_Fragment extends Fragment {
                if(!validarEmail()){
                    return;
                }else{
-                   if(Conexion_Internet.compruebaConexion(getContext())){
-                       progreso.setMessage("Enviando");
-                       //progreso.setCanceledOnTouchOutside(false);
-                       progreso.show();
                         resetPassword();
-                   }else{
-                       Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
-                   }
+                        Login_Prestador_Servicio_Fragment l= new Login_Prestador_Servicio_Fragment();
+                       FragmentTransaction fr= getFragmentManager().beginTransaction();
+                       fr.replace(R.id.contenedor,l).addToBackStack(null);
+                       fr.commit();
                    progreso.dismiss();
                }
            }
@@ -87,25 +85,30 @@ public class Reestablecer_Password_Fragment extends Fragment {
     }
 
     private void resetPassword() {
-        mAuth.setLanguageCode("es");
-        mAuth.sendPasswordResetEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
-            @Override
-            public void onComplete(@NonNull Task<Void> task) {
-                if(task.isSuccessful()){
-                    Toast.makeText(getContext(),"Se ha enviado un correo para reestablecer tu contraseña",Toast.LENGTH_SHORT).show();
+        if(Conexion_Internet.compruebaConexion(getContext())){
+            progreso= new ProgressDialog(getContext());
+            progreso.setMessage("Enviando");
+            progreso.show();
+            mAuth.setLanguageCode("es");
+            mAuth.sendPasswordResetEmail(correo).addOnCompleteListener(new OnCompleteListener<Void>() {
+                @Override
+                public void onComplete(@NonNull Task<Void> task) {
+                    if(task.isSuccessful()){
+                        Toast.makeText(getContext(),"Se ha enviado un correo para reestablecer tu contraseña",Toast.LENGTH_SHORT).show();
 
-                }else{
-                    Toast.makeText(getContext(),"No se pudo enviar el correo",Toast.LENGTH_SHORT).show();
+                    }else{
+                        Toast.makeText(getContext(),"No se pudo enviar el correo",Toast.LENGTH_SHORT).show();
+                    }
+                    progreso.dismiss();
                 }
-                progreso.dismiss();
-            }
-        });
+            });
+        }
+
     }
 
     private void crearComponentes() {
         btn_reset_password=vista.findViewById(R.id.btn_reset_password);
         inputEmail=vista.findViewById(R.id.prestador_email);
-        progreso= new ProgressDialog(getContext());
     }
 
     private boolean validarEmail(){

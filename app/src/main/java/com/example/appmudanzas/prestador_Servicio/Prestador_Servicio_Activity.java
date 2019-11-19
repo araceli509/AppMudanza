@@ -22,6 +22,8 @@ public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Registro_Tarjeta_Circulacion_Fragment.OnFragmentInteractionListener,
         Registro_Datos_Vehiculo_Fragment.OnFragmentInteractionListener,
         Foto_Frontal_Vehiculo_Fragment.OnFragmentInteractionListener,
+        Foto_Lateral_Vehiculo_Fragment.OnFragmentInteractionListener,
+        Foto_Trasera_Vehiculo_Fragment.OnFragmentInteractionListener,
         Reestablecer_Password_Fragment.OnFragmentInteractionListener{
 
     @Override
