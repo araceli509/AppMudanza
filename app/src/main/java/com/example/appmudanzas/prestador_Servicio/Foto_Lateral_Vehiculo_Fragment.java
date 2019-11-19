@@ -148,8 +148,9 @@ public class Foto_Lateral_Vehiculo_Fragment extends Fragment {
     }
 
     private void crearComponentes(){
-        btn_registrar_foto_lateral=vista.findViewById(R.id.btn_registrar_foto_trasera);
+        btn_registrar_foto_lateral=vista.findViewById(R.id.btn_registrar_foto_lateral);
         btnFoto=vista.findViewById(R.id.btnFoto);
+        imageFotoLateral=vista.findViewById(R.id.imageFotoLateral);
     }
 
     private void mostrarDialogoOpciones() {
