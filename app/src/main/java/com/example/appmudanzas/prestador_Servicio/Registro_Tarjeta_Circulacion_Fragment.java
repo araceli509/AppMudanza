@@ -112,7 +112,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         Bundle datosRecuperados=getArguments();
 
-        id_prestador=ultimoPrestadorRegistrado();
+        id_prestador=datosRecuperados.getString("id_prestador");
         ine=datosRecuperados.getString("foto_ine");
         licencia_vigente=datosRecuperados.getString("foto_licencia_conducir");
         Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_SHORT).show();
@@ -313,39 +313,8 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                 return params;
             }
         };
+        stringRequest.setShouldCache(false);
         stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
-        //requestQueue.add(stringRequest);
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
-    }
-    public String ultimoPrestadorRegistrado(){
-        //RequestQueue requestQueue= Volley.newRequestQueue(getContext());
-        String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
-        JsonObjectRequest request;
-        request= new JsonObjectRequest(Request.Method.GET, URL, null, new Response.Listener<JSONObject>() {
-            @Override
-            public void onResponse(JSONObject response) {
-                try {
-                    JSONArray mJsonArray = response.getJSONArray("Prestador");
-                   // Toast.makeText(getContext()," "+mJsonArray,Toast.LENGTH_SHORT).show();
-                    for(i=0; i<mJsonArray.length(); i++){
-
-                    }
-                    JSONObject mjJsonObject =mJsonArray.getJSONObject(1);
-                    id_prestador =String.valueOf(mjJsonObject.getInt("id_prestador"));
-
-                }catch (JSONException j){
-                    System.out.println(j.getMessage());
-                }
-            }
-        }, new Response.ErrorListener() {
-            @Override
-            public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_LONG).show();
-            }
-        }
-        );
-        //requestQueue.add(request);
-        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(request);
-        return id_prestador;
     }
 }

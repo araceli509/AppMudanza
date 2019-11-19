@@ -97,7 +97,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
 
         vista=inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
         crearComponentes();
-
+        subirDatos();
        btnFoto.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -126,6 +126,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
                         Bundle datos= new Bundle();
                         datos.putString("foto_ine",ine);
                         datos.putString("foto_licencia_conducir",nombreImagen);
+                        datos.putString("id_prestador",id_prestador);
                         registro_tarjeta_circulacion_fragment.setArguments(datos);
 
                         FragmentTransaction fr= getFragmentManager().beginTransaction();
@@ -222,6 +223,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
 
     public void subirDatos(){
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+        jsonObjectRequest.setShouldCache(false);
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
     }
 
