@@ -1,8 +1,11 @@
 package com.example.appmudanzas.prestador_Servicio;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 import android.util.Patterns;
@@ -10,9 +13,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.example.appmudanzas.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
@@ -28,7 +37,8 @@ public class Registro_Datos_Fragment extends Fragment {
     private TextInputLayout inputNombre,inputApellidos,inputCorreo,inputTelefono,inputPassword,inputDireccion,inputCodigoPostal;
     private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono,txtCodigoPodtal;
     private String nombre,apellidos,correo,password,direccion,telefono,codigoPostal;
-
+    private FirebaseAuth firebaseAuth;
+    private ProgressDialog progreso;
     public Registro_Datos_Fragment() {
         // Required empty public constructor
     }
@@ -56,7 +66,7 @@ public class Registro_Datos_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         vista=inflater.inflate(R.layout.fragment_registro__datos_, container, false);
-
+        firebaseAuth=FirebaseAuth.getInstance();
         crearComponentes();
 
         btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
@@ -66,6 +76,7 @@ public class Registro_Datos_Fragment extends Fragment {
                 if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarCodigoPostal()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
                 }else {
+                    registrarPrestadorFirebase();
                     Bundle datos = new Bundle();
                     datos.putString("nombre", nombre);
                     datos.putString("apellidos", apellidos);
@@ -86,6 +97,29 @@ public class Registro_Datos_Fragment extends Fragment {
         });
 
         return vista;
+    }
+
+    public void registrarPrestadorFirebase(){
+        if(Conexion_Internet.compruebaConexion(getContext())){
+            progreso= new ProgressDialog(getContext());
+            progreso.setMessage("Registrando...");
+            progreso.show();
+            firebaseAuth.createUserWithEmailAndPassword(correo,password).
+                    addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                            if(task.isSuccessful()){
+                                Toast.makeText(getContext(),"Usuario Registrado correctamente",Toast.LENGTH_SHORT).show();
+                            }else{
+                                Toast.makeText(getContext(),"Ya existe un usuario registrado con esta cuenta",Toast.LENGTH_SHORT).show();
+                            }
+                            progreso.dismiss();
+                        }
+                    });
+        }else{
+            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
+        }
+
     }
 
     public void crearComponentes(){

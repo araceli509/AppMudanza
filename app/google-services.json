@@ -1,79 +1,58 @@
 {
   "project_info": {
-    "project_number": "665777847640",
-    "firebase_url": "https://mudanzas-353f2.firebaseio.com",
-    "project_id": "mudanzas-353f2",
-    "storage_bucket": "mudanzas-353f2.appspot.com"
+    "project_number": "1001098740423",
+    "firebase_url": "https://appmudanza-258205.firebaseio.com",
+    "project_id": "appmudanza-258205",
+    "storage_bucket": "appmudanza-258205.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:665777847640:android:2e890d0052a13e88fcb92d",
+        "mobilesdk_app_id": "1:1001098740423:android:9bfef3add82ac5f41af4e2",
         "android_client_info": {
           "package_name": "com.example.appmudanzas"
         }
       },
       "oauth_client": [
         {
-          "client_id": "665777847640-qbe7httcaov5oc14p6c9v8c4b1q0q58a.apps.googleusercontent.com",
+          "client_id": "1001098740423-pn5r71urfed940a2ompi4o3uotmolq83.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.example.appmudanzas",
-            "certificate_hash": "19b6b55316e87c010ec976425a1e582ae10bd6c0"
+            "certificate_hash": "71205113ba0581b57748d26a4a2703ff9d339811"
           }
         },
         {
-          "client_id": "665777847640-p82nblon1msbbul433epha03v5ddnfde.apps.googleusercontent.com",
-          "client_type": 3
-        }
-      ],
-      "api_key": [
-        {
-          "current_key": "AIzaSyDNCQJWCLfKD9-Mfz1brnXa8onX1zLFGBc"
-        }
-      ],
-      "services": {
-        "appinvite_service": {
-          "other_platform_oauth_client": [
-            {
-              "client_id": "665777847640-p82nblon1msbbul433epha03v5ddnfde.apps.googleusercontent.com",
-              "client_type": 3
-            }
-          ]
-        }
-      }
-    },
-    {
-      "client_info": {
-        "mobilesdk_app_id": "1:665777847640:android:dc52e103b3d8ccd9fcb92d",
-        "android_client_info": {
-          "package_name": "com.example.mudanzas"
-        }
-      },
-      "oauth_client": [
-        {
-          "client_id": "665777847640-2cc1l7gkh9rh3dnj1crp5c71obv2lpqp.apps.googleusercontent.com",
+          "client_id": "1001098740423-1ectu9p9sd22p001mpd96e75km91uh74.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.example.mudanzas",
+            "package_name": "com.example.appmudanzas",
+            "certificate_hash": "a80c6f155449fe8e43651b890c17a6f158c0934d"
+          }
+        },
+        {
+          "client_id": "1001098740423-s1lr0vdkp9245ld5fsqo16ehnuuc6vet.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.appmudanzas",
             "certificate_hash": "9e9f7c071c76bf1f4908335b41a57e7028bf880b"
           }
         },
         {
-          "client_id": "665777847640-p82nblon1msbbul433epha03v5ddnfde.apps.googleusercontent.com",
+          "client_id": "1001098740423-g8coickdrjq6ul9bmecrvd3b2rkutlsn.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDNCQJWCLfKD9-Mfz1brnXa8onX1zLFGBc"
+          "current_key": "AIzaSyCXDKm2Op1jQPT1KCgYLaXhPR8iI3Vhdi4"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "665777847640-p82nblon1msbbul433epha03v5ddnfde.apps.googleusercontent.com",
+              "client_id": "1001098740423-g8coickdrjq6ul9bmecrvd3b2rkutlsn.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
