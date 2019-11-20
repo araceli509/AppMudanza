@@ -1,5 +1,6 @@
 package com.example.appmudanzas.RecyclerView;
 
+import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -14,11 +15,12 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener{
 
 
 
@@ -111,11 +113,16 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         }
         else
         if (id==R.id.nav_solicitudes) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new SolicitudesFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
         }
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public void onFragmentInteraction(Uri uri) {
+
     }
 }
