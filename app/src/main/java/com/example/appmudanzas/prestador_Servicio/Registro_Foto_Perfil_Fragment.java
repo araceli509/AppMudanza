@@ -61,7 +61,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
     private static final String CARPETA_IMAGEN="imagenes";
-    private String nombreImagen;
+    private String nombreImagen,nombreImagenAux;
     private static final String DIRECTORIO_IMAGEN=CARPETA_PRINCIPAL+CARPETA_IMAGEN;
     private String path;
     private File fileImagen;
@@ -141,9 +141,9 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                         public void run() {
                             Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
                             try {
-                                cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","foto_perfil/"+nombreImagen));
-                                cloud.url().generate(nombreImagen);
-                            } catch (IOException e) {
+                                cloud.uploader().upload(fileImagen.getAbsolutePath(),ObjectUtils.asMap("public_id","foto_perfil/"+nombreImagenAux));
+                                cloud.url().transformation(new Transformation().width(400).height(400).crop("scale")).format("jpg").type("fetch").generate(nombreImagenAux);
+                            } catch (Exception e) {
                                 System.out.println(e.getMessage());
                             }
                         }
@@ -280,6 +280,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         if(isCreada){
             Long consecutivo=System.currentTimeMillis()/1000;
             nombreImagen=consecutivo.toString()+".jpg";
+            nombreImagenAux=consecutivo.toString();
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN+
                     File.separator+nombreImagen;
             fileImagen= new File(path);
@@ -311,6 +312,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     String imgDecodableString = cursor.getString(columnIndex);
                     Long consecutivo=System.currentTimeMillis()/1000;
                     nombreImagen=consecutivo.toString()+".jpg";
+                    nombreImagenAux=consecutivo.toString();
                     fileImagen= new File(imgDecodableString);
                     cursor.close();
                     imagePerfil.setImageURI(miPath);

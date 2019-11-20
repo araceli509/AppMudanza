@@ -32,6 +32,7 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.cloudinary.Cloudinary;
+import com.cloudinary.Transformation;
 import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.mCloud.MyConfiguration;
@@ -56,7 +57,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
     private ImageView imageLicencia;
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
     private static final String CARPETA_IMAGEN="imagenes";
-    private String nombreImagen;
+    private String nombreImagen,nombreImagenAux;
     private static final String DIRECTORIO_IMAGEN=CARPETA_PRINCIPAL+CARPETA_IMAGEN;
     private String path;
     private File fileImagen;
@@ -117,8 +118,9 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
                             public void run() {
                                 Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
                                 try{
-                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","licencia_conducir/"+nombreImagen));
-                                    cloud.url().generate(nombreImagen);
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","licencia_conducir/"+nombreImagenAux));
+                                    cloud.url().transformation(new Transformation().width(400).height(400).crop("scale")).format("jpg").type("fetch").generate(nombreImagenAux);
+
                                 }catch (IOException e){
                                     System.out.println(e.getMessage());
                                 }
@@ -182,6 +184,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
         if(isCreada){
             Long consecutivo=System.currentTimeMillis()/1000;
             nombreImagen=consecutivo.toString()+".jpg";
+            nombreImagenAux=consecutivo.toString();
             path=Environment.getExternalStorageDirectory()+File.separator+DIRECTORIO_IMAGEN+
                     File.separator+nombreImagen;
             fileImagen= new File(path);
@@ -278,6 +281,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
                     String imgDecodableString = cursor.getString(columnIndex);
                     Long consecutivo=System.currentTimeMillis()/1000;
                     nombreImagen=consecutivo.toString()+".jpg";
+                    nombreImagenAux=consecutivo.toString();
                     fileImagen= new File(imgDecodableString);
                     cursor.close();
                     imageLicencia.setImageURI(miPath);
