@@ -19,8 +19,8 @@ import java.util.List;
 public class Fragment_Tab_MisMudanzas extends Fragment {
 
 
-    private RecyclerView RecyclerViewCamas;
-    private RecyclerViewMisMudanzas adaptadorCamas;
+    private RecyclerView RecyclerViewmismudanzas;
+    private RecyclerViewMisMudanzas adaptadormismudanzas;
     private LinearLayoutManager layoutManager;
     private ModeloMisMudanzas adaptador;
 
@@ -35,12 +35,12 @@ public class Fragment_Tab_MisMudanzas extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_mismudanzas, container, false);
 
-        RecyclerViewCamas=(RecyclerView)view.findViewById(R.id.RecyclerCamas);
+        RecyclerViewmismudanzas=(RecyclerView)view.findViewById(R.id.RecyclerCamas);
         layoutManager= new LinearLayoutManager(getActivity());
-        RecyclerViewCamas.setLayoutManager(layoutManager);
+        RecyclerViewmismudanzas.setLayoutManager(layoutManager);
 
-        adaptadorCamas=new RecyclerViewMisMudanzas(obtenercamas());
-        RecyclerViewCamas.setAdapter(adaptadorCamas);
+        adaptadormismudanzas=new RecyclerViewMisMudanzas(obtenercamas());
+        RecyclerViewmismudanzas.setAdapter(adaptadormismudanzas);
 
         return view;
     }

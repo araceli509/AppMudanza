@@ -2,20 +2,20 @@ package com.example.appmudanzas.RecyclerView;
 
 public class ModeloSolicitudes {
 
-    private int imgColgadores;
+    private int imgSolicitudes;
 
     public ModeloSolicitudes() {
     }
 
     public ModeloSolicitudes(int imgColgadores) {
-        this.imgColgadores = imgColgadores;
+        this.imgSolicitudes = imgColgadores;
     }
 
     public int getImgColgadores() {
-        return imgColgadores;
+        return imgSolicitudes;
     }
 
     public void setImgColgadores(int imgColgadores) {
-        this.imgColgadores = imgColgadores;
+        this.imgSolicitudes = imgColgadores;
     }
 }
