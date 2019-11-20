@@ -68,7 +68,6 @@ public class Registro_Datos_Fragment extends Fragment {
 
         vista=inflater.inflate(R.layout.fragment_registro__datos_, container, false);
         crearComponentes();
-        //firebaseAuth=FirebaseAuth.getInstance();
         btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,22 +75,21 @@ public class Registro_Datos_Fragment extends Fragment {
 
                 if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarCodigoPostal()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
-                }else if(registrarPrestadorFirebase()) {
-                        Bundle datos = new Bundle();
-                        datos.putString("nombre", nombre);
-                        datos.putString("apellidos", apellidos);
-                        datos.putString("direccion", direccion);
-                        datos.putString("telefono", telefono);
-                        datos.putString("correo", correo);
-                        datos.putString("password", password);
-                        datos.putString("codigo_postal",codigoPostal);
-                        Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
-                        registro_foto_perfil_fragment.setArguments(datos);
+                }else if(registrarPrestadorFirebase()==true){
+                    Bundle datos = new Bundle();
+                    datos.putString("nombre", nombre);
+                    datos.putString("apellidos", apellidos);
+                    datos.putString("direccion", direccion);
+                    datos.putString("telefono", telefono);
+                    datos.putString("correo", correo);
+                    datos.putString("password", password);
+                    datos.putString("codigo_postal",codigoPostal);
+                    Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
+                    registro_foto_perfil_fragment.setArguments(datos);
 
-                        FragmentTransaction fr = getFragmentManager().beginTransaction();
-                        fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
-                        fr.commit();
-
+                    FragmentTransaction fr = getFragmentManager().beginTransaction();
+                    fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
+                    fr.commit();
                 }
             }
         });
@@ -245,7 +243,6 @@ public class Registro_Datos_Fragment extends Fragment {
 
     public boolean registrarPrestadorFirebase(){
         FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
-        if(Conexion_Internet.compruebaConexion(getContext())){
             progreso= new ProgressDialog(getContext());
             progreso.setMessage("Registrando...");
             progreso.show();
@@ -253,22 +250,50 @@ public class Registro_Datos_Fragment extends Fragment {
                     addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
-                           if(!task.isSuccessful()){
-
-                               if(task.getException() instanceof FirebaseAuthUserCollisionException){
-                                   Toast.makeText(getContext(),"El correo electronico ya se encuentra registrado",Toast.LENGTH_SHORT).show();
-                                    bandera=false;
-                               }
-                           }else{
-                               Toast.makeText(getContext(),"Usuario registrado en firebase",Toast.LENGTH_SHORT).show();
+                           if(task.isSuccessful()){
                                bandera=true;
+                               Bundle datos = new Bundle();
+                               datos.putString("nombre", nombre);
+                               datos.putString("apellidos", apellidos);
+                               datos.putString("direccion", direccion);
+                               datos.putString("telefono", telefono);
+                               datos.putString("correo", correo);
+                               datos.putString("password", password);
+                               datos.putString("codigo_postal",codigoPostal);
+                               Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
+                               registro_foto_perfil_fragment.setArguments(datos);
+
+                               FragmentTransaction fr = getFragmentManager().beginTransaction();
+                               fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
+                               fr.commit();
+                           }else if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                               Toast.makeText(getContext(),"El correo ya se encuentra registrado",Toast.LENGTH_SHORT).show();
+                               bandera=false;
                            }
                            progreso.dismiss();
                         }
                     });
-        }else{
-            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
-        }
-        return  bandera;
+        FirebaseAuth.getInstance().signOut();
+        firebaseAuth.signOut();
+        firebaseAuth=null;
+        return bandera;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        FirebaseAuth.getInstance().signOut();
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        FirebaseAuth.getInstance().signOut();
     }
 }

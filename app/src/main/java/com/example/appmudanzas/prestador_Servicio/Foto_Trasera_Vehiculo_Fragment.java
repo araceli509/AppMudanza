@@ -32,9 +32,13 @@ import com.android.volley.Request;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Hashtable;
 import java.util.Map;
 
@@ -114,6 +118,18 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
             public void onClick(View v) {
                 if(fileImagen!=null){
                     if(Conexion_Internet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try{
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","foto_trasera/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                }catch (IOException e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
                         subirDatos();
                     }else{
                         Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();

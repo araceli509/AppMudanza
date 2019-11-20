@@ -26,9 +26,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -98,20 +102,38 @@ public class Foto_Lateral_Vehiculo_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(fileImagen!=null){
-                    Bundle datos= new Bundle();
-                    datos.putString("id_prestador",id_prestador);
-                    datos.putString("modelo",modelo);
-                    datos.putString("placas",placas);
-                    datos.putString("capacidad_carga",capacidad_carga);
-                    datos.putString("foto_frontal",foto_frontal);
-                    datos.putString("foto_lateral",nombreImagen);
+                    if(Conexion_Internet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try{
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","foto_lateral/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                }catch (IOException e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
 
-                    Foto_Trasera_Vehiculo_Fragment foto_trasera_vehiculo_fragment= new Foto_Trasera_Vehiculo_Fragment();
-                    foto_trasera_vehiculo_fragment.setArguments(datos);
+                        Bundle datos= new Bundle();
+                        datos.putString("id_prestador",id_prestador);
+                        datos.putString("modelo",modelo);
+                        datos.putString("placas",placas);
+                        datos.putString("capacidad_carga",capacidad_carga);
+                        datos.putString("foto_frontal",foto_frontal);
+                        datos.putString("foto_lateral",nombreImagen);
 
-                    FragmentTransaction fr=getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor,foto_trasera_vehiculo_fragment).addToBackStack(null);
-                    fr.commit();
+                        Foto_Trasera_Vehiculo_Fragment foto_trasera_vehiculo_fragment= new Foto_Trasera_Vehiculo_Fragment();
+                        foto_trasera_vehiculo_fragment.setArguments(datos);
+
+                        FragmentTransaction fr=getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor,foto_trasera_vehiculo_fragment).addToBackStack(null);
+                        fr.commit();
+                    }else{
+                        Toast.makeText(getContext(),"Verifica tu conexion a internet",Toast.LENGTH_SHORT).show();
+                    }
+
                 }else{
                     Toast.makeText(getContext(),"Seleccione una imagen",Toast.LENGTH_SHORT).show();
                 }
