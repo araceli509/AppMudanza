@@ -23,7 +23,7 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String modelo,placas,capacidad_carga;
+    private String id_prestador,modelo,placas,capacidad_carga;
     private Button btn_registrar_datos_vehiculo;
     private TextInputLayout inputModelo,inputPlacas,inputCapacidadCarga;
     private TextInputEditText txtModelo,txtPlacas,txtCapacidadCarga;
@@ -56,7 +56,7 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_registro__datos__vehiculo_, container, false);
         crearComponentes();
-
+        id_prestador=getArguments().getString("id_prestador");
         btn_registrar_datos_vehiculo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -67,6 +67,7 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
                     datos.putString("modelo",modelo);
                     datos.putString("placas",placas);
                     datos.putString("capacidad_carga",capacidad_carga);
+                    datos.putString("id_prestador",id_prestador);
                     Foto_Frontal_Vehiculo_Fragment foto_frontal_vehiculo_fragment= new Foto_Frontal_Vehiculo_Fragment();
                     foto_frontal_vehiculo_fragment.setArguments(datos);
 

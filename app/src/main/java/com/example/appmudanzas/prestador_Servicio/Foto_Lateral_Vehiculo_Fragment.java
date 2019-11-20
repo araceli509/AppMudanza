@@ -37,7 +37,7 @@ public class Foto_Lateral_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String modelo,placas,capacidad_carga,foto_frontal;
+    private String id_prestador,modelo,placas,capacidad_carga,foto_frontal;
     private View vista;
     private Button btn_registrar_foto_lateral,btnFoto;
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -78,6 +78,7 @@ public class Foto_Lateral_Vehiculo_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Bundle datosRecuperados=getArguments();
+        id_prestador=datosRecuperados.getString("id_prestador");
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
         capacidad_carga=datosRecuperados.getString("capacidad_carga");
@@ -98,6 +99,7 @@ public class Foto_Lateral_Vehiculo_Fragment extends Fragment {
             public void onClick(View v) {
                 if(fileImagen!=null){
                     Bundle datos= new Bundle();
+                    datos.putString("id_prestador",id_prestador);
                     datos.putString("modelo",modelo);
                     datos.putString("placas",placas);
                     datos.putString("capacidad_carga",capacidad_carga);

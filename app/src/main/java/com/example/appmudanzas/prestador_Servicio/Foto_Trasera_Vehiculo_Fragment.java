@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -25,13 +26,22 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.example.appmudanzas.R;
 
 import java.io.File;
+import java.util.Hashtable;
+import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
 public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
+    private String UPLOAD_URL="http://mudanzito.site/api/auth/vehiculo/insertar";
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -49,6 +59,9 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
     private static final int COD_SELECCIONA =10 ;
     private static final int COD_FOTO=20;
     private ImageView imageFotoTrasera;
+    private ProgressDialog progreso;
+    private boolean enviado=false;
+    private String id_prestador;
     private OnFragmentInteractionListener mListener;
 
     public Foto_Trasera_Vehiculo_Fragment() {
@@ -78,13 +91,14 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         Bundle datosRecuperados=getArguments();
+        id_prestador=datosRecuperados.getString("id_prestador");
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
         capacidad_carga=datosRecuperados.getString("capacidad_carga");
         foto_frontal=datosRecuperados.getString("foto_frontal");
         foto_lateral=datosRecuperados.getString("foto_lateral");
 
-        vista=inflater.inflate(R.layout.fragment_foto__lateral__vehiculo_, container, false);
+        vista=inflater.inflate(R.layout.fragment_foto__trasera__vehiculo_, container, false);
 
         crearComponentes();
 
@@ -100,7 +114,7 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
             public void onClick(View v) {
                 if(fileImagen!=null){
                     if(Conexion_Internet.compruebaConexion(getContext())){
-
+                        subirDatos();
                     }else{
                         Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
                     }
@@ -229,5 +243,41 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                     break;
             }
         }
+    }
+
+    private void subirDatos(){
+        progreso= new ProgressDialog(getContext());
+        progreso.setMessage("Enviando");
+        progreso.show();
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+                        enviado=true;
+                        progreso.hide();
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                enviado=false;
+                Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                progreso.hide();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<>();
+                params.put("id_prestador",id_prestador);
+                params.put("modelo",modelo);
+                params.put("placas",placas);
+                params.put("capacidad_carga",capacidad_carga);
+                params.put("foto_frontal",foto_frontal);
+                params.put("foto_lateral",foto_lateral);
+                params.put("foto_trasera",nombreImagen);
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 }

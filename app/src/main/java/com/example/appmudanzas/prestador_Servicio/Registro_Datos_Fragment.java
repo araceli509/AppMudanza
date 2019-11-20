@@ -22,6 +22,7 @@ import com.google.android.material.textfield.TextInputEditText;
 import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
 import java.util.regex.Pattern;
 
@@ -37,8 +38,8 @@ public class Registro_Datos_Fragment extends Fragment {
     private TextInputLayout inputNombre,inputApellidos,inputCorreo,inputTelefono,inputPassword,inputDireccion,inputCodigoPostal;
     private TextInputEditText txtNombre,txtApellidos,txtDireccion,txtCorreo,txtPassword,txtTelefono,txtCodigoPodtal;
     private String nombre,apellidos,correo,password,direccion,telefono,codigoPostal;
-    private FirebaseAuth firebaseAuth;
     private ProgressDialog progreso;
+    private  boolean bandera=false;
     public Registro_Datos_Fragment() {
         // Required empty public constructor
     }
@@ -66,62 +67,36 @@ public class Registro_Datos_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         vista=inflater.inflate(R.layout.fragment_registro__datos_, container, false);
-        firebaseAuth=FirebaseAuth.getInstance();
         crearComponentes();
-
+        //firebaseAuth=FirebaseAuth.getInstance();
         btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarCodigoPostal()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
-                }else {
-                    registrarPrestadorFirebase();
-                    FirebaseAuth.getInstance().signOut();
-                    firebaseAuth.signOut();
-                    Bundle datos = new Bundle();
-                    datos.putString("nombre", nombre);
-                    datos.putString("apellidos", apellidos);
-                    datos.putString("direccion", direccion);
-                    datos.putString("telefono", telefono);
-                    datos.putString("correo", correo);
-                    datos.putString("password", password);
-                    datos.putString("codigo_postal",codigoPostal);
-                    Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
-                    registro_foto_perfil_fragment.setArguments(datos);
+                }else if(registrarPrestadorFirebase()) {
+                        Bundle datos = new Bundle();
+                        datos.putString("nombre", nombre);
+                        datos.putString("apellidos", apellidos);
+                        datos.putString("direccion", direccion);
+                        datos.putString("telefono", telefono);
+                        datos.putString("correo", correo);
+                        datos.putString("password", password);
+                        datos.putString("codigo_postal",codigoPostal);
+                        Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
+                        registro_foto_perfil_fragment.setArguments(datos);
 
-                    FragmentTransaction fr = getFragmentManager().beginTransaction();
-                    fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
-                    fr.commit();
+                        FragmentTransaction fr = getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor, registro_foto_perfil_fragment).addToBackStack(null);
+                        fr.commit();
 
                 }
             }
         });
 
         return vista;
-    }
-
-    public void registrarPrestadorFirebase(){
-        if(Conexion_Internet.compruebaConexion(getContext())){
-            progreso= new ProgressDialog(getContext());
-            progreso.setMessage("Registrando...");
-            progreso.show();
-            firebaseAuth.createUserWithEmailAndPassword(correo,password).
-                    addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-                        @Override
-                        public void onComplete(@NonNull Task<AuthResult> task) {
-                            if(task.isSuccessful()){
-                                Toast.makeText(getContext(),"Usuario Registrado correctamente",Toast.LENGTH_SHORT).show();
-                            }else{
-                                Toast.makeText(getContext(),"Ya existe un usuario registrado con esta cuenta",Toast.LENGTH_SHORT).show();
-                            }
-                            progreso.dismiss();
-                        }
-                    });
-        }else{
-            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
-        }
-
     }
 
     public void crearComponentes(){
@@ -179,7 +154,7 @@ public class Registro_Datos_Fragment extends Fragment {
         }else if(!Patterns.EMAIL_ADDRESS.matcher(correo).matches()){
             inputCorreo.setError("Correo Invalido");
             return false;
-        }else {
+        } else {
             inputCorreo.setError(null);
             return true;
         }
@@ -266,5 +241,34 @@ public class Registro_Datos_Fragment extends Fragment {
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
+    }
+
+    public boolean registrarPrestadorFirebase(){
+        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        if(Conexion_Internet.compruebaConexion(getContext())){
+            progreso= new ProgressDialog(getContext());
+            progreso.setMessage("Registrando...");
+            progreso.show();
+            firebaseAuth.createUserWithEmailAndPassword(correo,password).
+                    addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+                        @Override
+                        public void onComplete(@NonNull Task<AuthResult> task) {
+                           if(!task.isSuccessful()){
+
+                               if(task.getException() instanceof FirebaseAuthUserCollisionException){
+                                   Toast.makeText(getContext(),"El correo electronico ya se encuentra registrado",Toast.LENGTH_SHORT).show();
+                                    bandera=false;
+                               }
+                           }else{
+                               Toast.makeText(getContext(),"Usuario registrado en firebase",Toast.LENGTH_SHORT).show();
+                               bandera=true;
+                           }
+                           progreso.dismiss();
+                        }
+                    });
+        }else{
+            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
+        }
+        return  bandera;
     }
 }

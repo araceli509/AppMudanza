@@ -27,9 +27,13 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.cloudinary.Cloudinary;
+import com.cloudinary.utils.ObjectUtils;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.MyConfiguration;
 
 import java.io.File;
+import java.io.IOException;
 
 import static android.app.Activity.RESULT_OK;
 
@@ -39,7 +43,7 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String modelo,placas,capacidad_carga;
+    private String id_prestador,modelo,placas,capacidad_carga;
     private View vista;
     private Button btn_registrar_foto_frontal,btnFoto;
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -85,7 +89,7 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
         capacidad_carga=datosRecuperados.getString("capacidad_carga");
-
+        id_prestador=datosRecuperados.getString("id_prestador");
         vista=inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
         crearComponentes();
         btnFoto.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +103,22 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
             @Override
             public void onClick(View v) {
                 if(fileImagen!=null){
+                    if(Conexion_Internet.compruebaConexion(getContext())){
+                        new Thread(new Runnable() {
+                            @Override
+                            public void run() {
+                                Cloudinary cloud= new Cloudinary(MyConfiguration.getMyConfigs());
+                                try{
+                                    cloud.uploader().upload(fileImagen.getAbsolutePath(), ObjectUtils.asMap("public_id","foto_frontal/"+nombreImagen));
+                                    cloud.url().generate(nombreImagen);
+                                }catch (IOException e){
+                                    System.out.println(e.getMessage());
+                                }
+                            }
+                        }).start();
+                    }
                     Bundle datos= new Bundle();
+                    datos.putString("id_prestador",id_prestador);
                     datos.putString("modelo",modelo);
                     datos.putString("placas",placas);
                     datos.putString("capacidad_carga",capacidad_carga);

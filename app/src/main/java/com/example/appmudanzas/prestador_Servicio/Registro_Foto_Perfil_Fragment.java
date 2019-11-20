@@ -32,6 +32,7 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
@@ -171,7 +172,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-            //RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                     new Response.Listener<String>() {
                         @Override
@@ -200,8 +200,8 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     return params;
                 }
             };
-            //requestQueue.add(stringRequest);
-            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
     }
 
     private boolean validaPermisos() {

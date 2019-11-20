@@ -145,8 +145,10 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
                                 }
                             }
                         }).start();
-
+                        Bundle datos=new Bundle();
+                        datos.putString("id_prestador",id_prestador);
                         Registro_Datos_Vehiculo_Fragment registro_datos_vehiculo_fragment= new Registro_Datos_Vehiculo_Fragment();
+                        registro_datos_vehiculo_fragment.setArguments(datos);
                         FragmentTransaction fr= getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor,registro_datos_vehiculo_fragment).addToBackStack(null);
                         fr.commit();
