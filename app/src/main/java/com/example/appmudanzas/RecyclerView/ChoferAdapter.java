@@ -1,11 +1,15 @@
 package com.example.appmudanzas.RecyclerView;
 
+import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatRatingBar;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmudanzas.R;
@@ -33,8 +37,10 @@ import java.util.List;
     @Override
     public void onBindViewHolder(@NonNull PosicionChoferViewHolder holder, int position) {
         ChoferPojo cliente = chofer.get(position);
-        holder.textViewChofer.setText("Nombre: " + cliente.getNombre());
-
+        holder.txtnombre.setText("Nombre: " + cliente.getNombre());
+        holder.txtcapacidad.setText("Capacidad de carga: " + cliente.isCapacidad_carga());
+        holder.txtprecio.setText("Precio por km: " + cliente.getPrecio());
+        holder.ranking.setRating(cliente.getValoracion());
 }
 
 
@@ -54,11 +60,18 @@ import java.util.List;
         }
     }
     public static class PosicionChoferViewHolder extends RecyclerView.ViewHolder {
-        TextView textViewChofer;
+        TextView txtnombre;
+        TextView txtcapacidad;
+        TextView txtprecio;
+        AppCompatRatingBar ranking;
 
         public PosicionChoferViewHolder(View itemView) {
             super(itemView);
-            textViewChofer = itemView.findViewById(R.id.textview_clientes);
+            txtnombre = itemView.findViewById(R.id.textview_choferes);
+            txtcapacidad = itemView.findViewById(R.id.tonelada);
+            txtprecio = itemView.findViewById(R.id.pesoskm);
+            ranking = itemView.findViewById(R.id.ranking);
+
         }
     }
 }
