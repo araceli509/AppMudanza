@@ -5,6 +5,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -167,7 +168,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     reservacion.setId_reservacion(jsonObject.getInt("id_reservacion"));
                     reservacion.setId_cliente(jsonObject.getInt("id_cliente"));
                     reservacion.setId_presentardor(jsonObject.getInt("id_prestador"));
-                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
                     String fecha = jsonObject.getString("fecha_hora");
                     java.util.Date date = sdf1.parse(fecha);
                     Date sqlStartDate = new Date(date.getTime());
@@ -180,8 +181,10 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     reservacion.setNumero_pisos(jsonObject.getInt("numero_pisos"));
                     reservacion.setMonto(jsonObject.getDouble("monto"));
                     reservacion.setStatus(jsonObject.getInt("status"));
+                    reservacion.setDistancia(jsonObject.getDouble("distancia"));
+                    reservacion.setDistancia(reservacion.getDistancia()/1000);
 
-                    JSONObject client = jsonObject.getJSONObject("Cliente");
+                    JSONObject client = jsonObject.getJSONObject("cliente");
                     cliente cliente = new cliente();
                     cliente.setId_cliente(client.getInt("id_cliente"));
                     cliente.setNombre(client.getString("nombre"));
@@ -211,7 +214,8 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),"Revise su Conexion a internet",Toast.LENGTH_LONG).show();
+        Log.e("Tu error",error.getMessage().toString());
+        Toast.makeText(getContext(),"Algo salior mal al consultar los datos",Toast.LENGTH_LONG).show();
     }
 
     /**

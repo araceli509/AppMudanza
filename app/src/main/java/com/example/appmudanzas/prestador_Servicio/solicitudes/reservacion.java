@@ -14,6 +14,7 @@ public class reservacion implements Serializable {
     private int numero_pisos;
     private Double monto;
     private int status;
+    private double distancia;
 
 
     private cliente cliente;
@@ -146,17 +147,25 @@ public class reservacion implements Serializable {
 
         if(status==0){
 
-            return "Espera";
+            return "Rechazada";
         }
         if(status==1){
 
-            return "Aceptada";
+            return "Espera";
         }
         if(status==2){
 
-            return "Rechazada";
+            return "Aceptada";
         }
 
         return "";
+    }
+
+    public double getDistancia() {
+        return distancia;
+    }
+
+    public void setDistancia(double distancia) {
+        this.distancia = distancia;
     }
 }

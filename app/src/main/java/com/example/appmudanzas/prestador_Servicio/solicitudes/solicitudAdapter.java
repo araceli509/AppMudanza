@@ -43,12 +43,10 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
     public void onBindViewHolder(@NonNull solicitudHolder holder, int position) {
             reservacion solicitudes= reservaciones.get(position);
 
-            holder.distancia.setText("0");
+            holder.distancia.setText(String.valueOf(solicitudes.getDistancia())+"KM");
             holder.fecha.setText(solicitudes.getFecha().toString());
             holder.nombrecliente.setText(solicitudes.getCliente().getNombre()+" "+solicitudes.getCliente().getApellidos());
-
-
-            holder.monto.setText(String.valueOf(solicitudes.getMonto()));
+            holder.monto.setText(String.valueOf(solicitudes.getMonto()+" MXN"));
 
 
 
