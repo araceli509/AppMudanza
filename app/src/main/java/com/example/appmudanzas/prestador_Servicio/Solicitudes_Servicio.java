@@ -1,26 +1,44 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Solicitudes_Servicio.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Solicitudes_Servicio#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Solicitudes_Servicio extends Fragment {
+
+import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
+import com.example.appmudanzas.prestador_Servicio.solicitudes.reservacion;
+import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+
+
+public class Solicitudes_Servicio extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -36,14 +54,11 @@ public class Solicitudes_Servicio extends Fragment {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment Solicitudes_Servicio.
-     */
+    RecyclerView solicitudesV;
+    ArrayList<reservacion> listareservaciones;
+    private RequestQueue requestQueue;
+    private JsonObjectRequest jsonObjectRequest;
+    private int id_cliente;
     // TODO: Rename and change types and number of parameters
     public static Solicitudes_Servicio newInstance(String param1, String param2) {
         Solicitudes_Servicio fragment = new Solicitudes_Servicio();
@@ -66,9 +81,53 @@ public class Solicitudes_Servicio extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_solicitudes__servicio, container, false);
+        View view=inflater.inflate(R.layout.fragment_solicitudes__servicio, container, false);
+        solicitudesV= (RecyclerView) view.findViewById(R.id.recyclerSolicitudes);
+        solicitudesV.setLayoutManager(new LinearLayoutManager(getContext()));
+        listareservaciones= new ArrayList<>();
+        requestQueue= Volley.newRequestQueue(getContext());
+        id_cliente=1;
+
+        cargarDatos();
+
+        solicitudesV.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                reservacion rpreview=listareservaciones.get(solicitudesV.getChildAdapterPosition(v));
+
+                Toast.makeText(getContext(),"ah selecionado un item"+rpreview.getId_reservacion(),Toast.LENGTH_LONG).show();
+                Bundle bundle= new Bundle();
+                bundle.putSerializable("reservacion",rpreview);
+
+                Fragment mapa= new solicitud_preview();
+                mapa.setArguments(bundle);
+                FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                transaction.replace(R.id.contenedor, mapa);
+                transaction.commit();
+
+
+            }
+        });
+
+
+        return view;
     }
+
+    private void cargarDatos(){
+        boolean conexion=compruebaConexion(getContext());
+       if(conexion) {
+           String url = "http://mudanzito.site/api/auth/reservacion/reservaciones/" + id_cliente;
+           jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+           requestQueue.add(jsonObjectRequest);
+       }else{
+
+           Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+       }
+
+    }
+
+
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -94,6 +153,67 @@ public class Solicitudes_Servicio extends Fragment {
         mListener = null;
     }
 
+    @Override
+    public void onResponse(JSONObject response) {
+        reservacion reservacion= null;
+
+        try {
+            JSONArray jsonArray = response.getJSONArray("reservaciones");
+            if (jsonArray.length() > 0) {
+                for (int i = 0; i < jsonArray.length(); i++) {
+                    reservacion = new reservacion();
+                    JSONObject jsonObject = null;
+                    jsonObject = jsonArray.getJSONObject(i);
+                    reservacion.setId_reservacion(jsonObject.getInt("id_reservacion"));
+                    reservacion.setId_cliente(jsonObject.getInt("id_cliente"));
+                    reservacion.setId_presentardor(jsonObject.getInt("id_prestador"));
+                    SimpleDateFormat sdf1 = new SimpleDateFormat("dd-mm-yyyy");
+                    String fecha = jsonObject.getString("fecha_hora");
+                    java.util.Date date = sdf1.parse(fecha);
+                    Date sqlStartDate = new Date(date.getTime());
+                    reservacion.setFecha(sqlStartDate);
+                    reservacion.setOrigen(jsonObject.getString("origen"));
+                    reservacion.setDestino(jsonObject.getString("destino"));
+                    reservacion.setOrigenLatLong(jsonObject.getString("origenLatLong"));
+                    reservacion.setDestinoLatLong(jsonObject.getString("destinoLatLong"));
+                    reservacion.setSeguro(jsonObject.getInt("seguro"));
+                    reservacion.setNumero_pisos(jsonObject.getInt("numero_pisos"));
+                    reservacion.setMonto(jsonObject.getDouble("monto"));
+                    reservacion.setStatus(jsonObject.getInt("status"));
+
+                    JSONObject client = jsonObject.getJSONObject("Cliente");
+                    cliente cliente = new cliente();
+                    cliente.setId_cliente(client.getInt("id_cliente"));
+                    cliente.setNombre(client.getString("nombre"));
+                    cliente.setApellidos(client.getString("apellidos"));
+                    cliente.setCorreo(client.getString("correo"));
+                    cliente.setDireccion(client.getString("direccion"));
+                    cliente.setCodigopostal(client.getString("telefono"));
+                    cliente.setCodigopostal(client.getString("codigo_postal"));
+                    reservacion.setCliente(cliente);
+                    listareservaciones.add(reservacion);
+                }
+
+                solicitudAdapter solitudAdapter = new solicitudAdapter(listareservaciones);
+                solicitudesV.setAdapter(solitudAdapter);
+
+            }else{
+                Toast.makeText(getContext(),"No hay solicitudes nuevas",Toast.LENGTH_LONG).show();
+
+            }
+            } catch(JSONException e){
+                e.printStackTrace();
+            } catch(ParseException e){
+                e.printStackTrace();
+            }
+
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),"Revise su Conexion a internet",Toast.LENGTH_LONG).show();
+    }
+
     /**
      * This interface must be implemented by activities that contain this
      * fragment to allow an interaction in this fragment to be communicated
@@ -107,5 +227,18 @@ public class Solicitudes_Servicio extends Fragment {
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
+    }
+    public static boolean compruebaConexion(Context context) {
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
     }
 }

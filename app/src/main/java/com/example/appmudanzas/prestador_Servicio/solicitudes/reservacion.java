@@ -1,8 +1,9 @@
 package com.example.appmudanzas.prestador_Servicio.solicitudes;
-import com.example.appmudanzas.prestador_Servicio.solicitudes.*;
+
+import java.io.Serializable;
 import java.sql.Date;
 
-public class reservacion {
+public class reservacion implements Serializable {
     private int id_reservacion;
     private int id_cliente;
     private int id_presentardor;
@@ -14,6 +15,13 @@ public class reservacion {
     private Double monto;
     private int status;
 
+
+    private cliente cliente;
+
+
+    public reservacion(){
+
+    }
     public reservacion(int id_reservacion, int id_cliente, int id_presentardor, Date fecha, String origen, String destino, String origenLatLong, String destinoLatLong, int seguro, int numero_pisos, Double monto, int status) {
         this.id_reservacion = id_reservacion;
         this.id_cliente = id_cliente;
@@ -29,7 +37,6 @@ public class reservacion {
         this.status = status;
     }
 
-    private  cliente cliente;
 
     public int getId_reservacion() {
         return id_reservacion;
@@ -133,5 +140,23 @@ public class reservacion {
 
     public void setCliente(cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public String getEstatustexto(){
+
+        if(status==0){
+
+            return "Espera";
+        }
+        if(status==1){
+
+            return "Aceptada";
+        }
+        if(status==2){
+
+            return "Rechazada";
+        }
+
+        return "";
     }
 }

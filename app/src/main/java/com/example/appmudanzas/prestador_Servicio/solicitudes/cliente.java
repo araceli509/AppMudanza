@@ -1,10 +1,17 @@
 package com.example.appmudanzas.prestador_Servicio.solicitudes;
 
-public class cliente {
+import java.io.Serializable;
+
+public class cliente implements Serializable {
     int id_cliente;
     String nombre,apellidos,correo,direccion,telefono,codigopostal;
     String fecha_regristro;
     int status;
+
+    public cliente(){
+
+
+    }
 
     public cliente(int id_cliente, String nombre, String apellidos, String correo, String direccion, String telefono, String codigopostal, String fecha_regristro, int status) {
         this.id_cliente = id_cliente;
