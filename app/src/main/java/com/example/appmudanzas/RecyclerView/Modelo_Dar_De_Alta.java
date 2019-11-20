@@ -2,20 +2,20 @@ package com.example.appmudanzas.RecyclerView;
 
 public class Modelo_Dar_De_Alta {
 
-    private int imgEstantes;
+    private int imgDardealta;
 
     public Modelo_Dar_De_Alta() {
     }
 
     public Modelo_Dar_De_Alta(int imgEstantes) {
-        this.imgEstantes = imgEstantes;
+        this.imgDardealta = imgEstantes;
     }
 
     public int getImgEstantes() {
-        return imgEstantes;
+        return imgDardealta;
     }
 
     public void setImgEstantes(int imgEstantes) {
-        this.imgEstantes = imgEstantes;
+        this.imgDardealta = imgEstantes;
     }
 }

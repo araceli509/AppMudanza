@@ -8,7 +8,7 @@
     <!-- TODO: Update blank fragment layout -->
 
     <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/RecyclerColgadores"
+        android:id="@+id/RecyclerSolicitudes"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </FrameLayout>

@@ -18,8 +18,8 @@ import java.util.List;
 
 public class Fragment_Tab_Dar_De_Alta extends Fragment {
 
-    private RecyclerView RecyclerViewEstantes;
-    private RecyclerViewDarDeAlta adaptadorEstantes;
+    private RecyclerView RecyclerViewDardealta;
+    private RecyclerViewDarDeAlta adaptadorDardealta;
     private LinearLayoutManager layoutManager;
     private Modelo_Dar_De_Alta adaptador;
 
@@ -34,12 +34,12 @@ public class Fragment_Tab_Dar_De_Alta extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_tab_dar_de_alta, container, false);
 
-        RecyclerViewEstantes=(RecyclerView)view.findViewById(R.id.RecyclerEstantes);
+        RecyclerViewDardealta=(RecyclerView)view.findViewById(R.id.RecyclerDardealta);
         layoutManager= new LinearLayoutManager(getActivity());
-        RecyclerViewEstantes.setLayoutManager(layoutManager);
+        RecyclerViewDardealta.setLayoutManager(layoutManager);
 
-        adaptadorEstantes=new RecyclerViewDarDeAlta(obtenerestantes());
-        RecyclerViewEstantes.setAdapter(adaptadorEstantes);
+        adaptadorDardealta=new RecyclerViewDarDeAlta(obtenerestantes());
+        RecyclerViewDardealta.setAdapter(adaptadorDardealta);
 
         return view;
     }

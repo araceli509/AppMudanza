@@ -17,19 +17,19 @@ public class RecyclerViewAcercaDe extends RecyclerView.Adapter<RecyclerViewAcerc
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView fotoMesas;
+        ImageView fotoAcercade;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fotoMesas=(ImageView)itemView.findViewById(R.id.imgMesas);
+            fotoAcercade=(ImageView)itemView.findViewById(R.id.imgMesas);
         }
     }
 
-    public List<ModeloAcercaDe>mesasLista;
+    public List<ModeloAcercaDe>AcercadeLista;
 
     public RecyclerViewAcercaDe(List<ModeloAcercaDe> mesasLista) {
-        this.mesasLista = mesasLista;
+        this.AcercadeLista = mesasLista;
     }
 
     @NonNull
@@ -43,12 +43,12 @@ public class RecyclerViewAcercaDe extends RecyclerView.Adapter<RecyclerViewAcerc
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.fotoMesas.setImageResource(mesasLista.get(position).getImgMesas());
+        holder.fotoAcercade.setImageResource(AcercadeLista.get(position).getImgMesas());
 
     }
 
     @Override
     public int getItemCount() {
-        return mesasLista.size();
+        return AcercadeLista.size();
     }
 }

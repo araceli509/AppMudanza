@@ -19,8 +19,8 @@ import java.util.List;
 public class Fragment_Tab_Solicitudes extends Fragment {
 
 
-    private RecyclerView RecyclerViewColgadores;
-    private RecyclerViewSolicitudes adaptadorColgadores;
+    private RecyclerView RecyclerViewsolicitudes;
+    private RecyclerViewSolicitudes adaptadorsolicitudes;
     private LinearLayoutManager layoutManager;
     private ModeloSolicitudes adaptador;
 
@@ -35,12 +35,12 @@ public class Fragment_Tab_Solicitudes extends Fragment {
         // Inflate the layout for this fragment
         View view=inflater.inflate(R.layout.fragment_tab_solicitudes, container, false);
 
-        RecyclerViewColgadores=(RecyclerView)view.findViewById(R.id.RecyclerColgadores);
+        RecyclerViewsolicitudes=(RecyclerView)view.findViewById(R.id.RecyclerSolicitudes);
         layoutManager= new LinearLayoutManager(getActivity());
-        RecyclerViewColgadores.setLayoutManager(layoutManager);
+        RecyclerViewsolicitudes.setLayoutManager(layoutManager);
 
-        adaptadorColgadores=new RecyclerViewSolicitudes(obtenercolgadores());
-        RecyclerViewColgadores.setAdapter(adaptadorColgadores);
+        adaptadorsolicitudes=new RecyclerViewSolicitudes(obtenercolgadores());
+        RecyclerViewsolicitudes.setAdapter(adaptadorsolicitudes);
 
         return view;
     }

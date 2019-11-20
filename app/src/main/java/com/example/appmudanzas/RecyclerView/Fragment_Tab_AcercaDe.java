@@ -17,8 +17,8 @@ import java.util.List;
 
 public class Fragment_Tab_AcercaDe extends Fragment {
 
-    private RecyclerView RecyclerViewMesas;
-    private RecyclerViewAcercaDe adaptadorMesas;
+    private RecyclerView RecyclerViewAcercade;
+    private RecyclerViewAcercaDe adaptadorAcercade;
     private LinearLayoutManager layoutManager;
     private ModeloAcercaDe adaptador;
 
@@ -35,12 +35,12 @@ public class Fragment_Tab_AcercaDe extends Fragment {
         // Inflate the layout for this fragment
         View view= inflater.inflate(R.layout.fragment_tab_acercade, container, false);
 
-        RecyclerViewMesas=(RecyclerView)view.findViewById(R.id.RecyclerMesas);
+        RecyclerViewAcercade=(RecyclerView)view.findViewById(R.id.RecyclerMesas);
         layoutManager= new LinearLayoutManager(getActivity());
-        RecyclerViewMesas.setLayoutManager(layoutManager);
+        RecyclerViewAcercade.setLayoutManager(layoutManager);
 
-        adaptadorMesas=new RecyclerViewAcercaDe(obtenermesas());
-        RecyclerViewMesas.setAdapter(adaptadorMesas);
+        adaptadorAcercade=new RecyclerViewAcercaDe(obtenermesas());
+        RecyclerViewAcercade.setAdapter(adaptadorAcercade);
 
         return view;
     }

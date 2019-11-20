@@ -2,20 +2,20 @@ package com.example.appmudanzas.RecyclerView;
 
 public class ModeloAcercaDe {
 
-    private int imgMesas;
+    private int imgAcercade;
 
     public ModeloAcercaDe() {
     }
 
     public ModeloAcercaDe(int imgMesas) {
-        this.imgMesas = imgMesas;
+        this.imgAcercade = imgMesas;
     }
 
     public int getImgMesas() {
-        return imgMesas;
+        return imgAcercade;
     }
 
     public void setImgMesas(int imgMesas) {
-        this.imgMesas = imgMesas;
+        this.imgAcercade = imgMesas;
     }
 }

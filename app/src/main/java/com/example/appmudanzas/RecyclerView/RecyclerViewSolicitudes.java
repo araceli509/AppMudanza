@@ -17,19 +17,19 @@ public class RecyclerViewSolicitudes extends RecyclerView.Adapter<RecyclerViewSo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
 
-        ImageView fotoColgadores;
+        ImageView fotoSolicitudes;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            fotoColgadores=(ImageView)itemView.findViewById(R.id.imgColgadores);
+            fotoSolicitudes=(ImageView)itemView.findViewById(R.id.imgColgadores);
         }
     }
 
-    public List<ModeloSolicitudes>ColgadoresLista;
+    public List<ModeloSolicitudes>SolicitudesLista;
 
     public RecyclerViewSolicitudes(List<ModeloSolicitudes> ColgadoresLista) {
-        this.ColgadoresLista = ColgadoresLista;
+        this.SolicitudesLista = ColgadoresLista;
     }
 
     @NonNull
@@ -43,12 +43,12 @@ public class RecyclerViewSolicitudes extends RecyclerView.Adapter<RecyclerViewSo
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
 
-        holder.fotoColgadores.setImageResource(ColgadoresLista.get(position).getImgColgadores());
+        holder.fotoSolicitudes.setImageResource(SolicitudesLista.get(position).getImgColgadores());
 
     }
 
     @Override
     public int getItemCount() {
-        return ColgadoresLista.size();
+        return SolicitudesLista.size();
     }
 }
