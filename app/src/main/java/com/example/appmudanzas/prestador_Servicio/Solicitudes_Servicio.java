@@ -57,6 +57,8 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
 
     RecyclerView solicitudesV;
     ArrayList<reservacion> listareservaciones;
+    solicitudAdapter solitudAdapter;
+
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
     private int id_cliente;
@@ -91,25 +93,6 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
 
         cargarDatos();
 
-        solicitudesV.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                reservacion rpreview=listareservaciones.get(solicitudesV.getChildAdapterPosition(v));
-
-                Toast.makeText(getContext(),"ah selecionado un item"+rpreview.getId_reservacion(),Toast.LENGTH_LONG).show();
-                Bundle bundle= new Bundle();
-                bundle.putSerializable("reservacion",rpreview);
-
-                Fragment mapa= new solicitud_preview();
-                mapa.setArguments(bundle);
-                FragmentTransaction transaction = getFragmentManager().beginTransaction();
-
-                transaction.replace(R.id.contenedor, mapa);
-                transaction.commit();
-
-
-            }
-        });
 
 
         return view;
@@ -197,8 +180,26 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     listareservaciones.add(reservacion);
                 }
 
-                solicitudAdapter solitudAdapter = new solicitudAdapter(listareservaciones);
-                solicitudesV.setAdapter(solitudAdapter);
+                solicitudesV.setAdapter(new solicitudAdapter(listareservaciones, new solicitudAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View itemView, int position) {
+                        reservacion rpreview=listareservaciones.get(solicitudesV.getChildAdapterPosition(itemView));
+
+                        Toast.makeText(getContext(),"ah selecionado un item"+rpreview.getId_reservacion(),Toast.LENGTH_LONG).show();
+                        Bundle bundle= new Bundle();
+                        bundle.putSerializable("reservacion",rpreview);
+
+                        Fragment mapa= new solicitud_preview();
+                        mapa.setArguments(bundle);
+                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+
+                        transaction.replace(R.id.contenedor, mapa);
+                        transaction.commit();
+
+                    }
+                }));
+
+
 
             }else{
                 Toast.makeText(getContext(),"No hay solicitudes nuevas",Toast.LENGTH_LONG).show();

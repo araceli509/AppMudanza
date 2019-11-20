@@ -16,11 +16,13 @@ import androidx.fragment.app.FragmentManager;
 
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
+import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
-public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener{
+public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
+, solicitud_preview.OnFragmentInteractionListener{
 
 
 

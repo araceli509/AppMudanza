@@ -3,6 +3,7 @@ package com.example.appmudanzas.prestador_Servicio;
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -75,7 +76,7 @@ public class solicitud_preview extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_solicitud_preview, container, false);
 
-        idsolicitud= view.findViewById(R.id.idsolicitud);
+        idsolicitud= view.findViewById(R.id.id_solicitud);
         cliente=view.findViewById(R.id.cliente);
         numero=view.findViewById(R.id.numero);
         correo=view.findViewById(R.id.correo);
@@ -93,7 +94,7 @@ public class solicitud_preview extends Fragment {
          aceptar=view.findViewById(R.id.aceptar);
 
          if(cliente_datos!=null&reservacion!=null){
-
+             Log.e("id_reservacion",String.valueOf(reservacion.getId_reservacion()));
              idsolicitud.setText(reservacion.getId_reservacion());
              cliente.setText(cliente_datos.getNombre()+" "+cliente_datos.getApellidos());
              numero.setText(cliente_datos.getTelefono());

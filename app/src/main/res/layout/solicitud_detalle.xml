@@ -54,7 +54,7 @@
                         android:textSize="24sp"></TextView>
 
                     <TextView
-                        android:id="@+id/textView4"
+                        android:id="@+id/id_solicitud"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"

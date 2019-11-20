@@ -16,15 +16,17 @@ import com.example.appmudanzas.R;
 import java.util.ArrayList;
 
 
-public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.solicitudHolder> implements View.OnClickListener{
+public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.solicitudHolder>{
 
    Context c;
 
    ArrayList<reservacion> reservaciones;
-   private View.OnClickListener listener;
 
-    public solicitudAdapter(ArrayList<reservacion> reservaciones) {
+    private OnItemClickListener listener;
+
+    public solicitudAdapter(ArrayList<reservacion> reservaciones ,OnItemClickListener listener) {
         this.reservaciones = reservaciones;
+        this.listener=listener;
     }
 
     @NonNull
@@ -32,9 +34,7 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
     public solicitudHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         c= parent.getContext();
         LayoutInflater inflater= LayoutInflater.from(c);
-
         View solicitudView = inflater.inflate(R.layout.solicitud_item, parent, false);
-        solicitudView.setOnClickListener(this);
         return new solicitudHolder(solicitudView);
 
     }
@@ -42,35 +42,21 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
     @Override
     public void onBindViewHolder(@NonNull solicitudHolder holder, int position) {
             reservacion solicitudes= reservaciones.get(position);
-
-            holder.distancia.setText(String.valueOf(solicitudes.getDistancia())+"KM");
+            holder.distancia.setText(solicitudes.getDistancia()+" KM");
             holder.fecha.setText(solicitudes.getFecha().toString());
             holder.nombrecliente.setText(solicitudes.getCliente().getNombre()+" "+solicitudes.getCliente().getApellidos());
-            holder.monto.setText(String.valueOf(solicitudes.getMonto()+" MXN"));
+            holder.monto.setText(solicitudes.getMonto()+" MXN");
 
 
 
 
     }
 
-
-
-    @Override
-    public void onClick(View v) {
-            if(listener!=null){
-
-                listener.onClick(v);
-            }
-    }
-
-    // Define the listener interface
     public interface OnItemClickListener {
         void onItemClick(View itemView, int position);
     }
     // Define the method that allows the parent activity or fragment to define the listener
-    public void setOnClickListener(View.OnClickListener listener) {
-        this.listener = listener;
-    }
+
 
     @Override
     public int getItemCount() {
@@ -78,7 +64,7 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
     }
 
 
-    public class solicitudHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
+    public class solicitudHolder extends RecyclerView.ViewHolder{
 
 
         TextView nombrecliente,distancia,monto,fecha;
@@ -89,17 +75,21 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
 
             nombrecliente =(TextView) itemView.findViewById(R.id.nombrecliente);
             distancia=(TextView) itemView.findViewById(R.id.distancia);
-            monto=(TextView) itemView.findViewById(R.id.distancia);
+            monto=(TextView) itemView.findViewById(R.id.monto);
             fecha= (TextView)itemView.findViewById(R.id.fecha);
             rutapreview= (ImageView) itemView.findViewById(R.id.rutapreview);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (listener != null) {
+                        int position = getAdapterPosition();
+                        if (position != RecyclerView.NO_POSITION) {
+                            listener.onItemClick(itemView, position);
+                        }
+                    }
+                }
+            });
 
-
-
-        }
-
-
-        @Override
-        public void onClick(View v) {
 
         }
     }
