@@ -57,7 +57,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     private InicioFragment.OnFragmentInteractionListener mListener;
     RecyclerView recyclerView;
     List<ChoferPojo> choferes;
-    Adapter adapter;
+    ChoferAdapter adapter;
     DatabaseReference database;
     List<String> keys;
     String llave;
@@ -82,17 +82,16 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_inicio, container, false);
+        request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         choferes = new ArrayList<>();
         keys = new ArrayList<>();
-        adapter = new Adapter(choferes);
-        recyclerView.setAdapter(adapter);
-        request= Volley.newRequestQueue(getContext());
         obtenerDatos();
-
+        adapter = new ChoferAdapter(choferes);
+        recyclerView.setAdapter(adapter);
         return v;
     }
     // TODO: Rename method, update argument and hook method into UI event
@@ -118,33 +117,13 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     public void obtenerDatos() {
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
+            Toast.makeText(getContext(),obtenerHora(),Toast.LENGTH_LONG).show();
             String url = "http://mudanzito.site/api/auth/prestador_servicio/horario_tarifa/" + obtenerHora();
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             request.add(jsonObjectRequest);
         }else{
-
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
         }
-        //database = FirebaseDatabase.getInstance().getReference();
-        /*database.child("Users").addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                choferes.clear();
-                keys.clear();
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    ChoferPojo chofer = snapshot.getValue(ChoferPojo.class);
-                        choferes.add(chofer);
-                        keys.add(snapshot.getKey());
-
-                }
-                adapter.notifyDataSetChanged();
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
-        });*/
     }
 
     @Override
@@ -154,16 +133,15 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
 
     @Override
     public void onResponse(JSONObject response) {
-        ChoferPojo choferpojo= new ChoferPojo();
+
         Gson gson = new GsonBuilder().create();
         try {
             JSONArray json = response.getJSONArray("prestador");
             for(int i = 0; i<json.length(); i++ ) {
                 String chofer = json.getString(i);
-                choferpojo = gson.fromJson(chofer,ChoferPojo.class);
+                ChoferPojo choferpojo = gson.fromJson(chofer,ChoferPojo.class);
                 choferes.add(choferpojo);
             }
-
             adapter.notifyDataSetChanged();
         } catch (JSONException e) {
             e.printStackTrace();

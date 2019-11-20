@@ -50,6 +50,7 @@ public class Cotizacion extends Fragment{
     private Spinner spinnerpisos;
     private String origen;
     private String destino;
+    private float km;
 
     RequestQueue request;
     public Cotizacion() {
@@ -121,7 +122,7 @@ public class Cotizacion extends Fragment{
 
     private void getDatos() {
         Bundle datosRecuperados = getArguments();
-        float km = datosRecuperados.getFloat("kilometros");
+        km = datosRecuperados.getFloat("kilometros");
         origenLatLong = datosRecuperados.getString("origenLatLong");
         destinoLatLong = datosRecuperados.getString("destinoLatLong");
         origen = datosRecuperados.getString("origen");
@@ -177,6 +178,7 @@ public class Cotizacion extends Fragment{
                     params.put("destino",destino);
                     params.put("origenLatLong",origenLatLong);
                     params.put("destinoLatLong",destinoLatLong);
+                    params.put("distancia",km+"");
                     params.put("seguro",deseaseguro);
                     params.put("numero_pisos", (String)spinnerpisos.getSelectedItem());
                     params.put("monto",txtTotal.getText().toString());

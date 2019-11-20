@@ -16,12 +16,12 @@ import com.example.appmudanzas.R;
 
 import java.util.List;
 
- class Adapter extends RecyclerView.Adapter<Adapter.PosicionChoferViewHolder> implements View.OnClickListener {
+ class ChoferAdapter extends RecyclerView.Adapter<ChoferAdapter.PosicionChoferViewHolder> implements View.OnClickListener {
 
     List<ChoferPojo> chofer;
     private View.OnClickListener listener;
 
-    public Adapter(List<ChoferPojo> choferlist) {
+    public ChoferAdapter(List<ChoferPojo> choferlist) {
         this.chofer = choferlist;
     }
 
@@ -50,7 +50,6 @@ import java.util.List;
     }
     public void setOnClickListener(View.OnClickListener listener) {
         this.listener = listener;
-
     }
 
     @Override
