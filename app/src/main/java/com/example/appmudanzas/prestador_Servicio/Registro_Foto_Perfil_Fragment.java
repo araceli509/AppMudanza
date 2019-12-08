@@ -167,8 +167,9 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
 
         return vista;
     }
-
+    String link="https://res.cloudinary.com/ito/image/upload/foto_perfil/";
     private void subirDatos() {
+
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
@@ -196,7 +197,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     params.put("telefono",telefono);
                     params.put("correo",correo);
                     params.put("codigo_postal",codigo_postal);
-                    params.put("foto_perfil",nombreImagen);
+                    params.put("foto_perfil",(link+nombreImagen));
                     return params;
                 }
             };

@@ -53,15 +53,6 @@ import java.util.Map;
 
 import static android.app.Activity.RESULT_OK;
 
-
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Registro_Tarjeta_Circulacion_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Registro_Tarjeta_Circulacion_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
 public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
     private String UPLOAD_URL="http://mudanzito.site/api/auth/documentos/insertar";
     private static final String ARG_PARAM1 = "param1";
@@ -288,12 +279,11 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             }
         }
     }
-
+    String link="https://res.cloudinary.com/ito/image/upload/tarjeta_circulacion/";
     private void subirDatos(){
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
-        //RequestQueue requestQueue = Volley.newRequestQueue(getContext());
         StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
                 new Response.Listener<String>() {
                     @Override
@@ -313,9 +303,9 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new Hashtable<>();
                 params.put("id_prestador",id_prestador);
-                params.put("ine", ine);
-                params.put("licencia_vigente",licencia_vigente);
-                params.put("tarjeta_circulacion", nombreImagen);
+                params.put("ine", ("https://res.cloudinary.com/ito/image/upload/ine/"+ine));
+                params.put("licencia_vigente",("https://res.cloudinary.com/ito/image/upload/licencia_vigente/"+licencia_vigente));
+                params.put("tarjeta_circulacion", (link+nombreImagen));
                 return params;
             }
         };

@@ -291,9 +291,9 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                 params.put("modelo",modelo);
                 params.put("placas",placas);
                 params.put("capacidad_carga",capacidad_carga);
-                params.put("foto_frontal",foto_frontal);
-                params.put("foto_lateral",foto_lateral);
-                params.put("foto_trasera",nombreImagen);
+                params.put("foto_frontal",("https://res.cloudinary.com/ito/image/upload/foto_frontal/"+foto_frontal));
+                params.put("foto_lateral",("https://res.cloudinary.com/ito/image/upload/foto_laterak/"+foto_lateral));
+                params.put("foto_trasera",("https://res.cloudinary.com/ito/image/upload/foto_trasera/"+nombreImagen));
                 return params;
             }
         };
