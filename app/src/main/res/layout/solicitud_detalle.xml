@@ -54,13 +54,15 @@
                         android:textSize="24sp"></TextView>
 
                     <TextView
-                        android:id="@+id/id_solicitud"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/sol_id"
+                        android:layout_width="50dp"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
-                        android:text="120"
+                        android:text="140"
                         android:textSize="24sp" />
+
+
                 </LinearLayout>
             </LinearLayout>
 
@@ -87,7 +89,7 @@
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
                     android:text="Cliente"
-                    android:textColor="#FFFFFF"
+                    android:textColor="#2C2C2C"
                     android:textSize="24sp" />
 
                 <LinearLayout
@@ -190,7 +192,7 @@
                 <TextView
                     android:id="@+id/pago"
                     android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_height="37dp"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:fontFamily="sans-serif-black"
@@ -261,13 +263,14 @@
                     android:textSize="24sp"></TextView>
 
                 <TextView
-                    android:id="@+id/pisos"
+                    android:id="@+id/numpisos"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="5dp"
                     android:layout_weight="1"
                     android:text="1"
-                    android:textSize="24sp" />
+                    android:textSize="24sp" ></TextView>
+
 
             </LinearLayout>
             <LinearLayout
@@ -293,7 +296,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="En Espera"
                     android:textColor="#FF8F00"
-                    android:textSize="24sp" />
+                    android:textSize="24sp" ></TextView>
 
             </LinearLayout>
             <LinearLayout
@@ -363,7 +366,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
-                tools:srcCompat="@drawable/trash">
+                android:visibility="visible"
+                app:srcCompat="@drawable/trash">
 
             </ImageView>
 
@@ -372,7 +376,8 @@
                 android:layout_width="80dp"
                 android:layout_height="80dp"
                 android:layout_margin="20dp"
-                tools:srcCompat="@drawable/route">
+                android:visibility="visible"
+                app:srcCompat="@drawable/route">
 
             </ImageView>
 

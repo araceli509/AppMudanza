@@ -186,15 +186,17 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                         reservacion rpreview=listareservaciones.get(solicitudesV.getChildAdapterPosition(itemView));
 
                         Toast.makeText(getContext(),"ah selecionado un item"+rpreview.getId_reservacion(),Toast.LENGTH_LONG).show();
-                        Bundle bundle= new Bundle();
-                        bundle.putSerializable("reservacion",rpreview);
+                       if(rpreview!=null) {
+                           Bundle bundle = new Bundle();
+                           bundle.putSerializable("reservacion", rpreview);
 
-                        Fragment mapa= new solicitud_preview();
-                        mapa.setArguments(bundle);
-                        FragmentTransaction transaction = getFragmentManager().beginTransaction();
+                           Fragment mapa = new solicitud_preview();
+                           mapa.setArguments(bundle);
+                           FragmentTransaction transaction = getFragmentManager().beginTransaction();
 
-                        transaction.replace(R.id.contenedor, mapa);
-                        transaction.commit();
+                           transaction.replace(R.id.contenedor, mapa);
+                           transaction.commit();
+                       }
 
                     }
                 }));
