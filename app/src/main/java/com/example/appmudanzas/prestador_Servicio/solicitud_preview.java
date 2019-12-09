@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -39,7 +41,7 @@ public class solicitud_preview extends Fragment {
     * */
     private TextView idsolicitud,cliente,numero,correo;
 
-    private TextView pago,origencalles,destinocalles,pisos ,estatus,fecha,km;
+    private TextView pago,origencalles,destinocalles,pisos,estadosol,fecha,km;
 
     private ImageView eliminar,rutamaps,aceptar;
 
@@ -84,7 +86,7 @@ public class solicitud_preview extends Fragment {
          origencalles=view.findViewById(R.id.origencalles);
          destinocalles=view.findViewById(R.id.destinocalles);
          pisos=view.findViewById(R.id.numpisos);
-         estatus=view.findViewById(R.id.estatus);
+         estadosol=view.findViewById(R.id.estadosolicitud);
          fecha=view.findViewById(R.id.fecha);
          km=view.findViewById(R.id.km);
 
@@ -92,12 +94,32 @@ public class solicitud_preview extends Fragment {
          rutamaps=view.findViewById(R.id.rutamaps);
          aceptar=view.findViewById(R.id.aceptar);
 
+
         reservacion= (reservacion) getArguments().getSerializable("reservacion");
         cliente_datos= reservacion.getCliente();
 
+         eliminar.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Toast.makeText(getContext(),"Eliminando solicitud",Toast.LENGTH_LONG).show();
+             }
+         });
+        rutamaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle data = new Bundle();
+                data.putString("destino",reservacion.getDestinoLatLong());
+                data.putString("origen",reservacion.getOrigenLatLong());
+                Intent intentomaps= new Intent(getActivity(),MapapreviewRuta.class);
+                startActivity(intentomaps);
+            }
+        });
+
+
+
          if(cliente_datos!=null&&reservacion!=null){
-             Log.e("error",String.valueOf(reservacion.getId_reservacion()));
-            // idsolicitud.setText("");
+
+             idsolicitud.setText(String.valueOf(reservacion.getId_reservacion()));
              cliente.setText(cliente_datos.getNombre()+" "+cliente_datos.getApellidos());
              numero.setText(cliente_datos.getTelefono());
              correo.setText(cliente_datos.getCorreo());
@@ -105,12 +127,10 @@ public class solicitud_preview extends Fragment {
              pago.setText("$"+String.valueOf(reservacion.getMonto())+" MXN");
              origencalles.setText(reservacion.getOrigen());
              destinocalles.setText(reservacion.getDestino());
-            // pisos.setText(String.valueOf(reservacion.getNumero_pisos()));
+             pisos.setText(String.valueOf(reservacion.getNumero_pisos()));
              //estatus.setText(reservacion.getStatus());
              fecha.setText(String.valueOf(reservacion.getFecha()));
              km.setText(String.valueOf(reservacion.getDistancia())+" km");
-
-
          }
 
         return view;
