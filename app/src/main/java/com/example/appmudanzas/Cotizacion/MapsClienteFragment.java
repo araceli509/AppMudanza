@@ -65,10 +65,9 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
     private TextView tvLocInfo;
     private FloatingActionButton fabTaxi;
     private List<Polyline> polylines = new ArrayList<>();
-    // TODO: Rename and change types of parameters
-    private OnFragmentInteractionListener mListener;
     private MarkerOptions origen, destino;
     private String direccionOrigen, direccionDestino;
+    private int id_prestador;
 
     public MapsClienteFragment() {
 
@@ -78,6 +77,7 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            id_prestador = getArguments().getInt("id_prestador");
         }
     }
 
@@ -94,30 +94,6 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
         SupportMapFragment mapFragment = (SupportMapFragment) this.getChildFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
     }
 
     public String origenLatLong(){
@@ -304,12 +280,12 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
                 datosAEnviar.putFloat("kilometros", getdistancia());
                 datosAEnviar.putString("origenLatLong", origenLatLong());
                 datosAEnviar.putString("destinoLatLong", destinoLatLong());
-
+                datosAEnviar.putInt("id_prestador", id_prestador);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 Cotizacion fragmento = new Cotizacion();
                 fragmento.setArguments(datosAEnviar);
-                fragmentTransaction.replace(R.id.contenedorcliente, fragmento);
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
                 fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             } else {
@@ -378,25 +354,5 @@ public class MapsClienteFragment extends Fragment implements OnMapReadyCallback 
             }
         }
     };
-
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
-
-    @Override
-    public void onRequestPermissionsResult(int requestCode,
-                                           String permissions[], int[] grantResults) {
-        switch (requestCode) {
-            case 1: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    map.setMyLocationEnabled(true);
-                }
-                return;
-            }
-        }
-    }
-
 
 }

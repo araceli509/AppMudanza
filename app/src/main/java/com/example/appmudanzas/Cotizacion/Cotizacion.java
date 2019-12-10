@@ -9,6 +9,8 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -30,13 +32,15 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.RecyclerView.InicioFragment;
+import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
+import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Map;
 
 public class Cotizacion extends Fragment{
-    private OnFragmentInteractionListener mListener;
     private ProgressDialog progreso;
     private TextView txtOrigen;
     private TextView txtDestino;
@@ -51,6 +55,8 @@ public class Cotizacion extends Fragment{
     private String origen;
     private String destino;
     private float km;
+    private int id_prestador;
+    private FirebaseAuth mAuth;
 
     RequestQueue request;
     public Cotizacion() {
@@ -61,6 +67,7 @@ public class Cotizacion extends Fragment{
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
+            id_prestador = getArguments().getInt("id_prestador");
         }
     }
 
@@ -72,6 +79,7 @@ public class Cotizacion extends Fragment{
         txtDestino = v.findViewById(R.id.textDestino);
         txtKilometro = v.findViewById(R.id.textKilometros);
         txtTotal = v.findViewById(R.id.textTotal);
+        mAuth = FirebaseAuth.getInstance();
         origenLatLong = "";
         destinoLatLong = "";
         UPLOAD_URL="http://www.mudanzito.site/api/auth/reservacion/agregar_reservacion";
@@ -82,6 +90,12 @@ public class Cotizacion extends Fragment{
             @Override
             public void onClick(View view) {
                 subirDatos();
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                InicioFragment fragmento = new InicioFragment();
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
         switchseguro = v.findViewById(R.id.switchseguro);
@@ -90,34 +104,6 @@ public class Cotizacion extends Fragment{
         spinnerpisos.setAdapter(adapter);
             // Inflate the layout for this fragment
         return v;
-    }
-
-    // TODO: Rename method, update argument and hook method into UI event
-    public void onButtonPressed(Uri uri) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction(uri);
-        }
-    }
-
-    @Override
-    public void onAttach(Context context) {
-        super.onAttach(context);
-        if (context instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) context;
-        } else {
-            throw new RuntimeException(context.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(Uri uri);
     }
 
     private void getDatos() {
@@ -172,7 +158,7 @@ public class Cotizacion extends Fragment{
                     String deseaseguro = (switchseguro.isChecked())?"1":"0";
                     Map<String, String> params = new Hashtable<>();
                     params.put("id_cliente","3");
-                    params.put("id_prestador","3");
+                    params.put("id_prestador",id_prestador+"");
                     params.put("fecha_hora",obtenerFechaHora());
                     params.put("origen",origen);
                     params.put("destino",destino);
@@ -185,8 +171,8 @@ public class Cotizacion extends Fragment{
                     return params;
                 }
             };
-
-            requestQueue.add(stringRequest);
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+           // requestQueue.add(stringRequest);
         }else{
             progreso.dismiss();
             Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
