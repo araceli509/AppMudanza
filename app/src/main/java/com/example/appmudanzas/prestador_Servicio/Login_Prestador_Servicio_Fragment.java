@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -12,8 +13,14 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.example.appmudanzas.R;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.android.material.textfield.TextInputLayout;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 
 /**
@@ -25,14 +32,14 @@ import com.example.appmudanzas.R;
  * create an instance of this fragment.
  */
 public class Login_Prestador_Servicio_Fragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
+
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
-
+    private FirebaseAuth mAuth;
     private String mParam1;
     private String mParam2;
-
+    private String email,password;
+    private TextInputLayout inputCorreo,inputPassword;
     private Button btn_login_prestador,btn_registrar_prestador,btn_reset_password;
     private View vista;
     private OnFragmentInteractionListener mListener;
@@ -63,7 +70,7 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_login__prestador__servicio_, container, false);
         crearComponentes();
-
+        mAuth=FirebaseAuth.getInstance();
         btn_registrar_prestador.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -88,11 +95,30 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
             @Override
 
             public void onClick(View v){
-                Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
-                startActivity(i);
+                email=inputCorreo.getEditText().getText().toString().trim();
+                password=inputPassword.getEditText().getText().toString().trim();
+                if(!email.isEmpty()&&!password.isEmpty()){
+                    loginUser();
+                }
+
             }
         });
         return vista;
+    }
+
+    private void loginUser() {
+        mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if(task.isSuccessful()){
+                    Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
+                    startActivity(i);
+                    //getActivity().finish();
+                }else {
+                    Toast.makeText(getContext(), "Usuario o contrañsea incorrectos ", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
 
@@ -128,5 +154,7 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
         btn_login_prestador=vista.findViewById(R.id.btn_login_prestador);
         btn_registrar_prestador=vista.findViewById(R.id.btn_registrar_prestador);
         btn_reset_password=vista.findViewById(R.id.btn_reset_password);
+        inputCorreo=vista.findViewById(R.id.usuario_prestador);
+        inputPassword=vista.findViewById(R.id.password_prestador);
     }
 }
