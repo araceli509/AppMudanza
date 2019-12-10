@@ -23,12 +23,12 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
+        android:networkSecurityConfig="@xml/network_security_config"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme"
-        android:networkSecurityConfig="@xml/network_security_config">
-
-        <activity android:name=".RecyclerView.MainActivityRecycler"></activity>
+        android:theme="@style/AppTheme">
+        <activity android:name=".prestador_Servicio.Navigation_Prestador_Servicio"></activity>
+        <activity android:name=".RecyclerView.MainActivityRecycler" />
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -45,9 +45,9 @@
             android:name=".prestador_Servicio.Prestador_Servicio_Activity"
             android:configChanges="keyboardHidden|orientation|screenSize"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
-        <activity android:name=".MainActivity"></activity>
+        <activity android:name=".Cotizacion.ContentClient" />
+        <activity android:name=".MainActivity" />
         <activity android:name=".Login.LoginPrincipal">
-
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

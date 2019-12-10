@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -9,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
@@ -39,7 +41,7 @@ public class solicitud_preview extends Fragment {
     * */
     private TextView idsolicitud,cliente,numero,correo;
 
-    private TextView pago,origencalles,destinocalles,pisos ,estatus,fecha,km;
+    private TextView pago,origencalles,destinocalles,pisos,estadosol,fecha,km;
 
     private ImageView eliminar,rutamaps,aceptar;
 
@@ -64,8 +66,7 @@ public class solicitud_preview extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
 
-            reservacion= (reservacion) getArguments().getSerializable("reservacion");
-            cliente_datos= reservacion.getCliente();
+
 
 
         }
@@ -76,7 +77,7 @@ public class solicitud_preview extends Fragment {
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_solicitud_preview, container, false);
 
-        idsolicitud= view.findViewById(R.id.id_solicitud);
+        idsolicitud= view.findViewById(R.id.sol_id);
         cliente=view.findViewById(R.id.cliente);
         numero=view.findViewById(R.id.numero);
         correo=view.findViewById(R.id.correo);
@@ -84,8 +85,8 @@ public class solicitud_preview extends Fragment {
          pago=view.findViewById(R.id.pago);
          origencalles=view.findViewById(R.id.origencalles);
          destinocalles=view.findViewById(R.id.destinocalles);
-         pisos=view.findViewById(R.id.pisos);
-         estatus=view.findViewById(R.id.estatus);
+         pisos=view.findViewById(R.id.numpisos);
+         estadosol=view.findViewById(R.id.estadosolicitud);
          fecha=view.findViewById(R.id.fecha);
          km=view.findViewById(R.id.km);
 
@@ -93,11 +94,43 @@ public class solicitud_preview extends Fragment {
          rutamaps=view.findViewById(R.id.rutamaps);
          aceptar=view.findViewById(R.id.aceptar);
 
-         if(cliente_datos!=null&reservacion!=null){
-             Log.e("id_reservacion",String.valueOf(reservacion.getId_reservacion()));
-             idsolicitud.setText(reservacion.getId_reservacion());
+
+        reservacion= (reservacion) getArguments().getSerializable("reservacion");
+        cliente_datos= reservacion.getCliente();
+
+         eliminar.setOnClickListener(new View.OnClickListener() {
+             @Override
+             public void onClick(View v) {
+                 Toast.makeText(getContext(),"Eliminando solicitud",Toast.LENGTH_LONG).show();
+             }
+         });
+        rutamaps.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle data = new Bundle();
+                data.putString("destino",reservacion.getDestinoLatLong());
+                data.putString("origen",reservacion.getOrigenLatLong());
+                Intent intentomaps= new Intent(getActivity(),MapapreviewRuta.class);
+                startActivity(intentomaps);
+            }
+        });
+
+
+
+         if(cliente_datos!=null&&reservacion!=null){
+
+             idsolicitud.setText(String.valueOf(reservacion.getId_reservacion()));
              cliente.setText(cliente_datos.getNombre()+" "+cliente_datos.getApellidos());
              numero.setText(cliente_datos.getTelefono());
+             correo.setText(cliente_datos.getCorreo());
+
+             pago.setText("$"+String.valueOf(reservacion.getMonto())+" MXN");
+             origencalles.setText(reservacion.getOrigen());
+             destinocalles.setText(reservacion.getDestino());
+             pisos.setText(String.valueOf(reservacion.getNumero_pisos()));
+             //estatus.setText(reservacion.getStatus());
+             fecha.setText(String.valueOf(reservacion.getFecha()));
+             km.setText(String.valueOf(reservacion.getDistancia())+" km");
          }
 
         return view;
