@@ -1,6 +1,7 @@
 package com.example.appmudanzas.RecyclerView;
 
 public class ChoferPojo {
+    private int id_prestador;
     private String nombre;//prestador_servicio
     private double capacidad_carga; //vehiculos
     private double precio;
@@ -10,11 +11,20 @@ public class ChoferPojo {
 
     }
 
-    public ChoferPojo(String nombre, double capacidad_carga, double precio, float valoracion) {
+    public ChoferPojo(int id_prestador, String nombre, double capacidad_carga, double precio, float valoracion) {
+        this.id_prestador = id_prestador;
         this.nombre = nombre;
         this.capacidad_carga = capacidad_carga;
         this.precio = precio;
         this.valoracion = valoracion;
+    }
+
+    public int getId() {
+        return id_prestador;
+    }
+
+    public void setId(int id_prestador) {
+        this.id_prestador = id_prestador;
     }
 
     public String getNombre() {
