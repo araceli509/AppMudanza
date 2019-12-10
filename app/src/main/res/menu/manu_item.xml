@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Principal" android:id="@+id/item_principal"/>
+    <item android:title="Cerrar Sesion" android:id="@+id/item_cerrar_sesion"/>
+</menu>

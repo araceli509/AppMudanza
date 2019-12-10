@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -32,7 +33,7 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     private String mParam1;
     private String mParam2;
 
-    private Button btn_registrar_prestador,btn_reset_password;
+    private Button btn_login_prestador,btn_registrar_prestador,btn_reset_password;
     private View vista;
     private OnFragmentInteractionListener mListener;
 
@@ -82,6 +83,15 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
                 fr.commit();
             }
         });
+
+        btn_login_prestador.setOnClickListener(new View.OnClickListener(){
+            @Override
+
+            public void onClick(View v){
+                Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
+                startActivity(i);
+            }
+        });
         return vista;
     }
 
@@ -115,6 +125,7 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     }
 
     private void crearComponentes(){
+        btn_login_prestador=vista.findViewById(R.id.btn_login_prestador);
         btn_registrar_prestador=vista.findViewById(R.id.btn_registrar_prestador);
         btn_reset_password=vista.findViewById(R.id.btn_reset_password);
     }
