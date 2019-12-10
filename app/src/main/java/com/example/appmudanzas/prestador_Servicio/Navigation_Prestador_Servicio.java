@@ -73,7 +73,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }
         else
         if (id==R.id.nav_secundario){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
         }
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);

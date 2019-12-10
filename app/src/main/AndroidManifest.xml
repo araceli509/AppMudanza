@@ -47,6 +47,7 @@
             android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
         <activity android:name=".Cotizacion.ContentClient" />
         <activity android:name=".MainActivity" />
+        <activity android:name=".prestador_Servicio.MapapreviewRuta"></activity>
         <activity android:name=".Login.LoginPrincipal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

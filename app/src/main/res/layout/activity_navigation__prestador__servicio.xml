@@ -25,6 +25,11 @@
         android:background="@color/c3"
         android:layout_gravity="start"
         app:itemTextColor="#fff"
-        />
+        >
+
+        <com.google.android.material.bottomnavigation.BottomNavigationView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+    </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

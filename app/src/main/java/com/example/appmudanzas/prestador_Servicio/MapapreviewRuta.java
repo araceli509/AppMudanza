@@ -2,6 +2,7 @@ package com.example.appmudanzas.prestador_Servicio;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.widget.Toast;
 
@@ -35,7 +36,7 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
     private GoogleMap mMap;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
-    String origen;
+    String origen,destino;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,8 +49,8 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
         request = Volley.newRequestQueue(getApplicationContext());
         Bundle datosRecuperados =savedInstanceState;
         if (datosRecuperados != null) {
-            origen=datosRecuperados.getString("origen");
-            String destino=datosRecuperados.getString("destino");
+            origen="17.0614154,-96.6962763";
+            String destino="17.0610309,-96.6936202";
 
             webServiceObtenerRuta(origen,destino);
 
@@ -71,14 +72,28 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-
+        origen="17.0614154,-96.6962763";
+        destino="17.0610309,-96.6936202";
+        webServiceObtenerRuta(origen,destino);
         String datos[]= origen.split(",");
         double Lat= Double.parseDouble(datos[0]);
         double Long= Double.parseDouble(datos[1]);
         LatLng origin = new LatLng(Lat, Long);
         mMap.addMarker(new MarkerOptions().position(origin).title("Ubicacion de la mudanza"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-        trazarRuta();
+
+
+        Handler handlerr = new Handler();
+        handlerr.postDelayed(new Runnable() {
+            public void run() {
+
+                // Esto ejecuta el metodo trazarRuta()
+                trazarRuta();
+
+            }
+        }, 1500);
+        handlerr.removeCallbacks(null);
+
     }
 
     private void webServiceObtenerRuta(String origenLatLong, String destinoLatLong) {
