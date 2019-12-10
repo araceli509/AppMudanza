@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:id="@+id/nav_view"
-        app:menu="@menu/menu_principal"
+        app:menu="@menu/menu_principal_prestador"
         app:headerLayout="@layout/cabecera"
         android:background="@color/c3"
         android:layout_gravity="start"

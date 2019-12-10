@@ -69,11 +69,11 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
         FragmentManager fragmentManager=getSupportFragmentManager();
 
-        if (id==R.id.nav_inicio) {
+        if (id==R.id.nav_principal) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment_Principal()).commit();
         }
         else
-        if (id==R.id.nav_galeria){
+        if (id==R.id.nav_secundario){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
         }
 
