@@ -14,124 +14,35 @@
         android:orientation="vertical">
 
 
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="0.5">
+
+        <TextView
             android:layout_width="match_parent"
-            android:layout_height="0dp"
-            android:layout_weight="0.5">
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:text="Datos Personales"
+            android:textSize="20dp" />
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:text="Datos Personales"
-                android:textSize="20dp" />
-
-
-        <ScrollView
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:orientation="vertical">
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="vertical">
 
-
-                    <TextView
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="10dp"
-                        android:layout_marginTop="20dp"
-                        android:text="Prestador de servicio"
-                        android:textColor="#241E1E"
-                        android:textSize="24sp"/>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="99dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Nombre:"
-                            android:textSize="24sp"/>
-
-                        <TextView
-                            android:id="@+id/nombrePrestador"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:text=""
-                            android:textSize="24sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="99dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Tel:"
-                            android:textSize="24sp"/>
-
-                        <TextView
-                            android:id="@+id/telPrestador"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:text=""
-                            android:textSize="24sp" />
-                    </LinearLayout>
-
-                    <LinearLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:orientation="horizontal">
-
-                        <TextView
-                            android:layout_width="99dp"
-                            android:layout_height="wrap_content"
-                            android:layout_marginLeft="20dp"
-                            android:layout_marginTop="5dp"
-                            android:fontFamily="sans-serif-black"
-                            android:text="Correo:"
-                            android:textSize="24sp"/>
-
-                        <TextView
-                            android:id="@+id/correoPrestador"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
-                            android:layout_weight="1"
-                            android:text=""
-                            android:textSize="24sp" />
-                    </LinearLayout>
-
-                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="Detalles"
-                    android:textColor="#32333C"
-                    android:textSize="24sp" />
+                    android:text="Prestador de servicio"
+                    android:textColor="#241E1E"
+                    android:textSize="20sp"/>
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -143,46 +54,19 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Tarifa:"
-                        android:textSize="24sp"/>
+                        android:text="Nombre:"
+                        android:textSize="20sp"/>
 
                     <TextView
-                        android:id="@+id/tarifaPrestador"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:fontFamily="sans-serif-black"
-                        android:text=""
-                        android:textColor="#4CAF50"
-                        android:textSize="24sp" />
-                </LinearLayout>
-
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="112dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
-                        android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Direccion:"
-                        android:textSize="24sp"/>
-
-                    <TextView
-                        android:id="@+id/direccionPrestador"
+                        android:id="@+id/nombrePrestador"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
@@ -193,66 +77,175 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Horario:"
-                        android:textSize="24sp"/>
+
+                        android:text="Tel:"
+                        android:textSize="20sp"/>
 
                     <TextView
-                        android:id="@+id/horarioPrestador"
+                        android:id="@+id/telPrestador"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="18sp" />
+                        android:textSize="20sp" />
                 </LinearLayout>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="140dp"
+                        android:layout_width="99dp"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Calificacion:"
-                        android:textSize="24sp"/>
 
-                    <androidx.appcompat.widget.AppCompatRatingBar
-                        android:id="@+id/ranking"
-                        android:isIndicator="true"
+                        android:text="Correo:"
+                        android:textSize="20sp"/>
+
+                    <TextView
+                        android:id="@+id/correoPrestador"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
-
-                <!--<LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="140dp"
                         android:layout_height="wrap_content"
-                        android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:fontFamily="sans-serif-black"
-                        android:text="Fotos del vehiculo:"
-                        android:textSize="24sp"/>
-
-                    <TextView
-                        android:id="@+id/fotosPrestador"
-                        android:layout_width="11dp"
-                        android:layout_height="42dp"
-                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
                         android:text=""
-                        android:textSize="24sp" />
-                </LinearLayout>-->
-
+                        android:textSize="20sp" />
+                </LinearLayout>
 
             </LinearLayout>
-        </ScrollView>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:text="Detalles"
+                android:textColor="#32333C"
+                android:textSize="20sp" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="99dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+
+                    android:text="Tarifa:"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/tarifaPrestador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="20sp" />
+            </LinearLayout>
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="112dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+
+                    android:text="Direccion:"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/direccionPrestador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="99dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+
+                    android:text="Horario:"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/horarioPrestador"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:text=""
+                    android:textSize="18sp" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+
+                    android:text="Calificacion:"
+                    android:textSize="20sp"/>
+
+                <androidx.appcompat.widget.AppCompatRatingBar
+                    android:id="@+id/ranking"
+                    android:isIndicator="true"
+                    android:layout_width="wrap_content"
+                    android:layout_height="46dp"
+                    android:scaleX="0.4"
+                    android:scaleY="0.5"
+                    />
+            </LinearLayout>
+
+            <!--<LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="140dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="20dp"
+                    android:layout_marginTop="5dp"
+                    android:fontFamily="sans-serif-black"
+                    android:text="Fotos del vehiculo:"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:id="@+id/fotosPrestador"
+                    android:layout_width="11dp"
+                    android:layout_height="42dp"
+                    android:layout_marginTop="5dp"
+                    android:text=""
+                    android:textSize="20sp" />
+            </LinearLayout>-->
+
+
+        </LinearLayout>
         <Button
             android:id="@+id/btnmapa"
             android:layout_width="match_parent"

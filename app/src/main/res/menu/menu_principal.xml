@@ -13,18 +13,6 @@
         android:icon="@drawable/baseline_filter_2_24"
         android:title="Galeria"/>
     <item
-        android:id="@+id/nav_acercade"
-        android:icon="@drawable/baseline_filter_3_24"
-        android:title="Acerca de"/>
-    <item
-        android:id="@+id/nav_dardealta"
-        android:icon="@drawable/baseline_filter_4_24"
-        android:title="Dar de alta"/>
-    <item
-        android:id="@+id/nav_mismudanzas"
-        android:icon="@drawable/baseline_filter_5_24"
-        android:title="Mis mudanzas"/>
-    <item
         android:id="@+id/nav_solicitudes"
         android:icon="@drawable/baseline_filter_6_24"
         android:title="Solicitudes"/>

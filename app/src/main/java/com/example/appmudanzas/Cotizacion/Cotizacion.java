@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,6 +30,7 @@ import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
@@ -36,11 +38,15 @@ import com.example.appmudanzas.RecyclerView.InicioFragment;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Cotizacion extends Fragment{
+public class Cotizacion extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
     private ProgressDialog progreso;
     private TextView txtOrigen;
     private TextView txtDestino;
@@ -56,9 +62,12 @@ public class Cotizacion extends Fragment{
     private String destino;
     private float km;
     private int id_prestador;
+    private int id_cliente;
     private FirebaseAuth mAuth;
 
     RequestQueue request;
+    private JsonObjectRequest jsonObjectRequest;
+
     public Cotizacion() {
         // Required empty public constructor
     }
@@ -84,6 +93,7 @@ public class Cotizacion extends Fragment{
         destinoLatLong = "";
         UPLOAD_URL="http://www.mudanzito.site/api/auth/reservacion/agregar_reservacion";
         getDatos();
+        obtenerID();
         request = Volley.newRequestQueue(getContext());
         btnPagar = v.findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener() {
@@ -102,7 +112,7 @@ public class Cotizacion extends Fragment{
         spinnerpisos = v.findViewById(R.id.spinnerpisos);
         ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
         spinnerpisos.setAdapter(adapter);
-            // Inflate the layout for this fragment
+        // Inflate the layout for this fragment
         return v;
     }
 
@@ -157,7 +167,7 @@ public class Cotizacion extends Fragment{
                 protected Map<String, String> getParams() throws AuthFailureError {
                     String deseaseguro = (switchseguro.isChecked())?"1":"0";
                     Map<String, String> params = new Hashtable<>();
-                    params.put("id_cliente","3");
+                    params.put("id_cliente",id_cliente+"");
                     params.put("id_prestador",id_prestador+"");
                     params.put("fecha_hora",obtenerFechaHora());
                     params.put("origen",origen);
@@ -180,6 +190,17 @@ public class Cotizacion extends Fragment{
 
     }
 
+    public void obtenerID() {
+        boolean conexion=compruebaConexion(getContext());
+        if(conexion) {
+            String url = "http://mudanzito.site/api/auth/cliente/busquedacliente_correo/" + mAuth.getCurrentUser().getEmail();
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        }else{
+            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+        }
+    }
+
     private String obtenerFechaHora (){
         String dia, mes, anio, hora, minutos, segundos, fecha_hora = "";
         final Calendar c  = Calendar.getInstance();
@@ -196,5 +217,22 @@ public class Cotizacion extends Fragment{
     public String ffh(String dato){
         dato = (dato.length() == 1) ? "0" + dato : dato;
         return dato;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        try {
+            JSONArray jsonArray = response.getJSONArray("cliente");
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            id_cliente = jsonObject.getInt("id_cliente");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
     }
 }

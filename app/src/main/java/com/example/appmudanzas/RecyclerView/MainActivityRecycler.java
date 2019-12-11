@@ -102,18 +102,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
         }
         else
-        if (id==R.id.nav_acercade) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new AcercaDeFragment()).commit();
-        }
-        else
-        if (id==R.id.nav_dardealta) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new DarDeAltaFragment()).commit();
-        }
-        else
-        if (id==R.id.nav_mismudanzas) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new MisMudanzasFragment()).commit();
-        }
-        else
         if (id==R.id.nav_solicitudes) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
         }
