@@ -138,12 +138,13 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
                 origen.setText(solicitudpojo.getOrigen());
                 destino.setText(solicitudpojo.getDestino());
                 monto.setText(solicitudpojo.getMonto()+"");
-                status.setText(solicitudpojo.getStatus());
                 estadop=Integer.parseInt(solicitudpojo.getStatus());
                 if(estadop==2){
                     btnpagar.setEnabled(true);
+                    status.setText("Aceptado");
                 }else{
                     btnpagar.setEnabled(false);
+                    status.setText("Pendiente");
                 }
         }else{
                 Toast.makeText(getContext(),"No hay solicitudes pendientes",Toast.LENGTH_LONG).show();
