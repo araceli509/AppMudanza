@@ -89,7 +89,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
         solicitudesV.setLayoutManager(new LinearLayoutManager(getContext()));
         listareservaciones= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
-        id_cliente=1;
+        id_cliente=7;
 
         cargarDatos();
 

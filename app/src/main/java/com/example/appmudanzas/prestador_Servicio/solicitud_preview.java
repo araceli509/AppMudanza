@@ -2,6 +2,8 @@ package com.example.appmudanzas.prestador_Servicio;
 
 import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -14,12 +16,22 @@ import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.reservacion;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
-public class solicitud_preview extends Fragment {
+
+public class solicitud_preview extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -48,6 +60,9 @@ public class solicitud_preview extends Fragment {
     private reservacion  reservacion;
     private cliente cliente_datos;
 
+    JsonObjectRequest jsonObjectRequest;
+    private RequestQueue requestQueue;
+
 
     // TODO: Rename and change types and number of parameters
     public static solicitud_preview newInstance(String param1, String param2) {
@@ -73,7 +88,7 @@ public class solicitud_preview extends Fragment {
     }
 
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container,
                              Bundle savedInstanceState) {
         View view =inflater.inflate(R.layout.fragment_solicitud_preview, container, false);
 
@@ -94,14 +109,16 @@ public class solicitud_preview extends Fragment {
          rutamaps=view.findViewById(R.id.rutamaps);
          aceptar=view.findViewById(R.id.aceptar);
 
-
+        requestQueue= Volley.newRequestQueue(getContext());
         reservacion= (reservacion) getArguments().getSerializable("reservacion");
         cliente_datos= reservacion.getCliente();
 
          eliminar.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
+                 cargarDatos();
                  Toast.makeText(getContext(),"Eliminando solicitud",Toast.LENGTH_LONG).show();
+
              }
          });
         rutamaps.setOnClickListener(new View.OnClickListener() {
@@ -112,6 +129,17 @@ public class solicitud_preview extends Fragment {
                 data.putString("origen",reservacion.getOrigenLatLong());
                 Intent intentomaps= new Intent(getActivity(),MapapreviewRuta.class);
                 startActivity(intentomaps);
+            }
+        });
+
+        aceptar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                aceptar();
+                Toast.makeText(getContext(),"Aceptando y procesando",Toast.LENGTH_LONG).show();
+              //cerrrar el fragment no provado quitar si marca error
+                getFragmentManager().beginTransaction().remove(getParentFragment()).commit();
+
             }
         });
 
@@ -158,6 +186,62 @@ public class solicitud_preview extends Fragment {
     public void onDetach() {
         super.onDetach();
         mListener = null;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    private void cargarDatos(){
+        boolean conexion=compruebaConexion(getContext());
+        if(conexion) {
+            String url = "http://mudanzito.site/api/auth/reservacion/eliminar_reservacion/" +reservacion.getId_reservacion();
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, this, this);
+            requestQueue.add(jsonObjectRequest);
+        }else{
+
+            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    private void aceptar(){
+        boolean conexion=compruebaConexion(getContext());
+        if(conexion) {
+            String url = "http://mudanzito.site/api/auth/reservacion/aceptar_reservacion/" +reservacion.getId_reservacion();
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.POST, url, null, this, this);
+            requestQueue.add(jsonObjectRequest);
+        }else{
+
+            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+        }
+
+    }
+
+    public static boolean compruebaConexion(Context context) {
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
+
+
+    @Override
+    public void onResponse(JSONObject response) {
+        try {
+            JSONArray jsonArray = response.getJSONArray("Exito");
+          Toast.makeText(getContext(),  jsonArray.getString(1),Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 
     /**

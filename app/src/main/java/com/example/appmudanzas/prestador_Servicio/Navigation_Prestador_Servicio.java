@@ -21,6 +21,8 @@ import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.FirebaseDatabase;
 
 public class Navigation_Prestador_Servicio extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
@@ -33,6 +35,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
+    FirebaseDatabase db;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,6 +78,8 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         if (id==R.id.nav_secundario){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
         }
+        //db= FirebaseDatabase.getInstance();
+        //FirebaseAuth.getInstance().signOut();
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
