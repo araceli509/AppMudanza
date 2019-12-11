@@ -11,11 +11,11 @@
     <item
         android:id="@+id/nav_galeria"
         android:icon="@drawable/baseline_filter_2_24"
-        android:title="Galeria"/>
-    <item
+        android:title="Pendientes"/>
+    <!--<item
         android:id="@+id/nav_solicitudes"
         android:icon="@drawable/baseline_filter_6_24"
-        android:title="Solicitudes"/>
+        android:title="Solicitudes"/>-->
         <item
             android:id="@+id/nav_cerrarsesion"
             android:icon="@drawable/baseline_filter_7_24"

@@ -101,10 +101,10 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         if (id==R.id.nav_galeria){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
         }
-        else
-        if (id==R.id.nav_solicitudes) {
+        /* else
+       if (id==R.id.nav_solicitudes) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
-        }
+        }*/
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);

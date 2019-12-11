@@ -65,6 +65,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     private int id_cliente;
     private FirebaseAuth mAuth;
 
+
     RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
 
