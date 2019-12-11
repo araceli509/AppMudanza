@@ -72,7 +72,8 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         FragmentManager fragmentManager=getSupportFragmentManager();
 
         if (id==R.id.nav_principal) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment_Principal()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
+
         }
         else
         if (id==R.id.nav_secundario){
