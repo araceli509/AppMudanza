@@ -1,41 +1,33 @@
-package com.example.appmudanzas.prestador_Servicio.navigation_prestador;
+package com.example.appmudanzas.RecyclerView;
 
 import android.content.Context;
-import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.Toast;
 
 import com.example.appmudanzas.R;
-import com.example.appmudanzas.prestador_Servicio.Login_Prestador_Servicio_Fragment;
-import com.example.appmudanzas.prestador_Servicio.Prestador_Servicio_Activity;
-import com.google.firebase.auth.FirebaseAuth;
 
 
-public class FragmentSecundario extends Fragment {
-
+public class DetallePagoFragment extends Fragment {
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
+
     private String mParam1;
     private String mParam2;
-    private OnFragmentInteractionListener mListener;
-    private View vista;
-    private Button btnCerrarSesionPrestador;
-    private FirebaseAuth mAuth;
-    public FragmentSecundario() {
 
+    private OnFragmentInteractionListener mListener;
+
+    public DetallePagoFragment() {
+        // Required empty public constructor
     }
 
-    public static FragmentSecundario newInstance(String param1, String param2) {
-        FragmentSecundario fragment = new FragmentSecundario();
+    public static DetallePagoFragment newInstance(String param1, String param2) {
+        DetallePagoFragment fragment = new DetallePagoFragment();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -55,20 +47,8 @@ public class FragmentSecundario extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-       vista=inflater.inflate(R.layout.fragment_fragment_secundario, container, false);
-       btnCerrarSesionPrestador=vista.findViewById(R.id.btnCerrarSesionPrestador);
-       mAuth=FirebaseAuth.getInstance();
-        Toast.makeText(getContext(),""+mAuth,Toast.LENGTH_LONG).show();
-       btnCerrarSesionPrestador.setOnClickListener(new View.OnClickListener() {
-           @Override
-           public void onClick(View v) {
-               mAuth.signOut();
-                Intent i= new Intent(getActivity(), Prestador_Servicio_Activity.class);
-                startActivity(i);
-           }
-       });
-
-        return vista;
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_detalle_pago, container, false);
     }
 
     public void onButtonPressed(Uri uri) {
@@ -95,7 +75,6 @@ public class FragmentSecundario extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 }
