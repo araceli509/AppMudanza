@@ -11,7 +11,12 @@
     <item
         android:id="@+id/nav_galeria"
         android:icon="@drawable/baseline_filter_2_24"
-        android:title="Mis Mudanzas"/>
+        android:title="Realizar Pagos"/>
+
+        <item
+            android:id="@+id/nav_acercade"
+            android:icon="@drawable/baseline_filter_3_24"
+            android:title="Ubicacion prestador"/>
     <!--<item
         android:id="@+id/nav_solicitudes"
         android:icon="@drawable/baseline_filter_6_24"
