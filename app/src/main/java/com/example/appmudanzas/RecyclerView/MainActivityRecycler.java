@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -15,6 +16,7 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
 import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
@@ -27,6 +29,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 , solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
 
     private TextView txtUsuario,txtCorreo;
+    private ImageView imagenPerfilCliente;
     private FirebaseAuth mAuth;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +57,10 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         txtUsuario.setText(mAuth.getCurrentUser().getDisplayName());
         txtCorreo=hView.findViewById(R.id.txtCorreoNav);
         txtCorreo.setText(mAuth.getCurrentUser().getEmail());
+        imagenPerfilCliente=hView.findViewById(R.id.imagePerfilCliente);
+        imagenPerfilCliente.setMaxHeight(30);
+        imagenPerfilCliente.setMaxWidth(30);
+        Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).into(imagenPerfilCliente);
         navigationView.setNavigationItemSelectedListener(this);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
