@@ -54,7 +54,7 @@ public class TiempoReal extends Fragment implements OnMapReadyCallback {
     String key;
     String emailChofer,nombreChofer;
     TextView txtInfChofer;
-    FloatingActionButton fabCancel;
+//    FloatingActionButton fabCancel;
 
     /*@Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,13 +75,13 @@ public class TiempoReal extends Fragment implements OnMapReadyCallback {
         map = googleMap;
         posicionUsuario();
         permisoUbicacionChofer();
-        fabCancel.setOnClickListener(new View.OnClickListener() {
+      /*  fabCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                // Intent intent = new Intent(MapaUsuarioTiempoReal.this,PrincipalLogin.class);
                // startActivity(intent);
             }
-        });
+        });*/
     }
 
     private void posicionUsuario() {
@@ -129,7 +129,6 @@ public class TiempoReal extends Fragment implements OnMapReadyCallback {
                     if (permiso&&llaveusuario.equals(key)) {
                         emailChofer=snapshot.child("email").getValue(String.class);
                         nombreChofer=snapshot.child("name").getValue(String.class);
-                        txtInfChofer.setText("Informacion del chofer\nLe atiende: "+nombreChofer+"\n"+"Correo: "+emailChofer);
                         MarkerOptions markerOptions = new MarkerOptions();
                         markerOptions.position(new LatLng(latitudDestino, longitudDestino)).title("Chofer").icon(BitmapDescriptorFactory.fromResource(R.mipmap.camion));
                         tmprealTimeMarkers.add(map.addMarker(markerOptions));
