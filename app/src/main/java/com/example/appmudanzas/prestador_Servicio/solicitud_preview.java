@@ -137,6 +137,8 @@ public class solicitud_preview extends Fragment implements Response.Listener<JSO
             public void onClick(View v) {
                 aceptar();
                 Toast.makeText(getContext(),"Aceptando y procesando",Toast.LENGTH_LONG).show();
+              //cerrrar el fragment no provado quitar si marca error
+
 
             }
         });
