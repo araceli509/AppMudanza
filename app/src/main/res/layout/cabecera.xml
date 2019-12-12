@@ -14,12 +14,13 @@
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:id="@+id/imagePerfilCliente"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
         android:contentDescription="@string/nav_cabecera_desc"
         android:paddingTop="@dimen/nav_cabecera_espacio_vertical"
-        app:srcCompat="@drawable/ser_tak"/>
+        app:srcCompat="@drawable/ser_tak"
+        android:layout_marginBottom="20dp"/>
 
     <TextView
         android:layout_width="match_parent"

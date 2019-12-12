@@ -13,8 +13,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
@@ -24,18 +26,24 @@ import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.FirebaseDatabase;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class Navigation_Prestador_Servicio extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
         Solicitudes_Servicio.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
-        FragmentSecundario.OnFragmentInteractionListener{
+        FragmentSecundario.OnFragmentInteractionListener,
+        Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener{
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
     NavigationView navigationView;
     ActionBarDrawerToggle actionBarDrawerToggle;
     FirebaseDatabase db;
+    private TextView txtPrestador,txtCorreoPrestador;
+    private FirebaseAuth mAuth;
+    CircleImageView imagenPerfilPrestador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,7 +51,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-
+        mAuth=FirebaseAuth.getInstance();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -59,6 +67,15 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        View hView = navigationView.getHeaderView(0);
+        //txtPrestador=hView.findViewById(R.id.txtUsuarioNav);
+        //txtPrestador.setText(mAuth.getCurrentUser().getDisplayName());
+        txtCorreoPrestador=hView.findViewById(R.id.txtCorreoNav);
+        txtCorreoPrestador.setText(mAuth.getCurrentUser().getEmail());
+        //imagenPerfilPrestador=hView.findViewById(R.id.imagenPerfilPrestador);
+        //imagenPerfilPrestador.setMaxHeight(30);
+        //imagenPerfilPrestador.setMaxWidth(30);
+        //Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).into(imagenPerfilPrestador);
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment_Principal()).commit();
@@ -77,10 +94,8 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }
         else
         if (id==R.id.nav_secundario){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
         }
-        //db= FirebaseDatabase.getInstance();
-        //FirebaseAuth.getInstance().signOut();
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
