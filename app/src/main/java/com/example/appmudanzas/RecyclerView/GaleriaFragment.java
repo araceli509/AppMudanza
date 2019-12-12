@@ -52,13 +52,9 @@ import java.util.List;
 
 //ara
 public class GaleriaFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
-    private TextView fecha_hora;
-    private TextView origen;
-    private TextView destino;
-    private TextView monto;
-    private TextView status;
-    private int id_usuario,estadop;
     private FirebaseAuth mAuth;
+    private String montoPago;
+
 
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
@@ -87,21 +83,22 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         solicitudes = new ArrayList<>();
         keys = new ArrayList<>();
-        obtenerDatos();
         adapter = new SolicitudAdapter(solicitudes);
         recyclerView.setAdapter(adapter);
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                /*Bundle datosAEnviar = new Bundle();
-                datosAEnviar.putInt("id_prestador", choferes.get(recyclerView.getChildAdapterPosition(v)).getId());
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                PopUpChofer fragmento = new PopUpChofer();
-                fragmento.setArguments(datosAEnviar);
-                fragmentTransaction.replace(R.id.contenedor, fragmento);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();*/
+                if(solicitudes.get(recyclerView.getChildAdapterPosition(v)).getStatus().equals("2")){
+                montoPago= solicitudes.get(recyclerView.getChildAdapterPosition(v)).getMonto();
+                Bundle b= new Bundle();
+                b.putString("monto",montoPago);
+                FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                PayPalFragment paypal= new PayPalFragment();
+                paypal.setArguments(b);
+                fragmentManager.beginTransaction().replace(R.id.contenedor, paypal).commit();
+            }else{
+                    Toast.makeText(getContext(),"Solicitud Pendiente",Toast.LENGTH_LONG).show();
+                }
             }
         });
         obtenerDatos();

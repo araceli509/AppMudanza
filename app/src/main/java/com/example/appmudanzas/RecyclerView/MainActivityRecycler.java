@@ -22,7 +22,7 @@ import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-, solicitud_preview.OnFragmentInteractionListener{
+, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
 
 
 
@@ -30,7 +30,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main_recycler);
-
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
