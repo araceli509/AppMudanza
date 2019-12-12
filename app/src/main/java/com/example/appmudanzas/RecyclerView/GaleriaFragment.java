@@ -50,8 +50,9 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     private TextView status;
     private Button btnpagar;
     private int id_usuario,estadop;
+    private String montoPago;
     private FirebaseAuth mAuth;
-
+    private String bandera="";
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
 
@@ -64,6 +65,8 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Bundle b= new Bundle();
+        b.getString("bandera",bandera);
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_galeria, container, false);
         fecha_hora = v.findViewById(R.id.fecha_hora);
@@ -73,10 +76,24 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
         status = v.findViewById(R.id.status);
         btnpagar = v.findViewById(R.id.btnmapa);
         mAuth = FirebaseAuth.getInstance();
+        Toast.makeText(getContext(),"bandera"+bandera,Toast.LENGTH_LONG).show();
+        if(bandera.equals("false")){
+            btnpagar.setEnabled(true);
+        }else if(bandera.equals("true")){
+            btnpagar.setEnabled(false);
+            btnpagar.setText("PAGADO");
+        }
+
         btnpagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-              //escribir donde ir
+                montoPago=monto.getText().toString();
+                Bundle b= new Bundle();
+                b.putString("monto",montoPago);
+                FragmentManager fragmentManager=getActivity().getSupportFragmentManager();
+                PayPalFragment paypal= new PayPalFragment();
+                paypal.setArguments(b);
+                fragmentManager.beginTransaction().replace(R.id.contenedor, paypal).commit();
             }
         });
         obtenerDatos();
@@ -140,10 +157,10 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
                 monto.setText(solicitudpojo.getMonto()+"");
                 estadop=Integer.parseInt(solicitudpojo.getStatus());
                 if(estadop==2){
-                    btnpagar.setEnabled(true);
+                    //btnpagar.setEnabled(true);
                     status.setText("Aceptado");
                 }else{
-                    btnpagar.setEnabled(false);
+                    //btnpagar.setEnabled(false);
                     status.setText("Pendiente");
                 }
         }else{
