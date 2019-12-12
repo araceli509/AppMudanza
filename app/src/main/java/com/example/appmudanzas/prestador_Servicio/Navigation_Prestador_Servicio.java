@@ -33,7 +33,8 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         Solicitudes_Servicio.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
-        FragmentSecundario.OnFragmentInteractionListener{
+        FragmentSecundario.OnFragmentInteractionListener,
+        Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener{
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -93,7 +94,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }
         else
         if (id==R.id.nav_secundario){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
         }
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);

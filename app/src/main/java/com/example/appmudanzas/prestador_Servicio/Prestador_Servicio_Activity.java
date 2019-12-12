@@ -12,6 +12,8 @@ import android.os.Bundle;
 import com.example.appmudanzas.Cotizacion.Cotizacion;
 import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
+import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
 
 public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
@@ -24,7 +26,9 @@ public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Foto_Frontal_Vehiculo_Fragment.OnFragmentInteractionListener,
         Foto_Lateral_Vehiculo_Fragment.OnFragmentInteractionListener,
         Foto_Trasera_Vehiculo_Fragment.OnFragmentInteractionListener,
-        Reestablecer_Password_Fragment.OnFragmentInteractionListener{
+        Reestablecer_Password_Fragment.OnFragmentInteractionListener,
+        FragmentSecundario.OnFragmentInteractionListener,
+        Fragment_Principal.OnFragmentInteractionListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
