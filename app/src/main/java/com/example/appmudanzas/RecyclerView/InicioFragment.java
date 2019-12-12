@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -56,7 +57,6 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     Bundle extras;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
-
     public InicioFragment() {
     }
 
@@ -72,6 +72,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_inicio, container, false);
+
         request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
@@ -82,6 +83,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         obtenerDatos();
         adapter = new ChoferAdapter(choferes);
         recyclerView.setAdapter(adapter);
+
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

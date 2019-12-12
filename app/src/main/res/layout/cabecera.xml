@@ -13,7 +13,6 @@
     android:paddingBottom="@dimen/activity_margen_vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
-
     <ImageView
         android:id="@+id/imageView"
         android:layout_width="wrap_content"
@@ -27,10 +26,12 @@
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_cabecera_espacio_vertical"
         android:text="@string/nav_titulo_cabecera"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:id="@+id/txtUsuarioNav"/>
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/txtCorreoNav"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="@string/nav_subtitulo_cabecera"/>
+        android:text="@string/nav_subtitulo_cabecera"
+        />
 </LinearLayout>
