@@ -65,7 +65,7 @@
             android:id="@+id/txtCapacidadCarga"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Capacidad de carga (Toneladas)"
+            android:hint="Metros cuadrados (m3)"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 

@@ -197,7 +197,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                     params.put("telefono",telefono);
                     params.put("correo",correo);
                     params.put("codigo_postal",codigo_postal);
-                    params.put("foto_perfil",(link+nombreImagen));
+                    params.put("foto_perfil",(nombreImagen));
                     return params;
                 }
             };

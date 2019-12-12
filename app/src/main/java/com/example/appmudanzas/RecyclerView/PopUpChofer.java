@@ -16,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,8 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.CloudinaryClient;
+import com.example.appmudanzas.mCloud.PicassoClient;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -44,7 +47,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
-
+    private ImageView imageVehiculoPrestador,imageVehiculoLateral,imageVehiculoTrasera;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
 
@@ -73,6 +76,10 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         horarioPrestador = v.findViewById(R.id.horarioPrestador);
         ranking = v.findViewById(R.id.ranking);
         btnmapa = v.findViewById(R.id.btnmapa);
+        imageVehiculoPrestador=v.findViewById(R.id.imageVehiculoFrontal);
+        imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
+        imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
+
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -139,6 +146,10 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         direccionPrestador.setText(choferpojo.getDireccion());
         horarioPrestador.setText(choferpojo.horario());
         ranking.setRating(choferpojo.getValoracion());
+        PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_frontal/"+choferpojo.getFoto_frontal()),imageVehiculoPrestador);
+        PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_lateral/"+choferpojo.getFoto_lateral()),imageVehiculoLateral);
+        PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_trasera/"+choferpojo.getFoto_trasera()),imageVehiculoTrasera);
+
         //aqui le agregas los demas datos para el auto
     }
 

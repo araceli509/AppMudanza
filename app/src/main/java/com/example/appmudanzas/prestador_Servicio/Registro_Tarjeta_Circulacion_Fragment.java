@@ -303,9 +303,9 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new Hashtable<>();
                 params.put("id_prestador",id_prestador);
-                params.put("ine", ("https://res.cloudinary.com/ito/image/upload/ine/"+ine));
-                params.put("licencia_vigente",("https://res.cloudinary.com/ito/image/upload/licencia_vigente/"+licencia_vigente));
-                params.put("tarjeta_circulacion", (link+nombreImagen));
+                params.put("ine", ine);
+                params.put("licencia_vigente",licencia_vigente);
+                params.put("tarjeta_circulacion", nombreImagen);
                 return params;
             }
         };

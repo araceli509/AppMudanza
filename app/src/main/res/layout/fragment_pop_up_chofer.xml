@@ -3,46 +3,126 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".RecyclerView.PopUpChofer"
     android:orientation="vertical"
     android:padding="20dp"
-    >
+    tools:context=".RecyclerView.PopUpChofer">
 
-    <LinearLayout
+    <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical">
-
-
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_weight="0.5">
-
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:gravity="center"
-            android:text="Datos Personales"
-            android:textSize="20dp" />
-
+        android:layout_height="match_parent">
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:orientation="vertical">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="Datos Personales"
+                android:layout_gravity="center"
+                android:textSize="20dp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 android:orientation="vertical">
 
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="vertical">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:layout_marginTop="20dp"
+                        android:gravity="center"
+                        android:text="Prestador de servicio"
+                        android:textColor="#241E1E"
+                        android:textSize="20sp" />
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="99dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Nombre:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/nombrePrestador"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="99dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Tel:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/telPrestador"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="horizontal">
+
+                        <TextView
+                            android:layout_width="99dp"
+                            android:layout_height="wrap_content"
+                            android:layout_marginLeft="20dp"
+                            android:layout_marginTop="5dp"
+                            android:text="Correo:"
+                            android:textSize="20sp" />
+
+                        <TextView
+                            android:id="@+id/correoPrestador"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_marginTop="5dp"
+                            android:layout_weight="1"
+                            android:text=""
+                            android:textSize="20sp" />
+                    </LinearLayout>
+
+                </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="10dp"
                     android:layout_marginTop="20dp"
-                    android:text="Prestador de servicio"
-                    android:textColor="#241E1E"
-                    android:textSize="20sp"/>
+                    android:gravity="center"
+                    android:text="Detalles"
+                    android:textColor="#32333C"
+                    android:textSize="20sp" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -54,17 +134,43 @@
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-                        android:text="Nombre:"
-                        android:textSize="20sp"/>
+
+                        android:text="Tarifa:"
+                        android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/nombrePrestador"
+                        android:id="@+id/tarifaPrestador"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:text=""
                         android:textSize="20sp" />
+                </LinearLayout>
+
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="112dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="20dp"
+                        android:layout_marginTop="5dp"
+
+                        android:text="Direccion:"
+                        android:textSize="20sp" />
+
+                    <TextView
+                        android:id="@+id/direccionPrestador"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:text=""
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -78,17 +184,17 @@
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
 
-                        android:text="Tel:"
-                        android:textSize="20sp"/>
+                        android:text="Horario:"
+                        android:textSize="20sp" />
 
                     <TextView
-                        android:id="@+id/telPrestador"
+                        android:id="@+id/horarioPrestador"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginTop="5dp"
                         android:layout_weight="1"
                         android:text=""
-                        android:textSize="20sp" />
+                        android:textSize="18sp" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -97,137 +203,87 @@
                     android:orientation="horizontal">
 
                     <TextView
-                        android:layout_width="99dp"
+                        android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginLeft="20dp"
                         android:layout_marginTop="5dp"
-
-                        android:text="Correo:"
-                        android:textSize="20sp"/>
-
-                    <TextView
-                        android:id="@+id/correoPrestador"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:text=""
+                        android:text="Calificacion:"
                         android:textSize="20sp" />
+
+                    <androidx.appcompat.widget.AppCompatRatingBar
+                        android:id="@+id/ranking"
+                        android:layout_width="wrap_content"
+                        android:layout_height="46dp"
+                        android:isIndicator="true"
+                        android:scaleX="0.4"
+                        android:scaleY="0.5" />
                 </LinearLayout>
 
             </LinearLayout>
 
-            <TextView
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Informacion del vehiculo"
+                    android:gravity="center"
+                    android:textColor="#32333C"
+                    android:textSize="20sp"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Foto Frontal"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/imageVehiculoFrontal"
+                    android:src="@drawable/img_base"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Foto Lateral"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/imageVehiculoLateral"
+                    android:src="@drawable/img_base"/>
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:text="Foto Trasera"/>
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2"
+                    android:id="@+id/imageVehiculoTrasera"
+                    android:src="@drawable/img_base"/>
+
+            </LinearLayout>
+
+            <Button
+                android:id="@+id/btnmapa"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:text="Detalles"
-                android:textColor="#32333C"
-                android:textSize="20sp" />
+                android:text="Trazar ruta" />
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="99dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-
-                    android:text="Tarifa:"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/tarifaPrestador"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textSize="20sp" />
-            </LinearLayout>
+        </LinearLayout>
+    </ScrollView>
 
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="112dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-
-                    android:text="Direccion:"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/direccionPrestador"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textSize="18sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="99dp"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-
-                    android:text="Horario:"
-                    android:textSize="20sp"/>
-
-                <TextView
-                    android:id="@+id/horarioPrestador"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:text=""
-                    android:textSize="18sp" />
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="horizontal">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
-
-                    android:text="Calificacion:"
-                    android:textSize="20sp"/>
-
-                <androidx.appcompat.widget.AppCompatRatingBar
-                    android:id="@+id/ranking"
-                    android:isIndicator="true"
-                    android:layout_width="wrap_content"
-                    android:layout_height="46dp"
-                    android:scaleX="0.4"
-                    android:scaleY="0.5"
-                    />
-            </LinearLayout>
-
-       </LinearLayout>
-        <Button
-            android:id="@+id/btnmapa"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Trazar ruta" />
-
-
-    </LinearLayout>
 </LinearLayout>
