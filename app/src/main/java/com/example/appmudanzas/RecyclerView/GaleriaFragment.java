@@ -20,6 +20,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 import androidx.fragment.app.FragmentTransaction;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
 import com.android.volley.Request;
@@ -27,19 +29,26 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
+import com.example.appmudanzas.Cotizacion.SolicitudAdapter;
 import com.example.appmudanzas.Cotizacion.SolicitudPojo;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.android.material.appbar.AppBarLayout;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
+
+import java.util.ArrayList;
+import java.util.List;
 
 //ara
 public class GaleriaFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
@@ -48,12 +57,17 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     private TextView destino;
     private TextView monto;
     private TextView status;
-    private Button btnpagar;
     private int id_usuario,estadop;
     private FirebaseAuth mAuth;
 
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
+
+    RecyclerView recyclerView;
+    List<SolicitudPojo> solicitudes;
+    SolicitudAdapter adapter;
+    DatabaseReference database;
+    List<String> keys;
 
 
     public GaleriaFragment() {
@@ -66,17 +80,28 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_galeria, container, false);
-        fecha_hora = v.findViewById(R.id.fecha_hora);
-        origen = v.findViewById(R.id.origen);
-        destino = v.findViewById(R.id.destino);
-        monto = v.findViewById(R.id.monto);
-        status = v.findViewById(R.id.status);
-        btnpagar = v.findViewById(R.id.btnmapa);
+        request= Volley.newRequestQueue(getContext());
+        database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-        btnpagar.setOnClickListener(new View.OnClickListener() {
+        recyclerView = v.findViewById(R.id.recycler);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        solicitudes = new ArrayList<>();
+        keys = new ArrayList<>();
+        obtenerDatos();
+        adapter = new SolicitudAdapter(solicitudes);
+        recyclerView.setAdapter(adapter);
+        adapter.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view) {
-              //escribir donde ir
+            public void onClick(View v) {
+                /*Bundle datosAEnviar = new Bundle();
+                datosAEnviar.putInt("id_prestador", choferes.get(recyclerView.getChildAdapterPosition(v)).getId());
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                PopUpChofer fragmento = new PopUpChofer();
+                fragmento.setArguments(datosAEnviar);
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();*/
             }
         });
         obtenerDatos();
@@ -127,30 +152,15 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     @Override
     public void onResponse(JSONObject response) {
         Gson gson = new GsonBuilder().create();
-        SolicitudPojo solicitudpojo= null;
-
         try {
             JSONArray json = response.getJSONArray("reservacion");
-            if (json.length() > 0) {
-            String solicitud = json.getString(0);
-            solicitudpojo = gson.fromJson(solicitud,SolicitudPojo.class);
-                fecha_hora.setText(solicitudpojo.getFecha_hora());
-                origen.setText(solicitudpojo.getOrigen());
-                destino.setText(solicitudpojo.getDestino());
-                monto.setText(solicitudpojo.getMonto()+"");
-                estadop=Integer.parseInt(solicitudpojo.getStatus());
-                if(estadop==2){
-                    btnpagar.setEnabled(true);
-                    status.setText("Aceptado");
-                }else{
-                    btnpagar.setEnabled(false);
-                    status.setText("Pendiente");
-                }
-        }else{
-                Toast.makeText(getContext(),"No hay solicitudes pendientes",Toast.LENGTH_LONG).show();
-
+            for(int i = 0; i<json.length(); i++ ) {
+                String solicitud = json.getString(i);
+                SolicitudPojo solicitudPojo = gson.fromJson(solicitud,SolicitudPojo.class);
+                solicitudes.add(solicitudPojo);
             }
-    } catch (JSONException e) {
+            adapter.notifyDataSetChanged();
+        } catch (JSONException e) {
             e.printStackTrace();
         }
 

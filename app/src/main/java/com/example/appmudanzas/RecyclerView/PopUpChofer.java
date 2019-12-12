@@ -139,6 +139,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         direccionPrestador.setText(choferpojo.getDireccion());
         horarioPrestador.setText(choferpojo.horario());
         ranking.setRating(choferpojo.getValoracion());
+        //aqui le agregas los demas datos para el auto
     }
 
     public interface OnFragmentInteractionListener {

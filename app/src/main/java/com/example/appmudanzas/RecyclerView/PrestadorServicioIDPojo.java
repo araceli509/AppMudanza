@@ -12,12 +12,16 @@ public class PrestadorServicioIDPojo {
     private double precio;
     private String hora_inicio;
     private String hora_salida;
+    private String foto_frontal;
+    private String foto_lateral;
+    private String foto_trasera;
+    private int capacidad_carga;
+    private String placas;
 
     public PrestadorServicioIDPojo() {
     }
 
-    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo,
-                                   String codigo_postal, String foto_perfil, float valoracion,  double precio,String hora_inicio,String hora_salida) {
+    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int capacidad_carga, String placas) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -29,8 +33,52 @@ public class PrestadorServicioIDPojo {
         this.precio = precio;
         this.hora_inicio = hora_inicio;
         this.hora_salida = hora_salida;
+        this.foto_frontal = foto_frontal;
+        this.foto_lateral = foto_lateral;
+        this.foto_trasera = foto_trasera;
+        this.capacidad_carga = capacidad_carga;
+        this.placas = placas;
     }
 
+    public String getFoto_frontal() {
+        return foto_frontal;
+    }
+
+    public void setFoto_frontal(String foto_frontal) {
+        this.foto_frontal = foto_frontal;
+    }
+
+    public String getFoto_lateral() {
+        return foto_lateral;
+    }
+
+    public void setFoto_lateral(String foto_lateral) {
+        this.foto_lateral = foto_lateral;
+    }
+
+    public String getFoto_trasera() {
+        return foto_trasera;
+    }
+
+    public void setFoto_trasera(String foto_trasera) {
+        this.foto_trasera = foto_trasera;
+    }
+
+    public int getCapacidad_carga() {
+        return capacidad_carga;
+    }
+
+    public void setCapacidad_carga(int capacidad_carga) {
+        this.capacidad_carga = capacidad_carga;
+    }
+
+    public String getPlacas() {
+        return placas;
+    }
+
+    public void setPlacas(String placas) {
+        this.placas = placas;
+    }
 
     public String getNombre() {
         return nombre;

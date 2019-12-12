@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,42 +20,33 @@
 
             <TextView
                 android:id="@+id/fecha_hora"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="18dp"
-                android:text="fecha_hora" />
-            <TextView
-                android:id="@+id/textview_choferes"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="18dp"
-                android:text="Nombre:"/>
+                android:text="Fecha:"/>
             <TextView
-                android:id="@+id/tonelada"
+                android:id="@+id/origen"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:text="Capacidad de carga:"/>
-            <TextView
-                android:id="@+id/pesoskm"
-                android:layout_width="wrap_content"
-                android:layout_height="match_parent"
-                android:text="Precio por km:"/>
+                android:text="Origen:"/>
 
-            <androidx.appcompat.widget.AppCompatRatingBar
-                android:id="@+id/ranking"
-                android:isIndicator="true"
+            <TextView
+                android:id="@+id/destino"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:scaleX="0.6"
-                android:scaleY="0.6"
-                android:transformPivotX="0dp"
-                />
+                android:layout_height="match_parent"
+                android:text="Destino:"/>
+
+            <TextView
+                android:id="@+id/monto"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Monto:"/>
+
+            <TextView
+                android:id="@+id/estado"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:text="Estado:"/>
         </LinearLayout>
-
     </LinearLayout>
-
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:layout_marginTop="11dp"/>
 </LinearLayout>

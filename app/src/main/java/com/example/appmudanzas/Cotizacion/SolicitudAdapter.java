@@ -24,7 +24,7 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
     @NonNull
     @Override
     public SolicitudAdapter.PosicionSolicitudViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fila_chofer, parent, false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.fila_solicitud, parent, false);
         v.setOnClickListener(this);
         SolicitudAdapter.PosicionSolicitudViewHolder holder = new SolicitudAdapter.PosicionSolicitudViewHolder(v);
         return holder;
@@ -33,10 +33,15 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
     @Override
     public void onBindViewHolder(@NonNull SolicitudAdapter.PosicionSolicitudViewHolder holder, int position) {
         SolicitudPojo reservacion = solicitud.get(position);
-        //holder.txtnombre.setText("Nombre: " + cliente.getNombre());
-        //holder.txtcapacidad.setText("Capacidad de carga: " + cliente.isCapacidad_carga());
-        //holder.txtprecio.setText("Precio por km: " + cliente.getPrecio());
-        //holder.ranking.setRating(cliente.getValoracion());
+        holder.fecha_hora.setText("Fecha: " + reservacion.getFecha_hora());
+        holder.origen.setText("Origen: " + reservacion.getOrigen());
+        holder.destino.setText("Destino: " + reservacion.getDestino());
+        holder.monto.setText("Monto: " + reservacion.getMonto());
+        if(reservacion.getStatus().equals("2")){
+            holder.estado.setText("Estado: Aceptada");
+        }else{
+            holder.estado.setText("Estado: Pendiente");
+        }
     }
 
 
@@ -57,17 +62,19 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
         }
     }
     public static class PosicionSolicitudViewHolder extends RecyclerView.ViewHolder {
-        TextView txtnombre;
-        TextView txtcapacidad;
-        TextView txtprecio;
-        AppCompatRatingBar ranking;
 
+        TextView fecha_hora;
+        TextView origen;
+        TextView destino;
+        TextView monto;
+        TextView estado;
         public PosicionSolicitudViewHolder(View itemView) {
             super(itemView);
-            txtnombre = itemView.findViewById(R.id.textview_choferes);
-            txtcapacidad = itemView.findViewById(R.id.tonelada);
-            txtprecio = itemView.findViewById(R.id.pesoskm);
-            ranking = itemView.findViewById(R.id.ranking);
+            fecha_hora = itemView.findViewById(R.id.fecha_hora);
+            origen = itemView.findViewById(R.id.origen);
+            destino = itemView.findViewById(R.id.destino);
+            monto = itemView.findViewById(R.id.monto);
+            estado = itemView.findViewById(R.id.estado);
 
         }
     }
