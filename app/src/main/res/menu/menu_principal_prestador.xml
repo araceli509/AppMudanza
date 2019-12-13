@@ -9,8 +9,17 @@
             android:icon="@drawable/baseline_filter_1_24"
             android:title="Mis solicitudes"/>
         <item
-            android:id="@+id/nav_secundario"
+            android:id="@+id/nav_Serviciosextra"
             android:icon="@drawable/baseline_filter_2_24"
+            android:title="Servicios extra"/>
+        <item
+            android:id="@+id/nav_mudanzas"
+            android:icon="@drawable/baseline_filter_3_24"
+            android:title="Mudanzas"/>
+
+        <item
+            android:id="@+id/nav_secundario"
+            android:icon="@drawable/baseline_filter_4_24"
             android:title="Cerrar Sesion"/>
 
     </group>

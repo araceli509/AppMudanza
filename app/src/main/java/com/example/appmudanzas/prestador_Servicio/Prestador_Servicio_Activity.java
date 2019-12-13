@@ -12,10 +12,12 @@ import android.os.Bundle;
 import com.example.appmudanzas.Cotizacion.Cotizacion;
 import com.example.appmudanzas.Cotizacion.MapsClienteFragment;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
 
 public class Prestador_Servicio_Activity extends AppCompatActivity implements
+        ServiciosExtraFragment.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
         Registro_Datos_Fragment.OnFragmentInteractionListener,
         Registro_Ine_Fragment.OnFragmentInteractionListener,

@@ -27,17 +27,6 @@
             android:paddingBottom="20dp"
             android:text="lista de prestadores"
             android:textSize="30dp"/>
-
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/fabfiltro"
-            android:layout_width="50dp"
-            android:layout_height="50dp"
-            android:clickable="true"
-            android:contextClickable="true"
-            android:src="@drawable/filtro"
-            app:backgroundTint="@color/colorBackground"
-            app:fabSize="auto"
-            app:maxImageSize="30dp" />
     </LinearLayout>
 
         <TextView

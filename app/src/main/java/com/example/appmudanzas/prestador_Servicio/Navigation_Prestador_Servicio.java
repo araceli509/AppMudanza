@@ -29,6 +29,7 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -47,12 +48,14 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Navigation_Prestador_Servicio extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
+
         Solicitudes_Servicio.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
-         Response.Listener<JSONObject>, Response.ErrorListener{
+         Response.Listener<JSONObject>, Response.ErrorListener
+        {
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -128,6 +131,10 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         else
         if (id==R.id.nav_secundario){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
+        }else if(id==R.id.nav_Serviciosextra){
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new ServiciosExtraFragment()).commit();
+
+
         }
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);

@@ -44,6 +44,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private TextView tarifaPrestador;
     private TextView direccionPrestador;
     private TextView horarioPrestador;
+    private TextView opinion_cli;
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
@@ -82,10 +83,30 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
         imageFotoPerfil=v.findViewById(R.id.imageFotoPerfil);
+<<<<<<< HEAD
         vehiculoLargo=v.findViewById(R.id.vehiculoLargo);
         vehiculoAncho=v.findViewById(R.id.vehiculoAncho);
         vehiculoAlto=v.findViewById(R.id.vehiculoAlto);
         volumen=v.findViewById(R.id.volumen);
+=======
+        opinion_cli=v.findViewById(R.id.opiniones);
+
+        opinion_cli.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle datosAEnviar = new Bundle();
+                datosAEnviar.putInt("id_prestador", id_prestador = getArguments().getInt("id_prestador"));
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                OpinionesCliente fragmento = new OpinionesCliente();
+                fragmento.setArguments(datosAEnviar);
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+>>>>>>> 6c58a0295e2af1338d88227cba3146ae5b6aa5d6
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
