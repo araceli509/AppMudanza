@@ -27,6 +27,7 @@ import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.Cotizacion.Cotizacion;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -57,6 +58,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     Bundle extras;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
+    FloatingActionButton fabfiltro;
     public InicioFragment() {
     }
 
@@ -83,6 +85,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         obtenerDatos();
         adapter = new ChoferAdapter(choferes);
         recyclerView.setAdapter(adapter);
+        fabfiltro = v.findViewById(R.id.fabfiltro);;
 
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override

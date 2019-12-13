@@ -8,16 +8,18 @@
     tools:context=".RecyclerView.InicioFragment">
 
 
-    <ImageView
-
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"/>
     <LinearLayout
         android:layout_width="match_parent"
         android:orientation="vertical"
         android:layout_height="wrap_content"
         android:gravity="center">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_height="match_parent"
+        android:gravity="center">
+
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
@@ -25,6 +27,18 @@
             android:paddingBottom="20dp"
             android:text="lista de prestadores"
             android:textSize="30dp"/>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/fabfiltro"
+            android:layout_width="50dp"
+            android:layout_height="50dp"
+            android:clickable="true"
+            android:contextClickable="true"
+            android:src="@drawable/filtro"
+            app:backgroundTint="@color/colorBackground"
+            app:fabSize="auto"
+            app:maxImageSize="30dp" />
+    </LinearLayout>
 
         <TextView
             android:layout_width="match_parent"
@@ -36,6 +50,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"/>
 
+        <ImageView
+
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:scaleType="centerCrop" />
 
 
 
