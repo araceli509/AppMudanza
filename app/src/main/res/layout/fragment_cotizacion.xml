@@ -160,7 +160,7 @@
             android:elevation="5dp"
             android:fontFamily="sans-serif-black"
             android:shadowColor="#C6070707"
-            android:text="Pagar"
+            android:text="Reservar"
             android:textColor="#F4F6F7"
             android:textColorHint="#FF0909"
 
