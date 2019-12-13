@@ -209,17 +209,16 @@ public class ServiciosExtraFragment extends Fragment {
         }
     }
 
-<<<<<<< HEAD
+
     public void obtenerId() {
 
     }
 
-=======
+
     public interface OnFragmentInteractionListener {
 
         void onFragmentInteraction(Uri uri);
     }
->>>>>>> 6c58a0295e2af1338d88227cba3146ae5b6aa5d6
 
 }
 //http://mudanzito.site/api/auth/cliente/busquedaprestador/freddg02@hotmail.com

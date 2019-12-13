@@ -15,15 +15,15 @@
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-<<<<<<< HEAD
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:text="Datos Personales"
-                android:textColor="#212F3D"
-=======
+                android:textColor="#212F3D"></TextView>
+
 
             <TextView
                 android:layout_width="match_parent"
@@ -32,7 +32,6 @@
                 android:fontFamily="sans-serif-black"
                 android:gravity="center"
                 android:text="Datos Personales"
->>>>>>> 6c58a0295e2af1338d88227cba3146ae5b6aa5d6
                 android:textSize="20dp" />
 
             <ImageView
@@ -360,12 +359,7 @@
                     android:id="@+id/imageVehiculoTrasera"
                     android:src="@drawable/img_base"/>
 
-<<<<<<< HEAD
-=======
 
-
-
->>>>>>> 6c58a0295e2af1338d88227cba3146ae5b6aa5d6
             </LinearLayout>
 
             <Button
@@ -376,9 +370,5 @@
 
         </LinearLayout>
     </ScrollView>
-<<<<<<< HEAD
-=======
 
-
->>>>>>> 6c58a0295e2af1338d88227cba3146ae5b6aa5d6
 </LinearLayout>
