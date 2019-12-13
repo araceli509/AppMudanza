@@ -128,7 +128,9 @@ public class solicitud_preview extends Fragment implements Response.Listener<JSO
                 data.putString("destino",reservacion.getDestinoLatLong());
                 data.putString("origen",reservacion.getOrigenLatLong());
                 Intent intentomaps= new Intent(getActivity(),MapapreviewRuta.class);
-                startActivity(intentomaps);
+                intentomaps.putExtra("destino",reservacion.getDestinoLatLong());
+                intentomaps.putExtra("origen",reservacion.getOrigenLatLong());
+            startActivity(intentomaps);
             }
         });
 
