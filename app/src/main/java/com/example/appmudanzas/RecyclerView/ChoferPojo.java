@@ -2,8 +2,10 @@ package com.example.appmudanzas.RecyclerView;
 
 public class ChoferPojo {
     private int id_prestador;
-    private String nombre;//prestador_servicio
-    private double capacidad_carga; //vehiculos
+    private String nombre;
+    private double largo;
+    private double ancho;
+    private double alto;
     private double precio;
     private float valoracion;
 
@@ -11,19 +13,25 @@ public class ChoferPojo {
 
     }
 
-    public ChoferPojo(int id_prestador, String nombre, double capacidad_carga, double precio, float valoracion) {
+    public ChoferPojo(int id_prestador, String nombre, double largo, double ancho, double alto, double precio, float valoracion) {
         this.id_prestador = id_prestador;
         this.nombre = nombre;
-        this.capacidad_carga = capacidad_carga;
+        this.largo = largo;
+        this.ancho = ancho;
+        this.alto = alto;
         this.precio = precio;
         this.valoracion = valoracion;
     }
 
-    public int getId() {
+    public double volumen(){
+        return largo*ancho*alto;
+    }
+
+    public int getId_prestador() {
         return id_prestador;
     }
 
-    public void setId(int id_prestador) {
+    public void setId_prestador(int id_prestador) {
         this.id_prestador = id_prestador;
     }
 
@@ -35,12 +43,28 @@ public class ChoferPojo {
         this.nombre = nombre;
     }
 
-    public double isCapacidad_carga() {
-        return capacidad_carga;
+    public double getLargo() {
+        return largo;
     }
 
-    public void setCapacidad_carga(double capacidad_carga) {
-        this.capacidad_carga = capacidad_carga;
+    public void setLargo(double largo) {
+        this.largo = largo;
+    }
+
+    public double getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(double ancho) {
+        this.ancho = ancho;
+    }
+
+    public double getAlto() {
+        return alto;
+    }
+
+    public void setAlto(double alto) {
+        this.alto = alto;
     }
 
     public double getPrecio() {

@@ -139,6 +139,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         nombrePrestador.setText(choferpojo.getNombre());
         telPrestador.setText(choferpojo.getTelefono());
         correoPrestador.setText(choferpojo.getCorreo());
@@ -153,8 +154,5 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         //aqui le agregas los demas datos para el auto
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
