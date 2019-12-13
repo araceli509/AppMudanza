@@ -22,7 +22,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.Spinner;
-import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -61,7 +60,6 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     private String origenLatLong;
     private String destinoLatLong;
     private String UPLOAD_URL;
-    private Switch switchseguro;
     private Spinner spinnerpisos;
     private String origen;
     private String destino;
@@ -95,6 +93,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         txtDestino = v.findViewById(R.id.textDestino);
         txtKilometro = v.findViewById(R.id.textKilometros);
         txtTotal = v.findViewById(R.id.textTotal);
+        tvtarifaprecio=v.findViewById(R.id.tvtarifaprecio);
         mAuth = FirebaseAuth.getInstance();
         origenLatLong = "";
         destinoLatLong = "";
@@ -103,6 +102,8 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         //obtenerID();
         request = Volley.newRequestQueue(getContext());
         btnPagar = v.findViewById(R.id.btnPagar);
+        getidcliente();
+        obtenerPrecios();
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -120,8 +121,6 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         spinnerpisos.setAdapter(adapter);
         spinnerpisos.setOnItemSelectedListener(this);
         // Inflate the layout for this fragment
-        getidcliente();
-        obtenerPrecios();
         return v;
     }
 
@@ -270,8 +269,8 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
                 String chofer = json.getString(i);
                 choferpojo = gson.fromJson(chofer,Servicio_ExtraPojo.class);
             }
+            tvtarifaprecio.setText("$ "+choferpojo.getPrecio()+"/Km");
 
-            Log.e("holaaa",""+choferpojo.getCostoXcargador());
         } catch (JSONException e) {
             e.printStackTrace();
         }
