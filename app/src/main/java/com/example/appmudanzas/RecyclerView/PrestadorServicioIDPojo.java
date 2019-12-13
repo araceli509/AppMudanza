@@ -15,13 +15,18 @@ public class PrestadorServicioIDPojo {
     private String foto_frontal;
     private String foto_lateral;
     private String foto_trasera;
-    private int capacidad_carga;
+    private int largo;
+    private String ancho;
+    private String alto;
     private String placas;
+    private String id_cliente;
+    private String descripcion;
+    private String fecha_comentario;
 
     public PrestadorServicioIDPojo() {
     }
 
-    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int capacidad_carga, String placas) {
+    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int largo, String ancho, String alto, String placas, String id_cliente, String descripcion, String fecha_comentario) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -36,48 +41,13 @@ public class PrestadorServicioIDPojo {
         this.foto_frontal = foto_frontal;
         this.foto_lateral = foto_lateral;
         this.foto_trasera = foto_trasera;
-        this.capacidad_carga = capacidad_carga;
+        this.largo = largo;
+        this.ancho = ancho;
+        this.alto = alto;
         this.placas = placas;
-    }
-
-    public String getFoto_frontal() {
-        return foto_frontal;
-    }
-
-    public void setFoto_frontal(String foto_frontal) {
-        this.foto_frontal = foto_frontal;
-    }
-
-    public String getFoto_lateral() {
-        return foto_lateral;
-    }
-
-    public void setFoto_lateral(String foto_lateral) {
-        this.foto_lateral = foto_lateral;
-    }
-
-    public String getFoto_trasera() {
-        return foto_trasera;
-    }
-
-    public void setFoto_trasera(String foto_trasera) {
-        this.foto_trasera = foto_trasera;
-    }
-
-    public int getCapacidad_carga() {
-        return capacidad_carga;
-    }
-
-    public void setCapacidad_carga(int capacidad_carga) {
-        this.capacidad_carga = capacidad_carga;
-    }
-
-    public String getPlacas() {
-        return placas;
-    }
-
-    public void setPlacas(String placas) {
-        this.placas = placas;
+        this.id_cliente = id_cliente;
+        this.descripcion = descripcion;
+        this.fecha_comentario = fecha_comentario;
     }
 
     public String getNombre() {
@@ -168,7 +138,87 @@ public class PrestadorServicioIDPojo {
         this.hora_salida = hora_salida;
     }
 
+    public String getFoto_frontal() {
+        return foto_frontal;
+    }
+
+    public void setFoto_frontal(String foto_frontal) {
+        this.foto_frontal = foto_frontal;
+    }
+
+    public String getFoto_lateral() {
+        return foto_lateral;
+    }
+
+    public void setFoto_lateral(String foto_lateral) {
+        this.foto_lateral = foto_lateral;
+    }
+
+    public String getFoto_trasera() {
+        return foto_trasera;
+    }
+
+    public void setFoto_trasera(String foto_trasera) {
+        this.foto_trasera = foto_trasera;
+    }
+
+    public int getLargo() {
+        return largo;
+    }
+
+    public void setLargo(int largo) {
+        this.largo = largo;
+    }
+
+    public String getAncho() {
+        return ancho;
+    }
+
+    public void setAncho(String ancho) {
+        this.ancho = ancho;
+    }
+
+    public String getAlto() {
+        return alto;
+    }
+
+    public void setAlto(String alto) {
+        this.alto = alto;
+    }
+
+    public String getPlacas() {
+        return placas;
+    }
+
+    public void setPlacas(String placas) {
+        this.placas = placas;
+    }
+
+    public String getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(String id_cliente) {
+        this.id_cliente = id_cliente;
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
+
+    public String getFecha_comentario() {
+        return fecha_comentario;
+    }
+
+    public void setFecha_comentario(String fecha_comentario) {
+        this.fecha_comentario = fecha_comentario;
+    }
+
     public String horario(){
-        return hora_inicio+"-"+hora_salida;
+        return getHora_inicio()+"-"+getHora_salida();
     }
 }

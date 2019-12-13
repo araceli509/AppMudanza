@@ -72,8 +72,8 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
 
-        origen="17.0614154,-96.6962763";
-        destino="17.0610309,-96.6936202";
+        origen=getIntent().getStringExtra("origen");
+        destino=getIntent().getStringExtra("destino");
         webServiceObtenerRuta(origen,destino);
         String datos[]= origen.split(",");
         double Lat= Double.parseDouble(datos[0]);
