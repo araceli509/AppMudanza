@@ -13,4 +13,8 @@
     <string name="not_log_in">No se puede ingresar</string>
     <string name="drawerOpen">drawerOpen</string>
     <string name="drawerClose">drawerClose</string>
+
+
+    <string name="title_activity_ruta_prestador">Map</string>
+
 </resources>

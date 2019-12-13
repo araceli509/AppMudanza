@@ -6,8 +6,13 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -16,6 +21,12 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
@@ -24,7 +35,13 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -34,7 +51,8 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
-        Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener{
+        Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
+         Response.Listener<JSONObject>, Response.ErrorListener{
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -44,6 +62,11 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
     private TextView txtPrestador,txtCorreoPrestador;
     private FirebaseAuth mAuth;
     CircleImageView imagenPerfilPrestador;
+    int idPrestador;
+    private RequestQueue requestQueue;
+    private JsonObjectRequest jsonObjectRequest;
+
+    DatabaseReference users;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +74,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +93,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         View hView = navigationView.getHeaderView(0);
         //txtPrestador=hView.findViewById(R.id.txtUsuarioNav);
         //txtPrestador.setText(mAuth.getCurrentUser().getDisplayName());
-        txtCorreoPrestador=hView.findViewById(R.id.txtCorreoNav);
+        txtCorreoPrestador = hView.findViewById(R.id.txtCorreoNav);
         txtCorreoPrestador.setText(mAuth.getCurrentUser().getEmail());
         //imagenPerfilPrestador=hView.findViewById(R.id.imagenPerfilPrestador);
         //imagenPerfilPrestador.setMaxHeight(30);
@@ -80,6 +103,10 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment_Principal()).commit();
         navigationView.setNavigationItemSelectedListener(this);
+        requestQueue= Volley.newRequestQueue(getApplicationContext());
+
+    //traer el id del prestador actual
+        cargarDatos();
     }
 
     @Override
@@ -89,7 +116,13 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         FragmentManager fragmentManager=getSupportFragmentManager();
 
         if (id==R.id.nav_principal) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
+            Bundle bundle = new Bundle();
+            bundle.putInt("idprestador", idPrestador);
+
+            Fragment solicitudes_servicio = new Solicitudes_Servicio();
+            solicitudes_servicio.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.contenedor, solicitudes_servicio).commit();
+
 
         }
         else
@@ -132,6 +165,54 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
     @Override
     public void onFragmentInteraction(Uri uri) {
+
+    }
+
+    private void cargarDatos(){
+        boolean conexion=compruebaConexion(getApplicationContext());
+        if(conexion) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            String correo=user.getEmail();
+            String url = "http://mudanzito.site/api/auth/cliente/busquedaprestador/" +correo;
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            requestQueue.add(jsonObjectRequest);
+        }else{
+
+            Toast.makeText(getApplicationContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+        }
+
+    }
+    public static boolean compruebaConexion(Context context) {
+        boolean connected = false;
+        ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
+        // Recupera todas las redes (tanto móviles como wifi)
+        NetworkInfo[] redes = connec.getAllNetworkInfo();
+
+        for (int i = 0; i < redes.length; i++) {
+            if (redes[i].getState() == NetworkInfo.State.CONNECTED) {
+                connected = true;
+            }
+        }
+        return connected;
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        try {
+            JSONArray jsonArray = response.getJSONArray("prestador");
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            idPrestador= jsonObject.getInt("id_prestador");
+            Toast.makeText(getApplicationContext(),String.valueOf(idPrestador),Toast.LENGTH_LONG).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
 
     }
 }

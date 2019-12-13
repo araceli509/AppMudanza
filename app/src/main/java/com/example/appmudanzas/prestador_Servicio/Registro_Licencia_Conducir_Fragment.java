@@ -96,10 +96,10 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
                              Bundle savedInstanceState) {
         Bundle datosRecuperados = getArguments();
         ine=datosRecuperados.getString("foto_ine");
-
+        id_prestador=datosRecuperados.getString("id_prestador");
         vista=inflater.inflate(R.layout.fragment_registro__licencia__conducir_, container, false);
         crearComponentes();
-        subirDatos();
+        //subirDatos();
        btnFoto.setOnClickListener(new View.OnClickListener() {
            @Override
            public void onClick(View v) {
@@ -129,6 +129,7 @@ public class Registro_Licencia_Conducir_Fragment extends Fragment implements Res
                         Bundle datos= new Bundle();
                         datos.putString("foto_ine",ine);
                         datos.putString("foto_licencia_conducir",nombreImagen);
+                        Toast.makeText(getContext(),"id "+ id_prestador,Toast.LENGTH_SHORT).show();
                         datos.putString("id_prestador",id_prestador);
                         registro_tarjeta_circulacion_fragment.setArguments(datos);
 

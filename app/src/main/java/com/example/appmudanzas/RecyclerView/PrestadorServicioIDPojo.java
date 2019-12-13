@@ -15,18 +15,18 @@ public class PrestadorServicioIDPojo {
     private String foto_frontal;
     private String foto_lateral;
     private String foto_trasera;
-    private int largo;
-    private String ancho;
-    private String alto;
+    private double largo;
+    private double ancho;
+    private double alto;
     private String placas;
-    private int id_cliente;
+    private String id_cliente;
     private String descripcion;
     private String fecha_comentario;
 
     public PrestadorServicioIDPojo() {
     }
 
-    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int largo, String ancho, String alto, String placas, int id_cliente, String descripcion, String fecha_comentario) {
+    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, double largo, double ancho, double alto, String placas, String id_cliente, String descripcion, String fecha_comentario) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -45,7 +45,7 @@ public class PrestadorServicioIDPojo {
         this.ancho = ancho;
         this.alto = alto;
         this.placas = placas;
-        this.id_cliente=id_cliente;
+        this.id_cliente = id_cliente;
         this.descripcion = descripcion;
         this.fecha_comentario = fecha_comentario;
     }
@@ -162,27 +162,27 @@ public class PrestadorServicioIDPojo {
         this.foto_trasera = foto_trasera;
     }
 
-    public int getLargo() {
+    public double getLargo() {
         return largo;
     }
 
-    public void setLargo(int largo) {
+    public void setLargo(double largo) {
         this.largo = largo;
     }
 
-    public String getAncho() {
+    public double getAncho() {
         return ancho;
     }
 
-    public void setAncho(String ancho) {
+    public void setAncho(double ancho) {
         this.ancho = ancho;
     }
 
-    public String getAlto() {
+    public double getAlto() {
         return alto;
     }
 
-    public void setAlto(String alto) {
+    public void setAlto(double alto) {
         this.alto = alto;
     }
 
@@ -194,11 +194,11 @@ public class PrestadorServicioIDPojo {
         this.placas = placas;
     }
 
-    public int getId_cliente() {
+    public String getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(int id_cliente) {
+    public void setId_cliente(String id_cliente) {
         this.id_cliente = id_cliente;
     }
 

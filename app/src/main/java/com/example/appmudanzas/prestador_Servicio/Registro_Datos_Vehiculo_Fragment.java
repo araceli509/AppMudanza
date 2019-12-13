@@ -23,9 +23,9 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String id_prestador,modelo,placas,capacidad_carga;
+    private String id_prestador,modelo,placas,vehiculo_largo,vehiculo_ancho,vehiculo_alto;
     private Button btn_registrar_datos_vehiculo;
-    private TextInputLayout inputModelo,inputPlacas,inputCapacidadCarga;
+    private TextInputLayout inputModelo,inputPlacas,inputLargo,inputAncho,inputAlto;
     private TextInputEditText txtModelo,txtPlacas,txtCapacidadCarga;
     private OnFragmentInteractionListener mListener;
     private View vista;
@@ -60,13 +60,15 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
         btn_registrar_datos_vehiculo.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(!validarModelo()|!validarPlacas()|!validarCapacidadCarga()){
+                if(!validarModelo()|!validarPlacas()|!validarLargo()|!validarAncho()|!validarAlto()){
                     return;
                 }else{
                     Bundle datos= new Bundle();
                     datos.putString("modelo",modelo);
                     datos.putString("placas",placas);
-                    datos.putString("capacidad_carga",capacidad_carga);
+                    datos.putString("largo",vehiculo_largo);
+                    datos.putString("ancho",vehiculo_ancho);
+                    datos.putString("alto",vehiculo_alto);
                     datos.putString("id_prestador",id_prestador);
                     Foto_Frontal_Vehiculo_Fragment foto_frontal_vehiculo_fragment= new Foto_Frontal_Vehiculo_Fragment();
                     foto_frontal_vehiculo_fragment.setArguments(datos);
@@ -106,10 +108,11 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
 
     private void crearComponentes(){
         btn_registrar_datos_vehiculo=vista.findViewById(R.id.btn_registrar_datos_vehiculo);
-        inputCapacidadCarga=vista.findViewById(R.id.vehiculo_capacidad_carga);
+        inputLargo=vista.findViewById(R.id.vehiculo_largo);
+        inputAncho=vista.findViewById(R.id.vehiculo_ancho);
+        inputAlto=vista.findViewById(R.id.vehiculo_alto);
         inputModelo=vista.findViewById(R.id.vehiculo_modelo);
         inputPlacas=vista.findViewById(R.id.vehiculo_placas);
-        txtCapacidadCarga=vista.findViewById(R.id.txtCapacidadCarga);
         txtModelo=vista.findViewById(R.id.txtModelo);
         txtPlacas=vista.findViewById(R.id.txtPlacas);
     }
@@ -140,16 +143,35 @@ public class Registro_Datos_Vehiculo_Fragment extends Fragment {
         }
     }
 
-    private boolean validarCapacidadCarga(){
-        capacidad_carga=inputCapacidadCarga.getEditText().getText().toString();
-        if(capacidad_carga.isEmpty()){
-            inputCapacidadCarga.setError("El campo no puede estar vacio");
-            return false;
-        }else if(Double.parseDouble(capacidad_carga)>10||Double.parseDouble(capacidad_carga)<.5){
-            inputCapacidadCarga.setError("Capacidad de carga invalida");
+    private boolean validarLargo(){
+        vehiculo_largo=inputLargo.getEditText().getText().toString();
+        if(vehiculo_largo.isEmpty()){
+            inputLargo.setError("El campo no puede estar vacio");
             return false;
         }else{
-            inputCapacidadCarga.setError(null);
+            inputLargo.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarAncho(){
+        vehiculo_ancho=inputAncho.getEditText().getText().toString();
+        if(vehiculo_ancho.isEmpty()){
+            inputAncho.setError("El campo no puede estar vacio");
+            return false;
+        }else{
+            inputAncho.setError(null);
+            return true;
+        }
+    }
+
+    private boolean validarAlto(){
+        vehiculo_alto=inputAlto.getEditText().getText().toString();
+        if(vehiculo_alto.isEmpty()){
+            inputAlto.setError("El campo no puede estar vacio");
+            return false;
+        }else{
+            inputAlto.setError(null);
             return true;
         }
     }

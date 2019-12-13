@@ -57,6 +57,7 @@ public class Registro_Ine_Fragment extends Fragment {
     private Bitmap bitmap;
     private static final int COD_SELECCIONA =10 ;
     private static final int COD_FOTO=20;
+    private String id_prestador;
     public Registro_Ine_Fragment() {
 
     }
@@ -83,6 +84,9 @@ public class Registro_Ine_Fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         final Registro_Licencia_Conducir_Fragment registro_licencia_conducir_fragment= new Registro_Licencia_Conducir_Fragment();
+        Bundle datos= getArguments();
+        id_prestador=datos.getString("id_prestador");
+        Toast.makeText(getContext(),"id "+ id_prestador,Toast.LENGTH_SHORT).show();
         vista=inflater.inflate(R.layout.fragment_registro__ine_, container, false);
         crearComponentes();
 
@@ -114,6 +118,7 @@ public class Registro_Ine_Fragment extends Fragment {
 
                         Bundle datos= new Bundle();
                         datos.putString("foto_ine",nombreImagen);
+                        datos.putString("id_prestador",id_prestador);
                         FragmentTransaction fr= getFragmentManager().beginTransaction();
                         registro_licencia_conducir_fragment.setArguments(datos);
 

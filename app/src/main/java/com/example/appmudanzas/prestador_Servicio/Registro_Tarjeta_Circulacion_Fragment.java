@@ -279,7 +279,6 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             }
         }
     }
-    String link="https://res.cloudinary.com/ito/image/upload/tarjeta_circulacion/";
     private void subirDatos(){
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
@@ -295,7 +294,7 @@ public class Registro_Tarjeta_Circulacion_Fragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 enviado=false;
-                Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),error.getMessage().toString(),Toast.LENGTH_LONG).show();
                 progreso.hide();
             }
         }){

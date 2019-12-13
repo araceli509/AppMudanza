@@ -3,6 +3,7 @@ package com.example.appmudanzas.RecyclerView;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -10,6 +11,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,8 +37,6 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
-import java.util.List;
-
 public class PopUpChofer extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     private TextView nombrePrestador;
     private TextView telPrestador;
@@ -44,14 +44,13 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private TextView tarifaPrestador;
     private TextView direccionPrestador;
     private TextView horarioPrestador;
-    private TextView opinionescli;
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
+    private ImageView imageFotoPerfil;
     private ImageView imageVehiculoPrestador,imageVehiculoLateral,imageVehiculoTrasera;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
-
 
     public PopUpChofer() {
         // Required empty public constructor
@@ -81,27 +80,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoPrestador=v.findViewById(R.id.imageVehiculoFrontal);
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
-        opinionescli=v.findViewById(R.id.opiniones);
-
-
-
-        opinionescli.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Bundle datosAEnviar = new Bundle();
-                datosAEnviar.putInt("id_prestador", id_prestador);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-                OpinionesCliente fragmento = new OpinionesCliente();
-                fragmento.setArguments(datosAEnviar);
-                fragmentTransaction.replace(R.id.contenedor, fragmento);
-                fragmentTransaction.addToBackStack(null);
-                fragmentTransaction.commit();
-            }
-        });
-
-
-
+        imageFotoPerfil=v.findViewById(R.id.imageFotoPerfil);
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -161,6 +140,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
         nombrePrestador.setText(choferpojo.getNombre());
         telPrestador.setText(choferpojo.getTelefono());
         correoPrestador.setText(choferpojo.getCorreo());
@@ -168,6 +148,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         direccionPrestador.setText(choferpojo.getDireccion());
         horarioPrestador.setText(choferpojo.horario());
         ranking.setRating(choferpojo.getValoracion());
+        PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_perfil/"+choferpojo.getFoto_perfil()),imageFotoPerfil);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_frontal/"+choferpojo.getFoto_frontal()),imageVehiculoPrestador);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_lateral/"+choferpojo.getFoto_lateral()),imageVehiculoLateral);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_trasera/"+choferpojo.getFoto_trasera()),imageVehiculoTrasera);
