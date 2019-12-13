@@ -10,20 +10,12 @@
     <ScrollView
         android:layout_width="match_parent"
         android:layout_height="match_parent">
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:fontFamily="sans-serif-black"
-                android:gravity="center"
-                android:text="Datos Personales"
-                android:textColor="#212F3D"
-                android:textSize="20dp" />
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -32,6 +24,12 @@
                 android:gravity="center"
                 android:text="Datos Personales"
                 android:textSize="20dp" />
+
+            <ImageView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:src="@drawable/img_base"
+                android:id="@+id/imageFotoPerfil"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -57,12 +55,6 @@
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
-
-                        <ImageView
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:id="@+id/imageFotoPerfil"
-                            android:src="@drawable/img_base"/>
 
                         <TextView
                             android:layout_width="90dp"
@@ -233,7 +225,8 @@
                         android:isIndicator="true"
                         android:scaleX="0.4"
                         android:scaleY="0.5" />
-                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -241,6 +234,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/opiniones"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="Ver opiniones"/>
+            </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -291,6 +295,8 @@
                     android:src="@drawable/img_base"/>
 
 
+
+
             </LinearLayout>
 
             <Button
@@ -301,8 +307,6 @@
 
         </LinearLayout>
     </ScrollView>
-
-
 
 
 </LinearLayout>
