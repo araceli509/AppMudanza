@@ -90,8 +90,20 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
         listareservaciones= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
         id_cliente=7;
+        //tomar el id del prestador actual
+        id_cliente= getArguments().getInt("idprestador");
+        if(id_cliente>1){
+            try {
+                cargarDatos();
+            }catch (Exception e){
 
-        cargarDatos();
+            }
+
+        }else{
+            Toast.makeText(getContext(),"Error al consultar de la base de datos"+ id_cliente,Toast.LENGTH_LONG).show();
+
+        }
+
 
 
 

@@ -140,7 +140,6 @@ public class LoginPrincipal extends AppCompatActivity implements GoogleApiClient
         });
     }
 
-
     @Override
     protected void onStop() {
 

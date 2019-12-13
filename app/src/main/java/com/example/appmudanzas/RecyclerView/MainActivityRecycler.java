@@ -1,5 +1,6 @@
 package com.example.appmudanzas.RecyclerView;
 
+import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.Menu;
@@ -17,9 +18,14 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
 import com.bumptech.glide.Glide;
+import com.example.appmudanzas.Login.LoginPrincipal;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
 import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
+import com.firebase.ui.auth.AuthUI;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.Task;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
@@ -115,6 +121,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
         }
         else
+<<<<<<< HEAD
         if (id==R.id.nav_acercade){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new AcercaDeFragment()).commit();
         }
@@ -122,6 +129,23 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         if (id==R.id.nav_serviciosExtra){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new ServiciosExtraFragment()).commit();
         }
+=======
+            if (id==R.id.nav_cerrarsesion){
+                AuthUI.getInstance()
+                        .signOut(this)
+                        .addOnCompleteListener(new OnCompleteListener<Void>() {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
+                                goMainScreen();
+                            }
+                        }).addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+
+                    }
+                });
+            }
+>>>>>>> f511cd01a2901aa828b5b1b987d094c54c8d9e93
         /* else
        if (id==R.id.nav_solicitudes) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
@@ -130,6 +154,11 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void goMainScreen() {
+    Intent intent= new Intent(this, LoginPrincipal.class);
+    startActivity(intent);
     }
 
     @Override
