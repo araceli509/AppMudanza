@@ -208,6 +208,9 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
                     params.put("origenLatLong",origenLatLong);
                     params.put("destinoLatLong",destinoLatLong);
                     params.put("distancia",km+"");
+                    params.put("seguro","0");
+                    params.put("numeroCajas","0");
+                    params.put("numTrabajadores","0");
                     params.put("numero_pisos", (String)spinnerpisos.getSelectedItem());
                     params.put("monto",txtTotal.getText().toString());
                     return params;
