@@ -242,5 +242,10 @@ public class ServiciosExtraFragment extends Fragment {
         }
     }
 
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(Uri uri);
+    }
 
 }
+//http://mudanzito.site/api/auth/cliente/busquedaprestador/freddg02@hotmail.com
