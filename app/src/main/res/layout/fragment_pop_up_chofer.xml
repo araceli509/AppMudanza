@@ -9,7 +9,24 @@
 
     <ScrollView
         android:layout_width="match_parent"
+<<<<<<< HEAD
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:fontFamily="sans-serif-black"
+            android:gravity="center"
+            android:text="Datos Personales"
+            android:textColor="#212F3D"
+            android:textSize="20dp" />
+
+=======
         android:layout_height="match_parent">
+>>>>>>> f511cd01a2901aa828b5b1b987d094c54c8d9e93
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
