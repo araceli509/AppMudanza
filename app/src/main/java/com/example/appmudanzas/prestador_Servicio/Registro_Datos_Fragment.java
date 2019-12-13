@@ -8,6 +8,8 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
+
+import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -15,6 +17,11 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.appmudanzas.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -24,9 +31,13 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.regex.Pattern;
 
-public class Registro_Datos_Fragment extends Fragment {
+public class Registro_Datos_Fragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
@@ -40,6 +51,12 @@ public class Registro_Datos_Fragment extends Fragment {
     private String nombre,apellidos,correo,password,direccion,telefono,codigoPostal;
     private ProgressDialog progreso;
     private  boolean bandera=false;
+
+    private JsonObjectRequest jsonObjectRequest;
+    String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
+    private int i=0;
+    private String id_prestador;
+
     public Registro_Datos_Fragment() {
         // Required empty public constructor
     }
@@ -68,6 +85,7 @@ public class Registro_Datos_Fragment extends Fragment {
 
         vista=inflater.inflate(R.layout.fragment_registro__datos_, container, false);
         crearComponentes();
+        obtenerDatos();
         btn_registrar_datos_personales=vista.findViewById(R.id.btn_registrar_datos_personales);
         btn_registrar_datos_personales.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -76,6 +94,7 @@ public class Registro_Datos_Fragment extends Fragment {
                 if(!validarNombre()|!validarApellidos()|!validarDireccion()|!validarCodigoPostal()|!validarEmail()|!validarPassword()|!validarTelefono()){
                     return;
                 }else if(registrarPrestadorFirebase()==true){
+
                     Bundle datos = new Bundle();
                     datos.putString("nombre", nombre);
                     datos.putString("apellidos", apellidos);
@@ -84,6 +103,7 @@ public class Registro_Datos_Fragment extends Fragment {
                     datos.putString("correo", correo);
                     datos.putString("password", password);
                     datos.putString("codigo_postal",codigoPostal);
+                    datos.putString("id_prestador",id_prestador);
                     Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
                     registro_foto_perfil_fragment.setArguments(datos);
 
@@ -260,6 +280,7 @@ public class Registro_Datos_Fragment extends Fragment {
                                datos.putString("correo", correo);
                                datos.putString("password", password);
                                datos.putString("codigo_postal",codigoPostal);
+                               datos.putString("id_prestador",id_prestador);
                                Registro_Foto_Perfil_Fragment registro_foto_perfil_fragment = new Registro_Foto_Perfil_Fragment();
                                registro_foto_perfil_fragment.setArguments(datos);
 
@@ -296,4 +317,38 @@ public class Registro_Datos_Fragment extends Fragment {
         super.onStop();
         FirebaseAuth.getInstance().signOut();
     }
+
+    public void obtenerDatos(){
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+        jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),"No se pudo Consultar "+error.toString(),Toast.LENGTH_SHORT).show();
+        Log.i("ERROR",error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Prestador p=new Prestador();
+
+        JSONArray json=response.optJSONArray("Prestador");
+        JSONObject jsonObject=null;
+        try {
+            for(i=0; i<json.length(); i++){
+            }
+            jsonObject=json.getJSONObject(i-1);
+            p.setId_prestador(jsonObject.optInt("id_prestador"));
+
+            id_prestador=String.valueOf(p.getId_prestador()+1);
+            Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_LONG).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

@@ -47,6 +47,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
+    private ImageView imageFotoPerfil;
     private ImageView imageVehiculoPrestador,imageVehiculoLateral,imageVehiculoTrasera;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
@@ -79,7 +80,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoPrestador=v.findViewById(R.id.imageVehiculoFrontal);
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
-
+        imageFotoPerfil=v.findViewById(R.id.imageFotoPerfil);
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,6 +147,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         direccionPrestador.setText(choferpojo.getDireccion());
         horarioPrestador.setText(choferpojo.horario());
         ranking.setRating(choferpojo.getValoracion());
+        PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_perfil/"+choferpojo.getFoto_perfil()),imageFotoPerfil);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_frontal/"+choferpojo.getFoto_frontal()),imageVehiculoPrestador);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_lateral/"+choferpojo.getFoto_lateral()),imageVehiculoLateral);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_trasera/"+choferpojo.getFoto_trasera()),imageVehiculoTrasera);

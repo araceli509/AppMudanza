@@ -15,6 +15,7 @@ import android.os.Bundle;
 
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -51,7 +52,7 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String modelo,placas,capacidad_carga,foto_frontal,foto_lateral;
+    private String modelo,placas,foto_frontal,foto_lateral,vehiculo_largo,vehiculo_ancho,vehiculo_alto;
     private View vista;
     private Button btn_registrar_foto_trasera,btnFoto;
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -99,13 +100,24 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
         id_prestador=datosRecuperados.getString("id_prestador");
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
-        capacidad_carga=datosRecuperados.getString("capacidad_carga");
+        vehiculo_largo=datosRecuperados.getString("vehiculo_largo");
+        vehiculo_ancho=datosRecuperados.getString("vehiculo_ancho");
+        vehiculo_alto=datosRecuperados.getString("vehiculo_alto");
         foto_frontal=datosRecuperados.getString("foto_frontal");
         foto_lateral=datosRecuperados.getString("foto_lateral");
 
         vista=inflater.inflate(R.layout.fragment_foto__trasera__vehiculo_, container, false);
 
         crearComponentes();
+
+        Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"modelo"+modelo,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"placas"+placas,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"largo"+vehiculo_largo,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"ancho"+vehiculo_ancho,Toast.LENGTH_LONG).show();
+        //Toast.makeText(getContext(),"alto"+vehiculo_alto,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"frontal "+foto_frontal,Toast.LENGTH_LONG).show();
+        Toast.makeText(getContext(),"lateral"+foto_lateral,Toast.LENGTH_LONG).show();
 
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,6 +145,11 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                             }
                         }).start();
                         subirDatos();
+
+                        Solicitud_Enviada_Fragment s= new Solicitud_Enviada_Fragment();
+                        FragmentTransaction fr=getFragmentManager().beginTransaction();
+                        fr.replace(R.id.contenedor,s).addToBackStack(null);
+                        fr.commit();
                     }else{
                         Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
                     }
@@ -248,6 +265,9 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                     fileImagen= new File(imgDecodableString);
                     cursor.close();
                     imageFotoTrasera.setImageURI(miPath);
+
+                    Toast.makeText(getContext(),nombreImagen,Toast.LENGTH_LONG).show();
+
                     break;
 
                 case COD_FOTO:
@@ -280,7 +300,7 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
             @Override
             public void onErrorResponse(VolleyError error) {
                 enviado=false;
-                Toast.makeText(getContext(),"Error al enviar los datos",Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(),error.getMessage().toString(),Toast.LENGTH_LONG).show();
                 progreso.hide();
             }
         }){
@@ -290,7 +310,9 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                 params.put("id_prestador",id_prestador);
                 params.put("modelo",modelo);
                 params.put("placas",placas);
-                params.put("capacidad_carga",capacidad_carga);
+                params.put("largo",vehiculo_largo);
+                params.put("ancho",vehiculo_ancho);
+                params.put("alto",vehiculo_alto);
                 params.put("foto_frontal",foto_frontal);
                 params.put("foto_lateral",foto_lateral);
                 params.put("foto_trasera",nombreImagen);

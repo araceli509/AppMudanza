@@ -48,6 +48,12 @@
                         android:layout_height="match_parent"
                         android:orientation="horizontal">
 
+                        <ImageView
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/imageFotoPerfil"
+                            android:src="@drawable/img_base"/>
+
                         <TextView
                             android:layout_width="99dp"
                             android:layout_height="wrap_content"
@@ -273,6 +279,7 @@
                     android:layout_weight="2"
                     android:id="@+id/imageVehiculoTrasera"
                     android:src="@drawable/img_base"/>
+
 
             </LinearLayout>
 

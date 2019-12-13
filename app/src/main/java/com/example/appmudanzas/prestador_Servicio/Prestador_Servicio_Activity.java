@@ -28,7 +28,8 @@ public class Prestador_Servicio_Activity extends AppCompatActivity implements
         Foto_Trasera_Vehiculo_Fragment.OnFragmentInteractionListener,
         Reestablecer_Password_Fragment.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
-        Fragment_Principal.OnFragmentInteractionListener {
+        Fragment_Principal.OnFragmentInteractionListener,
+        Solicitud_Enviada_Fragment.OnFragmentInteractionListener{
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

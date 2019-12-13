@@ -56,7 +56,7 @@ import static android.app.Activity.RESULT_OK;
 
 public class Registro_Foto_Perfil_Fragment extends Fragment {
     private String UPLOAD_URL="http://mudanzito.site/api/auth/prestador_servicio/insertar";
-    private String nombre,apellidos,correo,password,codigo_postal,direccion,telefono;
+    private String nombre,apellidos,correo,codigo_postal,direccion,telefono,id_prestador;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -109,7 +109,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
         direccion=datosRecuperados.getString("direccion");
         telefono=datosRecuperados.getString("telefono");
         correo=datosRecuperados.getString("correo");
-        password=datosRecuperados.getString("password");
+        id_prestador=datosRecuperados.getString("id_prestador");
         codigo_postal=datosRecuperados.getString("codigo_postal");
         vista=inflater.inflate(R.layout.fragment_registro__foto__perfil_, container, false);
 
@@ -122,6 +122,7 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
             btnFoto.setEnabled(false);
         }
 
+        Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_LONG).show();
         btnFoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -151,7 +152,11 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
 
                     if(compruebaConexion(getContext())){
                         subirDatos();
+                        Bundle b= new Bundle();
+                        b.putString("id_prestador",id_prestador);
+                        Toast.makeText(getContext(),"id "+ id_prestador,Toast.LENGTH_LONG).show();
                         FragmentTransaction fr= getFragmentManager().beginTransaction();
+                        registro_ine_fragment.setArguments(b);
                         fr.replace(R.id.contenedor,registro_ine_fragment).addToBackStack(null);
                         fr.commit();
                     }else{
@@ -161,13 +166,12 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
                 }else{
                     Toast.makeText(getContext(),"Debes seleccionar una imagen",Toast.LENGTH_SHORT).show();
                 }
-
             }
         });
 
         return vista;
     }
-    String link="https://res.cloudinary.com/ito/image/upload/foto_perfil/";
+
     private void subirDatos() {
 
         progreso= new ProgressDialog(getContext());

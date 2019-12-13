@@ -44,7 +44,7 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
     private static final String ARG_PARAM2 = "param2";
     private String mParam1;
     private String mParam2;
-    private String id_prestador,modelo,placas,capacidad_carga;
+    private String id_prestador,modelo,placas,vehiculo_largo,vehiculo_ancho,vehiculo_alto;
     private View vista;
     private Button btn_registrar_foto_frontal,btnFoto;
     private static final String CARPETA_PRINCIPAL="misImagenesApp/";
@@ -89,7 +89,9 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
         Bundle datosRecuperados=getArguments();
         modelo=datosRecuperados.getString("modelo");
         placas=datosRecuperados.getString("placas");
-        capacidad_carga=datosRecuperados.getString("capacidad_carga");
+        vehiculo_largo=datosRecuperados.getString("largo");
+        vehiculo_ancho=datosRecuperados.getString("ancho");
+        vehiculo_alto=datosRecuperados.getString("alto");
         id_prestador=datosRecuperados.getString("id_prestador");
         vista=inflater.inflate(R.layout.fragment_foto__frontal__vehiculo_, container, false);
         crearComponentes();
@@ -123,7 +125,9 @@ public class Foto_Frontal_Vehiculo_Fragment extends Fragment {
                     datos.putString("id_prestador",id_prestador);
                     datos.putString("modelo",modelo);
                     datos.putString("placas",placas);
-                    datos.putString("capacidad_carga",capacidad_carga);
+                    datos.putString("vehiculo_largo",vehiculo_largo);
+                    datos.putString("vehiculo_ancho",vehiculo_ancho);
+                    datos.putString("vehiculo_alto",vehiculo_alto);
                     datos.putString("foto_frontal",nombreImagen);
                     Foto_Lateral_Vehiculo_Fragment foto_lateral_vehiculo_fragment= new Foto_Lateral_Vehiculo_Fragment();
                     foto_lateral_vehiculo_fragment.setArguments(datos);

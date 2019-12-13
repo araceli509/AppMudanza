@@ -60,12 +60,42 @@
         android:layout_weight="1"
         app:errorEnabled="true"
         app:counterEnabled="true"
-        android:id="@+id/vehiculo_capacidad_carga">
+        android:id="@+id/vehiculo_largo">
         <com.google.android.material.textfield.TextInputEditText
-            android:id="@+id/txtCapacidadCarga"
+            android:id="@+id/txtVehiculoLargo"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="Metros cuadrados (m3)"
+            android:hint="Largo"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:errorEnabled="true"
+        app:counterEnabled="true"
+        android:id="@+id/vehiculo_ancho">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtVehiculoAncho"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Ancho"
+            android:inputType="numberDecimal" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1"
+        app:errorEnabled="true"
+        app:counterEnabled="true"
+        android:id="@+id/vehiculo_alto">
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/txtVehiculoAlto"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Alto"
             android:inputType="numberDecimal" />
     </com.google.android.material.textfield.TextInputLayout>
 
