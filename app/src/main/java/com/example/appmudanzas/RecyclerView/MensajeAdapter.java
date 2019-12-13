@@ -15,10 +15,10 @@ import java.util.List;
 
 public class MensajeAdapter extends RecyclerView.Adapter<MensajeAdapter.PosicionMensajeViewHolder> implements View.OnClickListener {
 
-        List<PrestadorServicioIDPojo> mensaje;
+        List<ComentarioPojo> mensaje;
 private View.OnClickListener listener;
 
-public MensajeAdapter(List<PrestadorServicioIDPojo> mensajelist) {
+public MensajeAdapter(List<ComentarioPojo> mensajelist) {
         this.mensaje = mensajelist;
         }
 
@@ -33,8 +33,8 @@ public PosicionMensajeViewHolder onCreateViewHolder(@NonNull ViewGroup parent, i
 
 @Override
 public void onBindViewHolder(@NonNull PosicionMensajeViewHolder holder, int position) {
-    PrestadorServicioIDPojo men = mensaje.get(position);
-        holder.txtid.setText("ID cliente: " + men.getId_cliente());
+    ComentarioPojo men = mensaje.get(position);
+        holder.txtid.setText("Nombre: " + men.getNombre());
         holder.txtmensaje.setText("Descripción " + men.getDescripcion());
         holder.txtfecha_comentario.setText("Fecha del comentario " + men.getFecha_comentario());
 

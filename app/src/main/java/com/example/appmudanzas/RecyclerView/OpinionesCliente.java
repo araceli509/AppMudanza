@@ -40,7 +40,7 @@ import java.util.List;
 
 public class OpinionesCliente extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     RecyclerView recyclerView;
-    List<PrestadorServicioIDPojo> mensaje;
+    List<ComentarioPojo> mensaje;
     MensajeAdapter adapter;
 
     private int id_prestador;
@@ -100,7 +100,7 @@ public class OpinionesCliente extends Fragment implements Response.Listener<JSON
     public void obtenerDatos() {
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
-            String url = "http://mudanzito.site/api/auth/prestador_servicio/busquedaprestador_id" + id_prestador;
+            String url = "http://mudanzito.site/api/auth/comentario/busquedacomentario_idprestador/" + id_prestador;
 
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
@@ -121,10 +121,10 @@ public class OpinionesCliente extends Fragment implements Response.Listener<JSON
         Gson gson = new GsonBuilder().create();
 
         try {
-            JSONArray json = response.getJSONArray("prestador");
+            JSONArray json = response.getJSONArray("comentario");
             for(int i = 0; i<json.length(); i++ ) {
                 String mens = json.getString(i);
-                PrestadorServicioIDPojo chofercin = gson.fromJson(mens,PrestadorServicioIDPojo.class);
+                ComentarioPojo chofercin = gson.fromJson(mens,ComentarioPojo.class);
                 mensaje.add(chofercin);
             }
             adapter.notifyDataSetChanged();

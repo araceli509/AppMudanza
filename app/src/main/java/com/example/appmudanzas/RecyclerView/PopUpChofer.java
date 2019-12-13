@@ -44,6 +44,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private TextView tarifaPrestador;
     private TextView direccionPrestador;
     private TextView horarioPrestador;
+    private TextView opinion_cli;
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
@@ -81,6 +82,23 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
         imageFotoPerfil=v.findViewById(R.id.imageFotoPerfil);
+        opinion_cli=v.findViewById(R.id.opiniones);
+
+        opinion_cli.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle datosAEnviar = new Bundle();
+                datosAEnviar.putInt("id_prestador", id_prestador = getArguments().getInt("id_prestador"));
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                OpinionesCliente fragmento = new OpinionesCliente();
+                fragmento.setArguments(datosAEnviar);
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
