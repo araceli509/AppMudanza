@@ -217,7 +217,8 @@
                         android:isIndicator="true"
                         android:scaleX="0.4"
                         android:scaleY="0.5" />
-                </LinearLayout>
+
+
 
             </LinearLayout>
 
@@ -225,6 +226,17 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/opiniones"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:textColor="@color/colorPrimaryDark"
+                    android:textSize="18sp"
+                    android:gravity="center"
+                    android:text="Ver opiniones"/>
+            </LinearLayout>
 
                 <TextView
                     android:layout_width="match_parent"
@@ -273,6 +285,9 @@
                     android:layout_weight="2"
                     android:id="@+id/imageVehiculoTrasera"
                     android:src="@drawable/img_base"/>
+
+
+
 
             </LinearLayout>
 

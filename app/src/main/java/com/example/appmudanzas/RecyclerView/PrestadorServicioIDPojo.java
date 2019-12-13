@@ -19,14 +19,14 @@ public class PrestadorServicioIDPojo {
     private String ancho;
     private String alto;
     private String placas;
-    private String id_cliente;
+    private int id_cliente;
     private String descripcion;
     private String fecha_comentario;
 
     public PrestadorServicioIDPojo() {
     }
 
-    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int largo, String ancho, String alto, String placas, String id_cliente, String descripcion, String fecha_comentario) {
+    public PrestadorServicioIDPojo(String nombre, String apellidos, String direccion, String telefono, String correo, String codigo_postal, String foto_perfil, float valoracion, double precio, String hora_inicio, String hora_salida, String foto_frontal, String foto_lateral, String foto_trasera, int largo, String ancho, String alto, String placas, int id_cliente, String descripcion, String fecha_comentario) {
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.direccion = direccion;
@@ -45,7 +45,7 @@ public class PrestadorServicioIDPojo {
         this.ancho = ancho;
         this.alto = alto;
         this.placas = placas;
-        this.id_cliente = id_cliente;
+        this.id_cliente=id_cliente;
         this.descripcion = descripcion;
         this.fecha_comentario = fecha_comentario;
     }
@@ -194,11 +194,11 @@ public class PrestadorServicioIDPojo {
         this.placas = placas;
     }
 
-    public String getId_cliente() {
+    public int getId_cliente() {
         return id_cliente;
     }
 
-    public void setId_cliente(String id_cliente) {
+    public void setId_cliente(int id_cliente) {
         this.id_cliente = id_cliente;
     }
 

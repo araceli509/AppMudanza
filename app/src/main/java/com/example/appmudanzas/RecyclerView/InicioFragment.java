@@ -51,6 +51,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     RecyclerView recyclerView;
     List<ChoferPojo> choferes;
     ChoferAdapter adapter;
+
     DatabaseReference database;
     List<String> keys;
     String llave;
@@ -78,11 +79,14 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+
         choferes = new ArrayList<>();
         keys = new ArrayList<>();
         obtenerDatos();
+
         adapter = new ChoferAdapter(choferes);
         recyclerView.setAdapter(adapter);
         fabfiltro = v.findViewById(R.id.fabfiltro);;

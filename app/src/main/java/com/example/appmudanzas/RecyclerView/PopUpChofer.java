@@ -3,7 +3,6 @@ package com.example.appmudanzas.RecyclerView;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.appcompat.widget.AppCompatRatingBar;
@@ -11,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -37,6 +35,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.util.List;
+
 public class PopUpChofer extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     private TextView nombrePrestador;
     private TextView telPrestador;
@@ -44,12 +44,14 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private TextView tarifaPrestador;
     private TextView direccionPrestador;
     private TextView horarioPrestador;
+    private TextView opinionescli;
     private AppCompatRatingBar ranking;
     private Button btnmapa;
     private int id_prestador;
     private ImageView imageVehiculoPrestador,imageVehiculoLateral,imageVehiculoTrasera;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
+
 
     public PopUpChofer() {
         // Required empty public constructor
@@ -79,6 +81,26 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoPrestador=v.findViewById(R.id.imageVehiculoFrontal);
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
+        opinionescli=v.findViewById(R.id.opiniones);
+
+
+
+        opinionescli.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle datosAEnviar = new Bundle();
+                datosAEnviar.putInt("id_prestador", id_prestador);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+                OpinionesCliente fragmento = new OpinionesCliente();
+                fragmento.setArguments(datosAEnviar);
+                fragmentTransaction.replace(R.id.contenedor, fragmento);
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
+            }
+        });
+
+
 
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -153,8 +175,5 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         //aqui le agregas los demas datos para el auto
     }
 
-    public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
-        void onFragmentInteraction(Uri uri);
-    }
+
 }
