@@ -16,6 +16,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Adapter;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -46,7 +47,7 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Cotizacion extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
+public class Cotizacion extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
     private ProgressDialog progreso;
     private TextView txtOrigen;
     private TextView txtDestino;
@@ -64,6 +65,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     private int id_prestador;
     private int id_cliente;
     private FirebaseAuth mAuth;
+    private float total;
 
 
     RequestQueue request;
@@ -105,14 +107,14 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 InicioFragment fragmento = new InicioFragment();
                 fragmentTransaction.replace(R.id.contenedor, fragmento);
-                fragmentTransaction.addToBackStack(null);
+                  fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
-        switchseguro = v.findViewById(R.id.switchseguro);
         spinnerpisos = v.findViewById(R.id.spinnerpisos);
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
+        final ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
         spinnerpisos.setAdapter(adapter);
+        spinnerpisos.setOnItemSelectedListener(this);
         // Inflate the layout for this fragment
         return v;
     }
@@ -120,6 +122,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     private void getDatos() {
         Bundle datosRecuperados = getArguments();
         km = datosRecuperados.getFloat("kilometros");
+        total=km*400;
         origenLatLong = datosRecuperados.getString("origenLatLong");
         destinoLatLong = datosRecuperados.getString("destinoLatLong");
         origen = datosRecuperados.getString("origen");
@@ -127,7 +130,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         txtOrigen.setText("Direccion de origen: " + origen);
         txtDestino.setText("Direccion de destino: " + destino);
         txtKilometro.setText(km + " Km");
-        txtTotal.setText("" + km * 106);
+        txtTotal.setText(total+"");
     }
 
     public static boolean compruebaConexion(Context context) {
@@ -166,7 +169,6 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
             }){
                 @Override
                 protected Map<String, String> getParams() throws AuthFailureError {
-                    String deseaseguro = (switchseguro.isChecked())?"1":"0";
                     Map<String, String> params = new Hashtable<>();
                     params.put("id_cliente",id_cliente+"");
                     params.put("id_prestador",id_prestador+"");
@@ -176,7 +178,6 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
                     params.put("origenLatLong",origenLatLong);
                     params.put("destinoLatLong",destinoLatLong);
                     params.put("distancia",km+"");
-                    params.put("seguro",deseaseguro);
                     params.put("numero_pisos", (String)spinnerpisos.getSelectedItem());
                     params.put("monto",txtTotal.getText().toString());
                     return params;
@@ -234,6 +235,18 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+    }
+
+    @Override
+    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+        String item = parent.getItemAtPosition(position).toString();
+        float var = total+(Integer.parseInt(item)*100);
+        txtTotal.setText(var+"");
+    }
+
+    @Override
+    public void onNothingSelected(AdapterView<?> parent) {
 
     }
 }

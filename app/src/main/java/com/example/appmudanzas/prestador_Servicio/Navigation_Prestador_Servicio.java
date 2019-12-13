@@ -30,6 +30,9 @@ import com.android.volley.toolbox.Volley;
 import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaEspera;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizada;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabs;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -49,12 +52,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class Navigation_Prestador_Servicio extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
 
-        Solicitudes_Servicio.OnFragmentInteractionListener
+        Solicitudes_Servicio.OnFragmentInteractionListener,
+        MudanzaEspera.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
-         Response.Listener<JSONObject>, Response.ErrorListener
+         Response.Listener<JSONObject>, Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener, MudanzaRealizada.OnFragmentInteractionListener
         {
 
     DrawerLayout drawerLayout;
@@ -126,7 +130,6 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
             solicitudes_servicio.setArguments(bundle);
             fragmentManager.beginTransaction().replace(R.id.contenedor, solicitudes_servicio).commit();
 
-
         }
         else
         if (id==R.id.nav_secundario){
@@ -134,7 +137,12 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }else if(id==R.id.nav_Serviciosextra){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new ServiciosExtraFragment()).commit();
 
-
+        }else if(id==R.id.nav_mudanzas){
+            Bundle datos= new Bundle();
+            datos.putInt("id_prestador",idPrestador);
+            Fragment mudanzas=new mudanzasTabs();
+            mudanzas.setArguments(datos);
+            fragmentManager.beginTransaction().replace(R.id.contenedor,mudanzas).commit();
         }
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);

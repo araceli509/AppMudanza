@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:openDrawer="start"
     android:id="@+id/drawer_layout"
-    android:background="@color/c1"
+
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
@@ -22,14 +22,15 @@
         android:id="@+id/nav_view"
         app:menu="@menu/menu_principal_prestador"
         app:headerLayout="@layout/cabecera"
-        android:background="@color/c3"
+        android:background="#E5E7E9"
         android:layout_gravity="start"
         app:itemTextColor="#fff"
         >
 
         <com.google.android.material.bottomnavigation.BottomNavigationView
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            />
     </com.google.android.material.navigation.NavigationView>
 
 </androidx.drawerlayout.widget.DrawerLayout>

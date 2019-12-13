@@ -85,7 +85,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_solicitudes__servicio, container, false);
-        solicitudesV= (RecyclerView) view.findViewById(R.id.recyclerSolicitudes);
+        solicitudesV= (RecyclerView) view.findViewById(R.id.recyclermudanzas);
         solicitudesV.setLayoutManager(new LinearLayoutManager(getContext()));
         listareservaciones= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());

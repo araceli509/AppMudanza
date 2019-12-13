@@ -3,10 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    tools:context=".prestador_Servicio.Solicitudes_Servicio">
+    tools:context=".prestador_Servicio.mudanza.mudanzaActiva">
 
-    <!-- TODO: Update blank fragment layout -->
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -18,13 +16,14 @@
             android:layout_gravity="center"
             android:fontFamily="sans-serif-black"
             android:padding="5dp"
-            android:text="Mis Solicitudes"
+            android:text="Mudanzas"
             android:textSize="24sp"></TextView>
+
         <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclermudanzas"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:padding="2dp"
-            android:id="@+id/recyclermudanzas">
+            android:padding="2dp">
 
 
         </androidx.recyclerview.widget.RecyclerView>
