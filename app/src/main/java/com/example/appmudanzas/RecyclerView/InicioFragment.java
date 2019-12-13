@@ -90,13 +90,13 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         adapter = new ChoferAdapter(choferes);
         recyclerView.setAdapter(adapter);
        // fabfiltro = v.findViewById(R.id.fabfiltro);
-        fabfiltro.setOnClickListener(new View.OnClickListener() {
+        /*fabfiltro.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 showDialog();
             }
         });
-
+*/
         adapter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
