@@ -1,13 +1,18 @@
 package com.example.appmudanzas.RecyclerView;
 
+import android.content.Context;
 import android.content.Intent;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -17,10 +22,19 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.FragmentManager;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
+import com.example.appmudanzas.Cotizacion.SolicitudPojo;
 import com.example.appmudanzas.Login.LoginPrincipal;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.prestador_Servicio.Prestador;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
+import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -30,13 +44,22 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
-    private String URL="";
+, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, Response.ErrorListener{
+    private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private TextView txtUsuario,txtCorreo;
     private ImageView imagenPerfilCliente;
     private FirebaseAuth mAuth;
+    private String montoPago;
+    private RequestQueue request;
+    private JsonObjectRequest jsonObjectRequest;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -71,14 +94,16 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 
         FragmentManager fragmentManager = getSupportFragmentManager();
         fragmentManager.beginTransaction().replace(R.id.contenedor, new InicioFragment()).commit();
-
+        mAuth=FirebaseAuth.getInstance();
+        Toast.makeText(this,mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
+        URL=URL+mAuth.getCurrentUser().getEmail();
+        Toast.makeText(this,URL,Toast.LENGTH_LONG).show();
+        obtenerDatos();
     }
 
     @Override
     public void onBackPressed() {
-
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -96,12 +121,10 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         int id = item.getItemId();
         if (id == R.id.opciones) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
@@ -157,4 +180,34 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
     public void onFragmentInteraction(Uri uri) {
 
     }
+
+    public void obtenerDatos(){
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+        jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getApplicationContext(),"No se pudo Consultar "+error.toString(),Toast.LENGTH_SHORT).show();
+        Log.i("ERROR",error.toString());
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        Prestador p=new Prestador();
+
+        try {
+            JSONArray json=response.getJSONArray("prestador");
+            JSONObject jsonObject=null;
+            jsonObject=json.getJSONObject(0);
+            Toast.makeText(this,jsonObject.getInt("id_prestador"),Toast.LENGTH_LONG).show();
+            Toast.makeText(this,"id "+jsonObject.optInt("id_prestador"),Toast.LENGTH_SHORT).show();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+    }
+
 }

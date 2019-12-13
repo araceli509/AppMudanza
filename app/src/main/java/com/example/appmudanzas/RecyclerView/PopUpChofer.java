@@ -49,6 +49,7 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
     private int id_prestador;
     private ImageView imageFotoPerfil;
     private ImageView imageVehiculoPrestador,imageVehiculoLateral,imageVehiculoTrasera;
+    private TextView vehiculoLargo,vehiculoAncho,vehiculoAlto,volumen;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
 
@@ -81,6 +82,10 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         imageVehiculoLateral=v.findViewById(R.id.imageVehiculoLateral);
         imageVehiculoTrasera=v.findViewById(R.id.imageVehiculoTrasera);
         imageFotoPerfil=v.findViewById(R.id.imageFotoPerfil);
+        vehiculoLargo=v.findViewById(R.id.vehiculoLargo);
+        vehiculoAncho=v.findViewById(R.id.vehiculoAncho);
+        vehiculoAlto=v.findViewById(R.id.vehiculoAlto);
+        volumen=v.findViewById(R.id.volumen);
         btnmapa.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -148,6 +153,11 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         direccionPrestador.setText(choferpojo.getDireccion());
         horarioPrestador.setText(choferpojo.horario());
         ranking.setRating(choferpojo.getValoracion());
+        vehiculoLargo.setText(""+choferpojo.getLargo());
+        vehiculoAlto.setText(""+choferpojo.getAlto());
+        vehiculoAncho.setText(""+choferpojo.getAncho());
+        double suma=choferpojo.getLargo()+choferpojo.getAncho()+choferpojo.getAlto();
+        volumen.setText(""+(suma/3));
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_perfil/"+choferpojo.getFoto_perfil()),imageFotoPerfil);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_frontal/"+choferpojo.getFoto_frontal()),imageVehiculoPrestador);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_lateral/"+choferpojo.getFoto_lateral()),imageVehiculoLateral);

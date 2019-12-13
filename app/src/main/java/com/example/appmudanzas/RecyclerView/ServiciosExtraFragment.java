@@ -140,42 +140,9 @@ public class ServiciosExtraFragment extends Fragment {
         sabado = vista.findViewById(R.id.sabado);
         domingo = vista.findViewById(R.id.domingo);
 
-
-
-        /*costoEmpaque.setEnabled(Boolean.parseBoolean("false"));
-        txtCostoempaquemediano.setEnabled(Boolean.parseBoolean("false"));
-        txtCostoempaquepequeño.setEnabled(Boolean.parseBoolean("false"));
-        txtCargadorextra.setEnabled(Boolean.parseBoolean("false"));
-        txtPreciokm.setEnabled(Boolean.parseBoolean("false"));
-        txthorainicial.setEnabled(Boolean.parseBoolean("false"));
-        txthorafinalabores.setEnabled(Boolean.parseBoolean("false"));
-        lunes.setEnabled(Boolean.parseBoolean("false"));
-        martes.setEnabled(Boolean.parseBoolean("false"));
-        miercoles.setEnabled(Boolean.parseBoolean("false"));
-        jueves.setEnabled(Boolean.parseBoolean("false"));
-        viernes.setEnabled(Boolean.parseBoolean("false"));
-        sabado.setEnabled(Boolean.parseBoolean("false"));
-        domingo.setEnabled(Boolean.parseBoolean("false"));*/
-
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-                //button.setText("Enviar");
-                /*costoEmpaque.setEnabled(Boolean.parseBoolean("true"));
-                txtCostoempaquemediano.setEnabled(Boolean.parseBoolean("true"));
-                txtCostoempaquepequeño.setEnabled(Boolean.parseBoolean("true"));
-                txtCargadorextra.setEnabled(Boolean.parseBoolean("true"));
-                txtPreciokm.setEnabled(Boolean.parseBoolean("true"));
-                txthorainicial.setEnabled(Boolean.parseBoolean("true"));
-                txthorafinalabores.setEnabled(Boolean.parseBoolean("true"));
-                lunes.setEnabled(Boolean.parseBoolean("true"));
-                martes.setEnabled(Boolean.parseBoolean("true"));
-                miercoles.setEnabled(Boolean.parseBoolean("true"));
-                jueves.setEnabled(Boolean.parseBoolean("true"));
-                viernes.setEnabled(Boolean.parseBoolean("true"));
-                sabado.setEnabled(Boolean.parseBoolean("true"));
-                domingo.setEnabled(Boolean.parseBoolean("true"));*/
                 String horario = "";
                 if (lunes.isChecked()) {
                     horario += "lunes,";
@@ -240,6 +207,10 @@ public class ServiciosExtraFragment extends Fragment {
         for (int i = 0; i < dias.size(); i++) {
             Toast.makeText(getContext(), dias.get(i), Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void obtenerId() {
+
     }
 
 
