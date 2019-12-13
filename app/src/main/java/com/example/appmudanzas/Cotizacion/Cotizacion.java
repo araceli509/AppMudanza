@@ -35,9 +35,12 @@ import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.RecyclerView.ChoferPojo;
 import com.example.appmudanzas.RecyclerView.InicioFragment;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -49,6 +52,7 @@ import java.util.Map;
 
 public class Cotizacion extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
     private ProgressDialog progreso;
+    private ProgressDialog progreso2;
     private TextView txtOrigen;
     private TextView txtDestino;
     private TextView txtKilometro;
@@ -66,7 +70,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     private int id_cliente;
     private FirebaseAuth mAuth;
     private float total;
-
+    private TextView tvtarifaprecio;
 
     RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
@@ -96,7 +100,7 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         destinoLatLong = "";
         UPLOAD_URL="http://www.mudanzito.site/api/auth/reservacion/agregar_reservacion";
         getDatos();
-        obtenerID();
+        //obtenerID();
         request = Volley.newRequestQueue(getContext());
         btnPagar = v.findViewById(R.id.btnPagar);
         btnPagar.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +120,34 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
         spinnerpisos.setAdapter(adapter);
         spinnerpisos.setOnItemSelectedListener(this);
         // Inflate the layout for this fragment
+        getidcliente();
+        obtenerPrecios();
         return v;
+    }
+
+    private void getidcliente(){
+        JsonObjectRequest jsArrayRequest = new JsonObjectRequest(
+                Request.Method.GET,
+                "http://mudanzito.site/api/auth/cliente/busquedacliente_correo/" + mAuth.getCurrentUser().getEmail(),
+                null,
+                new Response.Listener<JSONObject>() {
+                    @Override
+                    public void onResponse(JSONObject response) {
+                        try {
+                            JSONArray jsonArray = response.getJSONArray("cliente");
+                            JSONObject jsonObject = jsonArray.getJSONObject(0);
+                            id_cliente = jsonObject.getInt("id_cliente");
+                        } catch (JSONException e) {
+                            e.printStackTrace(); }}},
+                new Response.ErrorListener() {
+                    @Override
+                    public void onErrorResponse(VolleyError error) {
+                        Log.e("error", "Error Respuesta en JSON: " + error.getMessage());
+
+                    }
+                }
+        );
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsArrayRequest);
     }
 
     private void getDatos() {
@@ -192,15 +223,18 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
 
     }
 
-    public void obtenerID() {
-        boolean conexion=compruebaConexion(getContext());
-        if(conexion) {
-            String url = "http://mudanzito.site/api/auth/cliente/busquedacliente_correo/" + mAuth.getCurrentUser().getEmail();
+    public void obtenerPrecios() {
+        progreso2= new ProgressDialog(getContext());
+        progreso2.setMessage("Enviando");
+        progreso2.show();
+        if(compruebaConexion(getContext())){
+            String url = "http://mudanzito.site/api/auth/Servicios_Extras/mostrar_Servicios_Extras_Xid_Prestador/" + id_prestador;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
         }else{
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
         }
+        progreso2.dismiss();
     }
 
     private String obtenerFechaHora (){
@@ -228,10 +262,16 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
 
     @Override
     public void onResponse(JSONObject response) {
+        Gson gson = new GsonBuilder().create();
+        Servicio_ExtraPojo choferpojo=null;
         try {
-            JSONArray jsonArray = response.getJSONArray("cliente");
-            JSONObject jsonObject = jsonArray.getJSONObject(0);
-            id_cliente = jsonObject.getInt("id_cliente");
+            JSONArray json = response.getJSONArray("servicios_extras");
+            for(int i = 0; i<json.length(); i++ ) {
+                String chofer = json.getString(i);
+                choferpojo = gson.fromJson(chofer,Servicio_ExtraPojo.class);
+            }
+
+            Log.e("holaaa",""+choferpojo.getCostoXcargador());
         } catch (JSONException e) {
             e.printStackTrace();
         }
@@ -249,4 +289,6 @@ public class Cotizacion extends Fragment  implements Response.Listener<JSONObjec
     public void onNothingSelected(AdapterView<?> parent) {
 
     }
+
+
 }

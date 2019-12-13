@@ -128,6 +128,8 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         return super.onOptionsItemSelected(item);
     }
 
+
+
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
