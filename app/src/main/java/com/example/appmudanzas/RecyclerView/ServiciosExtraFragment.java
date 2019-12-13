@@ -124,21 +124,21 @@ public class ServiciosExtraFragment extends Fragment {
 
         // Inflate the layout for this fragment
         vista = inflater.inflate(R.layout.fragment_servicios_extra, container, false);
-        button=vista.findViewById(R.id.btnEnviar);
-        costoEmpaque=vista.findViewById(R.id.txtCostoempaque);
-        txtCostoempaquemediano=vista.findViewById(R.id.txtCostoempaquemediano);
-        txtCostoempaquepequeño=vista.findViewById(R.id.txtCostoempaquepequeño);
-        txtCargadorextra=vista.findViewById(R.id.txtCargadorextra);
-        txtPreciokm=vista.findViewById(R.id.txtPreciokm);
-        txthorainicial=vista.findViewById(R.id.txthorainicial);
-        txthorafinalabores=vista.findViewById(R.id.txthorafinalabores);
-        lunes=vista.findViewById(R.id.lunes);
-        martes=vista.findViewById(R.id.martes);
-        miercoles=vista.findViewById(R.id.miercoles);
-        jueves=vista.findViewById(R.id.jueves);
-        viernes=vista.findViewById(R.id.viernes);
-        sabado=vista.findViewById(R.id.sabado);
-        domingo=vista.findViewById(R.id.domingo);
+        button = vista.findViewById(R.id.btnEnviar);
+        costoEmpaque = vista.findViewById(R.id.txtCostoempaque);
+        txtCostoempaquemediano = vista.findViewById(R.id.txtCostoempaquemediano);
+        txtCostoempaquepequeño = vista.findViewById(R.id.txtCostoempaquepequeño);
+        txtCargadorextra = vista.findViewById(R.id.txtCargadorextra);
+        txtPreciokm = vista.findViewById(R.id.txtPreciokm);
+        txthorainicial = vista.findViewById(R.id.txthorainicial);
+        txthorafinalabores = vista.findViewById(R.id.txthorafinalabores);
+        lunes = vista.findViewById(R.id.lunes);
+        martes = vista.findViewById(R.id.martes);
+        miercoles = vista.findViewById(R.id.miercoles);
+        jueves = vista.findViewById(R.id.jueves);
+        viernes = vista.findViewById(R.id.viernes);
+        sabado = vista.findViewById(R.id.sabado);
+        domingo = vista.findViewById(R.id.domingo);
 
 
 
@@ -176,44 +176,41 @@ public class ServiciosExtraFragment extends Fragment {
                 viernes.setEnabled(Boolean.parseBoolean("true"));
                 sabado.setEnabled(Boolean.parseBoolean("true"));
                 domingo.setEnabled(Boolean.parseBoolean("true"));*/
-String horario="";
-if(lunes.isChecked()){
-    horario+="lunes,";
-}
+                String horario = "";
+                if (lunes.isChecked()) {
+                    horario += "lunes,";
+                }
 
-                if(martes.isChecked()){
-                    horario+="martes,";
+                if (martes.isChecked()) {
+                    horario += "martes,";
                 }
 
 
-                if(miercoles.isChecked()){
-                    horario+="miercoles,";
+                if (miercoles.isChecked()) {
+                    horario += "miercoles,";
                 }
 
-                if(jueves.isChecked()){
-                    horario+="jueves,";
-                }
-
-
-
-                if(viernes.isChecked()){
-                    horario+="viernes,";
+                if (jueves.isChecked()) {
+                    horario += "jueves,";
                 }
 
 
-                if(sabado.isChecked()){
-                    horario+="sabado,";
+                if (viernes.isChecked()) {
+                    horario += "viernes,";
                 }
 
 
-                if(domingo.isChecked()){
-                    horario+="domingo,";
+                if (sabado.isChecked()) {
+                    horario += "sabado,";
                 }
 
-                horario=horario.substring(0,horario.length()-1);
-Log.e("",horario);
 
+                if (domingo.isChecked()) {
+                    horario += "domingo,";
+                }
 
+                horario = horario.substring(0, horario.length() - 1);
+                Log.e("", horario);
 
 
             }
@@ -222,20 +219,9 @@ Log.e("",horario);
 
         recorrer();
 
-/*
-        Toast.makeText(getContext(),dias.size()+"",Toast.LENGTH_SHORT).show();
-        for (int i=0; i<dias.size(); i++){
-            Toast.makeText(getContext(),dias.get(i)+"",Toast.LENGTH_SHORT).show();
-        }
-
-
-
-
- */
-
-
         return vista;
     }
+
     public static boolean compruebaConexion(Context context) {
         boolean connected = false;
         ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -249,23 +235,10 @@ Log.e("",horario);
         }
         return connected;
     }
-/*
-    public void obtenerServicio() {
-        boolean conexion=compruebaConexion(getContext());
-        if(conexion) {
-            String url = "http://mudanzito.site/api/auth/Servicios_Extras/mostrar_Servicios_Extras_Xid_Prestador/" + mAuth.getCurrentUser().getEmail();
-            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
-        }else{
-            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
-        }
-    }
 
- */
-
-    public void recorrer(){
-        for (int i=0; i<dias.size(); i++){
-           Toast.makeText(getContext(),dias.get(i),Toast.LENGTH_SHORT).show();
+    public void recorrer() {
+        for (int i = 0; i < dias.size(); i++) {
+            Toast.makeText(getContext(), dias.get(i), Toast.LENGTH_SHORT).show();
         }
     }
 

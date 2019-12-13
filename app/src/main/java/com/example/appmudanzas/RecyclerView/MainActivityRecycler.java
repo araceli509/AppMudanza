@@ -33,7 +33,7 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
 , solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
-
+    private String URL="";
     private TextView txtUsuario,txtCorreo;
     private ImageView imagenPerfilCliente;
     private FirebaseAuth mAuth;
@@ -105,7 +105,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         return super.onOptionsItemSelected(item);
     }
 
-    @SuppressWarnings("StatementWithEmptyBody")
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
 
@@ -121,7 +120,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
         }
         else
-<<<<<<< HEAD
         if (id==R.id.nav_acercade){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new AcercaDeFragment()).commit();
         }
@@ -129,7 +127,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         if (id==R.id.nav_serviciosExtra){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new ServiciosExtraFragment()).commit();
         }
-=======
             if (id==R.id.nav_cerrarsesion){
                 AuthUI.getInstance()
                         .signOut(this)
@@ -145,11 +142,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
                     }
                 });
             }
->>>>>>> f511cd01a2901aa828b5b1b987d094c54c8d9e93
-        /* else
-       if (id==R.id.nav_solicitudes) {
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new Solicitudes_Servicio()).commit();
-        }*/
 
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
