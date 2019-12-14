@@ -177,8 +177,8 @@ public class PopUpChofer extends Fragment implements Response.Listener<JSONObjec
         vehiculoLargo.setText(""+choferpojo.getLargo());
         vehiculoAlto.setText(""+choferpojo.getAlto());
         vehiculoAncho.setText(""+choferpojo.getAncho());
-        double suma=choferpojo.getLargo()+choferpojo.getAncho()+choferpojo.getAlto();
-        volumen.setText(""+(suma/3));
+        double multiplicacion=choferpojo.getLargo()*choferpojo.getAncho()*choferpojo.getAlto();
+        volumen.setText(""+(multiplicacion));
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_perfil/"+choferpojo.getFoto_perfil()),imageFotoPerfil);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_frontal/"+choferpojo.getFoto_frontal()),imageVehiculoPrestador);
         PicassoClient.downloadImage(getActivity(), CloudinaryClient.getRoundCornerImage("foto_lateral/"+choferpojo.getFoto_lateral()),imageVehiculoLateral);
