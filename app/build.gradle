@@ -74,4 +74,7 @@ dependencies {
     //mapas
     implementation 'com.firebase:geofire-android:2.1.2'
     implementation 'com.google.firebase:firebase-database:19.1.0'
+
+    //animacion
+    implementation 'jp.wasabeef:recyclerview-animators:3.0.0'
 }

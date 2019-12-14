@@ -38,6 +38,8 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
+
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
@@ -160,9 +162,9 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
         Mudanza mudanza = null;
 
         try {
-            JSONArray jsonArrays= response.getJSONArray("mudanzas");
-            JSONObject jsonOb  = jsonArrays.getJSONObject(0);
-            JSONArray jsonArray=jsonOb.getJSONArray("mis_mudanzas");
+            JSONArray jsonArray= response.getJSONArray("mudanzas");
+
+
             if (jsonArray.length() > 0) {
                 for (int i = 0; i < jsonArray.length(); i++) {
                     mudanza = new Mudanza();
@@ -182,6 +184,19 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
                     mudanza.setDestino( jsonObjects.getString("destino"));
                     mudanza.setDistancia(jsonObjects.getDouble("distancia"));
 
+
+                    JSONObject client = jsonObjects.getJSONObject("cliente");
+                    cliente cliente = new cliente();
+                    cliente.setId_cliente(client.getInt("id_cliente"));
+                    cliente.setNombre(client.getString("nombre"));
+                    cliente.setApellidos(client.getString("apellidos"));
+                    cliente.setCorreo(client.getString("correo"));
+                    cliente.setDireccion(client.getString("direccion"));
+                    cliente.setCodigopostal(client.getString("telefono"));
+                    cliente.setCodigopostal(client.getString("codigo_postal"));
+
+                    mudanza.setCliente(cliente);
+
                     listaMudanzas.add(mudanza);
                 }
 
@@ -197,6 +212,7 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
 
                     }
                 }));
+                recyclerMudanzas.setItemAnimator(new SlideInUpAnimator());
 
 
 

@@ -11,8 +11,6 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.appmudanzas.R;
-import com.example.appmudanzas.prestador_Servicio.solicitudes.reservacion;
-import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
 
 import java.util.ArrayList;
 
@@ -34,7 +32,7 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
         public mudanzaAdapter.mudanzaHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
             c= parent.getContext();
             LayoutInflater inflater= LayoutInflater.from(c);
-            View solicitudView = inflater.inflate(R.layout.solicitud_item, parent, false);
+            View solicitudView = inflater.inflate(R.layout.mudanzaitem, parent, false);
             return new mudanzaAdapter.mudanzaHolder(solicitudView);
 
         }
@@ -43,10 +41,13 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
     @Override
         public void onBindViewHolder(@NonNull mudanzaAdapter.mudanzaHolder holder, int position) {
             Mudanza mudanza= mudanzas.get(position);
-            holder.distancia.setText(mudanza.getDistancia()+" KM");
-            holder.fecha.setText(mudanza.getFecha().toString());
-            holder.nombrecliente.setText(mudanza.getCliente().getNombre()+" "+mudanza.getCliente().getApellidos());
-            holder.hora.setText(mudanza.getHora());
+            if(mudanza!=null) {
+
+               holder.distancia.setText(mudanza.getDistancia()+"KM");
+                holder.fecha.setText(mudanza.getFecha());
+                holder.nombrecliente.setText( mudanza.getCliente().getNombre() + " " + mudanza.getCliente().getApellidos());
+                holder.hora.setText(mudanza.getHora());
+            }
         }
 
         public interface OnItemClickListener {
@@ -70,8 +71,8 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
             public mudanzaHolder(@NonNull final View itemView) {
                 super(itemView);
 
-                nombrecliente =(TextView) itemView.findViewById(R.id.nomCliente);
-                distancia=(TextView) itemView.findViewById(R.id.mdistancia);
+                nombrecliente = itemView.findViewById(R.id.clientemudanza);
+                distancia=itemView.findViewById(R.id.mdistancia);
                 hora=(TextView) itemView.findViewById(R.id.hora);
                 fecha= (TextView)itemView.findViewById(R.id.mfecha);
                 carrito= (ImageView) itemView.findViewById(R.id.carito);
