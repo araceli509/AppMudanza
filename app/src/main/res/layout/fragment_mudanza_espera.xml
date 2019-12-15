@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:orientation="horizontal"
     tools:context=".prestador_Servicio.mudanza.MudanzaEspera">
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recyclerMudanzaespera"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="#1565C0">
 
     </androidx.recyclerview.widget.RecyclerView>
 </LinearLayout>

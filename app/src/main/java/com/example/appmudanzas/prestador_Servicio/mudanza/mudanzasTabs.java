@@ -100,10 +100,11 @@ public class mudanzasTabs extends Fragment {
 
     public void addTab(){
         pageAdapter= new pageAdapter(getFragmentManager());
-        Fragment mespera= new MudanzaEspera();
+
         Bundle id= new Bundle();
         id.putInt("id_prestador",id_prestador);
         Fragment mRealizada= new MudanzaRealizada();
+        Fragment mespera= new MudanzaEspera();
         mRealizada.setArguments(id);
         mespera.setArguments(id);
         pageAdapter.addFragment(mespera,"En Espera");

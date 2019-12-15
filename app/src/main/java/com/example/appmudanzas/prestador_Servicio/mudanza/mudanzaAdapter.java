@@ -47,6 +47,15 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
                 holder.fecha.setText(mudanza.getFecha());
                 holder.nombrecliente.setText( mudanza.getCliente().getNombre() + " " + mudanza.getCliente().getApellidos());
                 holder.hora.setText(mudanza.getHora());
+                if(mudanza.getStatus()==1){
+
+                    holder.carrito.setImageResource(R.drawable.cadespera);
+                }
+
+                if(mudanza.getStatus()==3){
+
+                    holder.carrito.setImageResource(R.drawable.vehicle);
+                }
             }
         }
 

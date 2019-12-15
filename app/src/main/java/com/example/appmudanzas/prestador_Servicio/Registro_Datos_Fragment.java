@@ -30,6 +30,7 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseAuthUserCollisionException;
+import com.google.firebase.auth.FirebaseUser;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -271,6 +272,7 @@ public class Registro_Datos_Fragment extends Fragment implements Response.Listen
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
                            if(task.isSuccessful()){
+                               enviarcorreo();
                                bandera=true;
                                Bundle datos = new Bundle();
                                datos.putString("nombre", nombre);
@@ -298,6 +300,12 @@ public class Registro_Datos_Fragment extends Fragment implements Response.Listen
         firebaseAuth.signOut();
         firebaseAuth=null;
         return bandera;
+    }
+    public void enviarcorreo(){
+
+        FirebaseAuth firebaseAuth=FirebaseAuth.getInstance();
+        FirebaseUser u= firebaseAuth.getCurrentUser();
+        u.sendEmailVerification();
     }
 
     @Override

@@ -252,6 +252,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
             String url = "http://mudanzito.site/api/auth/mudanzas/listarmismudanzaspendientes/" + id_prestador;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             requestQueue.add(jsonObjectRequest);
+            Toast.makeText(getContext(),"cargando datos",Toast.LENGTH_LONG).show();
         }else{
 
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
