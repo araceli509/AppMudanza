@@ -154,6 +154,8 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
 
         seguimientos = FirebaseDatabase.getInstance().getReference("Drivers");
+
+
         seguimientos.child(auth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
