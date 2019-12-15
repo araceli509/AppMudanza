@@ -37,6 +37,8 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
     String origen,destino;
+    String id_prestador;
+    String id_mudanza;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,6 +76,8 @@ public class MapapreviewRuta extends FragmentActivity implements OnMapReadyCallb
 
         origen=getIntent().getStringExtra("origen");
         destino=getIntent().getStringExtra("destino");
+        id_prestador=getIntent().getStringExtra("id_prestador");
+        id_mudanza = getIntent().getStringExtra("id_mudanza");
         webServiceObtenerRuta(origen,destino);
         String datos[]= origen.split(",");
         double Lat= Double.parseDouble(datos[0]);

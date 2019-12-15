@@ -1,18 +1,24 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +30,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -33,6 +44,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -99,11 +112,11 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
         // Inflate the layout for this fragment
         view =inflater.inflate(R.layout.fragment_mudanza_espera, container, false);
         recyclerMudanzaespera= view.findViewById(R.id.recyclerMudanzaespera);
+        recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
-        //tomar el id del prestador actual
         id_prestador= getArguments().getInt("id_prestador");
-        Log.e("id",String.valueOf(id_prestador));
+        Log.e("id_prestador",String.valueOf(id_prestador));
         if(id_prestador>=1){
             try {
                 cargarDatos();
@@ -198,12 +211,14 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
                         Toast.makeText(getContext(),"ah selecionado un item"+mudanza.getId_mudanza(),Toast.LENGTH_LONG).show();
                         if(mudanza!=null) {
-
+                            acvitarMudanza(mudanza);
                         }
 
                     }
                 }));
-
+                recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerMudanzaespera.setItemAnimator(new SlideInUpAnimator());
+                Log.d("Informacion",String.valueOf(recyclerMudanzaespera.getAdapter().getItemCount()));
 
 
             }else{
@@ -258,5 +273,34 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void acvitarMudanza(Mudanza mudanza) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+        dialog.setTitle("Comenzar Mudanza ");
+        dialog.setMessage("desea comenzar con esta mudanza");
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
+
+        final ImageView mapa = register_layout.findViewById(R.id.map);
+
+
+        dialog.setView(register_layout);
+        dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+                Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
+        dialog.show();
     }
 }

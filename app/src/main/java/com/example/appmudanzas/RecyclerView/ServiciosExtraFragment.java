@@ -63,7 +63,11 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
     final int hora = c.get(Calendar.HOUR_OF_DAY);
     final int minuto = c.get(Calendar.MINUTE);
     private EditText etHora;
-    private ImageButton  ibObtenerHora;
+    private EditText etHoraFinal;
+    private ImageButton ibObtenerHora;
+    private ImageButton ib_obtener_hora_final;
+
+
     private OnFragmentInteractionListener mListener;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -98,6 +102,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
     private String diasagregado;
     private String auxHoraInicio;
     private String auxHoraFin;
+    private View viewe;
 
     public ServiciosExtraFragment() {
         // Required empty public constructor
@@ -122,14 +127,15 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         vista = inflater.inflate(R.layout.fragment_servicios_extra, container, false);
 
 
+        etHora = vista.findViewById(R.id.horainicial);
+        etHoraFinal = vista.findViewById(R.id.txthorafinalabores);
 
-        etHora =vista.findViewById(R.id.horainicial);
-
-        ibObtenerHora =vista.findViewById(R.id.ib_obtener_hora);
+        ibObtenerHora = vista.findViewById(R.id.ib_obtener_hora);
 
         ibObtenerHora.setOnClickListener((OnClickListener) this);
 
-
+        ib_obtener_hora_final = vista.findViewById(R.id.ib_obtener_hora_final);
+        ib_obtener_hora_final.setOnClickListener((OnClickListener) this);
 
         button = vista.findViewById(R.id.btnEnviar);
         txtCostoempaque = vista.findViewById(R.id.txtCostoempaque);
@@ -205,15 +211,14 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     public void onClick(View view) {
         switch (view.getId()) {
-
+            case R.id.ib_obtener_hora_final:
+                obtenerHoraFinal();
+                break;
             case R.id.ib_obtener_hora:
                 obtenerHora();
                 break;
         }
     }
-
-
-
 
 
     public static boolean compruebaConexion(Context context) {
@@ -326,7 +331,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                     params.put("id_prestador", id_prestador + "");
                     params.put("dias", horario);
                     params.put("hora_inicio", auxHoraInicio);
-                    params.put("hora_salida", hora_salida);
+                    params.put("hora_salida", auxHoraFin);
                     params.put("precio", precio + "");
                     params.put("costoXcargador", costoXcargador + "");
                     params.put("costoUnitarioCajaG", costoUnitarioCajaG + "");
@@ -409,6 +414,35 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
         }, hora, minuto, false);
         recogerHora.show();
+
+
+    }
+
+    private void obtenerHoraFinal(){
+        TimePickerDialog recogerHorafinal = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                String horaFormateadafinal =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String minutoFormateadofinal = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
+
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+
+                etHoraFinal.setText(horaFormateadafinal + DOS_PUNTOS + minutoFormateadofinal + " " + AM_PM);
+                Log.e("hora",horaFormateadafinal);
+                Log.e("minuto",minutoFormateadofinal);
+                auxHoraInicio=horaFormateadafinal+":"+minutoFormateadofinal+":00";
+                Log.e("aux",auxHoraInicio);
+
+            }
+
+        }, hora, minuto, false);
+        recogerHorafinal.show();
 
 
     }

@@ -32,7 +32,9 @@ import com.example.appmudanzas.R;
 import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaEspera;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizada;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzaActiva;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabs;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzas_tab;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -54,13 +56,14 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         ServiciosExtraFragment.OnFragmentInteractionListener,
         Solicitudes_Servicio.OnFragmentInteractionListener,
         MudanzaEspera.OnFragmentInteractionListener
-        , solicitud_preview.OnFragmentInteractionListener,
+        ,solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
         Response.Listener<JSONObject>,
         Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener,
-        MudanzaRealizada.OnFragmentInteractionListener {
+        MudanzaRealizada.OnFragmentInteractionListener,
+        mudanzas_tab.OnFragmentInteractionListener, mudanzaActiva.OnFragmentInteractionListener{
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;
@@ -135,7 +138,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }else if(id==R.id.nav_mudanzas){
             Bundle datos= new Bundle();
             datos.putInt("id_prestador",idPrestador);
-            Fragment mudanzas=new mudanzasTabs();
+            Fragment mudanzas=new mudanzas_tab();
             mudanzas.setArguments(datos);
             fragmentManager.beginTransaction().replace(R.id.contenedor,mudanzas).commit();
         }
