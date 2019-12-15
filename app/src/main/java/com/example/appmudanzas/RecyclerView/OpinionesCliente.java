@@ -100,7 +100,7 @@ public class OpinionesCliente extends Fragment implements Response.Listener<JSON
     public void obtenerDatos() {
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
-            String url = "http://mudanzito.site/api/auth/comentario/busquedacomentario_idprestador/" + id_prestador;
+            String url = "http://mudanzito.site/api/auth/comentario/busquedacomentario_id/" + id_prestador;
 
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
