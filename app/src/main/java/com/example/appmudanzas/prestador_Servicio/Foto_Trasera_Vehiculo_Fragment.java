@@ -146,7 +146,10 @@ public class Foto_Trasera_Vehiculo_Fragment extends Fragment {
                         }).start();
                         subirDatos();
 
+                        Bundle datos= new Bundle();
+                        datos.putString("id_prestador",id_prestador);
                         Solicitud_Enviada_Fragment s= new Solicitud_Enviada_Fragment();
+                        s.setArguments(datos);
                         FragmentTransaction fr=getFragmentManager().beginTransaction();
                         fr.replace(R.id.contenedor,s).addToBackStack(null);
                         fr.commit();
