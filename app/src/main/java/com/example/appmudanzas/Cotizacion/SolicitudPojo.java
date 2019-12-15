@@ -1,6 +1,7 @@
 package com.example.appmudanzas.Cotizacion;
 
 public class SolicitudPojo {
+    private String nombre;
     private String fecha_hora;
     private String origen;
     private String destino;
@@ -8,12 +9,22 @@ public class SolicitudPojo {
     private String status;
 
     public SolicitudPojo(){}
-    public SolicitudPojo(String fecha_hora, String origen, String destino, String monto, String status) {
+
+    public SolicitudPojo(String nombre, String fecha_hora, String origen, String destino, String monto, String status) {
+        this.nombre = nombre;
         this.fecha_hora = fecha_hora;
         this.origen = origen;
         this.destino = destino;
         this.monto = monto;
         this.status = status;
+    }
+
+    public String getNombre() {
+        return nombre;
+    }
+
+    public void setNombre(String nombre) {
+        this.nombre = nombre;
     }
 
     public String getFecha_hora() {

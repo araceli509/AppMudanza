@@ -1,6 +1,7 @@
 package com.example.appmudanzas.RecyclerView;
 
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.net.ConnectivityManager;
@@ -55,10 +56,10 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     private FirebaseAuth mAuth;
     private String montoPago;
 
-
+private int id_cliente;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
-
+    private ProgressDialog progreso;
     RecyclerView recyclerView;
     List<SolicitudPojo> solicitudes;
     SolicitudAdapter adapter;
@@ -76,9 +77,10 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v= inflater.inflate(R.layout.fragment_galeria, container, false);
-        request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
+        //getidcliente();
+        request= Volley.newRequestQueue(getContext());
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         solicitudes = new ArrayList<>();
@@ -122,18 +124,7 @@ public class GaleriaFragment extends Fragment implements Response.Listener<JSONO
     public void obtenerDatos() {
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
-            String url = "http://mudanzito.site/api/auth/reservacion/reservaciones_usuario/" + 3;
-            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
-            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
-        }else{
-            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
-        }
-    }
-
-    public void obtenerID() {
-        boolean conexion=compruebaConexion(getContext());
-        if(conexion) {
-            String url = "http://mudanzito.site/api/auth/cliente/busquedacliente_correo/" + mAuth.getCurrentUser().getEmail();
+            String url = "http://mudanzito.site//api/auth/cliente/busquedacliente_correo_reservacion/" + mAuth.getCurrentUser().getEmail();
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
         }else{

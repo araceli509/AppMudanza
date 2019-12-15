@@ -52,8 +52,6 @@ import java.util.List;
         this.listener = listener;
     }
 
-
-
     @Override
     public void onClick(View v) {
         if (listener != null) {

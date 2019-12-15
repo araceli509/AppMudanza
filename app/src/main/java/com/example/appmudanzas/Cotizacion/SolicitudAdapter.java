@@ -33,6 +33,7 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
     @Override
     public void onBindViewHolder(@NonNull SolicitudAdapter.PosicionSolicitudViewHolder holder, int position) {
         SolicitudPojo reservacion = solicitud.get(position);
+        holder.nombre.setText("Nombre: "+ reservacion.getNombre());
         holder.fecha_hora.setText("Fecha: " + reservacion.getFecha_hora());
         holder.origen.setText("Origen: " + reservacion.getOrigen());
         holder.destino.setText("Destino: " + reservacion.getDestino());
@@ -63,6 +64,7 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
     }
     public static class PosicionSolicitudViewHolder extends RecyclerView.ViewHolder {
 
+        TextView nombre;
         TextView fecha_hora;
         TextView origen;
         TextView destino;
@@ -70,12 +72,14 @@ public class SolicitudAdapter extends RecyclerView.Adapter<SolicitudAdapter.Posi
         TextView estado;
         public PosicionSolicitudViewHolder(View itemView) {
             super(itemView);
+            nombre = itemView.findViewById(R.id.nombre);
             fecha_hora = itemView.findViewById(R.id.fecha_hora);
             origen = itemView.findViewById(R.id.origen);
             destino = itemView.findViewById(R.id.destino);
             monto = itemView.findViewById(R.id.monto);
             estado = itemView.findViewById(R.id.estado);
 
-        }
+
+    }
     }
 }
