@@ -341,9 +341,10 @@ public class Registro_Datos_Fragment extends Fragment implements Response.Listen
             for(i=0; i<json.length(); i++){
             }
             jsonObject=json.getJSONObject(i-1);
-            p.setId_prestador(jsonObject.optInt("id_prestador"));
 
+            p.setId_prestador(jsonObject.optInt("id_prestador"));
             id_prestador=String.valueOf(p.getId_prestador()+1);
+
             Toast.makeText(getContext(),"id "+id_prestador,Toast.LENGTH_LONG).show();
         } catch (JSONException e) {
             e.printStackTrace();

@@ -173,7 +173,6 @@ public class Registro_Foto_Perfil_Fragment extends Fragment {
     }
 
     private void subirDatos() {
-
         progreso= new ProgressDialog(getContext());
         progreso.setMessage("Enviando");
         progreso.show();
