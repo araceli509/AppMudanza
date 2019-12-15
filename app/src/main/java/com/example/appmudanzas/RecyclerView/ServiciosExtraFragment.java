@@ -30,8 +30,13 @@ import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.android.material.textfield.TextInputEditText;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 
 import androidx.appcompat.widget.AppCompatTextView;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Hashtable;
@@ -40,8 +45,9 @@ import java.util.Map;
 import static android.view.ViewGroup.*;
 import static android.view.ViewGroup.LayoutParams.*;
 import static android.widget.Toast.*;
+import static com.firebase.ui.auth.AuthUI.getApplicationContext;
 
-public class ServiciosExtraFragment extends Fragment {
+public class ServiciosExtraFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private CheckBox lunes, martes, miercoles, jueves, viernes, sabado, domingo;
 
@@ -59,6 +65,8 @@ public class ServiciosExtraFragment extends Fragment {
     private JsonObjectRequest jsonObjectRequest;
     private FirebaseAuth mAuth;
     RequestQueue request;
+    int idPrestador;
+    private RequestQueue requestQueue;
 
 
     public ServiciosExtraFragment() {
@@ -66,58 +74,9 @@ public class ServiciosExtraFragment extends Fragment {
     }
 
 
-    /*
-    private void subirDatos() {
-        progreso= new ProgressDialog(getContext());
-        progreso.setMessage("Enviando");
-        progreso.show();
-        if(compruebaConexion(getContext())){
-            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
-                    new Response.Listener<String>() {
-                        @Override
-                        public void onResponse(String response) {
-                            Toast.makeText(getContext(),"Datos enviados correctamente",Toast.LENGTH_LONG).show();
-                            progreso.hide();
-                        }
-                    },new Response.ErrorListener() {
-                @Override
-                public void onErrorResponse(VolleyError error) {
-                    Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
-                    progreso.hide();
-                }
-            }){
-                @Override
-                protected Map<String, String> getParams() throws AuthFailureError {
-                    String deseaseguro = (switchseguro.isChecked())?"1":"0";
-                    Map<String, String> params = new Hashtable<>();
-                    params.put("costoEmpaque",costoEmpaque+"");
-                    params.put("txtCostoempaquemediano",txtCostoempaquemediano+"");
-                    params.put("txtCostoempaquepequeño",txtCostoempaquepequeño+"");
-                    params.put("txtCargadorextra",txtCargadorextra+"");
-                    params.put("txthorainicial",txthorainicial+"");
-                    params.put("txthorafinalabores",txthorafinalabores+"");
-                    params.put("lunes",lunes.getText().toString());
-                    params.put("martes",martes.getText().toString());
-                    params.put("miercoles",miercoles.getText().toString());
-                    params.put("jueves",jueves.getText().toString());
-                    params.put("viernes",viernes.getText().toString());
-                    params.put("sabado",sabado.getText().toString());
-                    params.put("domingo",domingo.getText().toString());
 
-                    return params;
-                }
-            };
-            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
-            // requestQueue.add(stringRequest);
-        }else{
-            progreso.dismiss();
-            Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
-        }
 
-    }
 
-     */
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -139,6 +98,10 @@ public class ServiciosExtraFragment extends Fragment {
         viernes = vista.findViewById(R.id.viernes);
         sabado = vista.findViewById(R.id.sabado);
         domingo = vista.findViewById(R.id.domingo);
+
+        mAuth = FirebaseAuth.getInstance();
+        requestQueue= Volley.newRequestQueue(getContext());
+        cargarDatos();
 
         button.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -189,6 +152,56 @@ public class ServiciosExtraFragment extends Fragment {
         return vista;
     }
 
+
+
+    public void recorrer() {
+        for (int i = 0; i < dias.size(); i++) {
+            Toast.makeText(getContext(), dias.get(i), Toast.LENGTH_SHORT).show();
+        }
+    }
+
+
+
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+
+        try {
+            JSONArray jsonArray = response.getJSONArray("prestador");
+            JSONObject jsonObject = jsonArray.getJSONObject(0);
+            idPrestador= jsonObject.getInt("id_prestador");
+            Toast.makeText(getContext(),String.valueOf(idPrestador),Toast.LENGTH_LONG).show();
+
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public interface OnFragmentInteractionListener {
+
+        void onFragmentInteraction(Uri uri);
+    }
+
+    private void cargarDatos(){
+        boolean conexion=compruebaConexion(getContext());
+        if(conexion) {
+            FirebaseUser user = mAuth.getCurrentUser();
+            String correo=user.getEmail();
+            String url = "http://mudanzito.site/api/auth/cliente/busquedaprestador/" +correo;
+            jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            requestQueue.add(jsonObjectRequest);
+        }else{
+
+            Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
+        }
+
+    }
     public static boolean compruebaConexion(Context context) {
         boolean connected = false;
         ConnectivityManager connec = (ConnectivityManager) context.getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -203,22 +216,6 @@ public class ServiciosExtraFragment extends Fragment {
         return connected;
     }
 
-    public void recorrer() {
-        for (int i = 0; i < dias.size(); i++) {
-            Toast.makeText(getContext(), dias.get(i), Toast.LENGTH_SHORT).show();
-        }
-    }
-
-
-    public void obtenerId() {
-
-    }
-
-
-    public interface OnFragmentInteractionListener {
-
-        void onFragmentInteraction(Uri uri);
-    }
 
 }
 //http://mudanzito.site/api/auth/cliente/busquedaprestador/freddg02@hotmail.com

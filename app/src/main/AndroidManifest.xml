@@ -44,7 +44,7 @@
             android:value="@string/google_maps_key" />
 
         <activity
-            android:name=".prestador_Servicio.solicitudes.rutaPrestador"
+            android:name=".prestador_Servicio.mudanza.rutaPrestador"
             android:label="@string/title_activity_ruta_prestador">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

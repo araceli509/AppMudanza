@@ -110,12 +110,15 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
         mAuth.signInWithEmailAndPassword(email,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
-                if(task.isSuccessful()){
+                if(task.isSuccessful()&&mAuth.getCurrentUser().isEmailVerified()){
                     Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
                     startActivity(i);
                     //getActivity().finish();
+                }else if(!mAuth.getCurrentUser().isEmailVerified()) {
+                    Toast.makeText(getContext(), "Por Favor Verifique su correo", Toast.LENGTH_SHORT).show();
                 }else {
                     Toast.makeText(getContext(), "Usuario o contrañsea incorrectos ", Toast.LENGTH_SHORT).show();
+
                 }
             }
         });
