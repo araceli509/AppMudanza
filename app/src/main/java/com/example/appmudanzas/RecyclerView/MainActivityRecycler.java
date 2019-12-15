@@ -60,6 +60,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
     private String montoPago;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
+    private int idPrestador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -195,7 +196,8 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
             JSONArray json=response.getJSONArray("prestador");
             JSONObject jsonObject=null;
             jsonObject=json.getJSONObject(0);
-            Toast.makeText(this,jsonObject.getInt("id_prestador"),Toast.LENGTH_LONG).show();
+            idPrestador=jsonObject.optInt("id_prestador");
+
             Toast.makeText(this,"id "+jsonObject.optInt("id_prestador"),Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();

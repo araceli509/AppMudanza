@@ -1,4 +1,4 @@
-package com.example.appmudanzas.prestador_Servicio.solicitudes;
+package com.example.appmudanzas.prestador_Servicio.mudanza;
 
 import androidx.fragment.app.FragmentActivity;
 
@@ -35,7 +35,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
     MarkerOptions mkOp;
     FirebaseAuth auth;
     FirebaseDatabase db;
-    DatabaseReference users,solicitudes;
+    DatabaseReference driver;
     Marker miMarcador;
 
     @Override

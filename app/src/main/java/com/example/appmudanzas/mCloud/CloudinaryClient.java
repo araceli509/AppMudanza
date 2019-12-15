@@ -8,9 +8,9 @@ public class CloudinaryClient {
     public static String getRoundCornerImage(String imageName){
         Cloudinary cloud=new Cloudinary(MyConfiguration.getMyConfigs());
         Transformation t= new Transformation();
-        t.radius(60);
-        t.height(320);
-        t.width(320);
+        t.radius(70);
+        t.height(420);
+        t.width(420);
         String url= cloud.url().transformation(t).generate(imageName);
         return url;
     }

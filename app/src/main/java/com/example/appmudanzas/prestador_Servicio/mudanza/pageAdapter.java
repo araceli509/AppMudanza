@@ -31,9 +31,8 @@ public class pageAdapter extends FragmentStatePagerAdapter {
         return fragments.size();
     }
 
-    public void addFragment(Fragment f,String titulo){
-         fragments.add(f);
-         titulos.add(titulo);
-
+    public void addFragment(Fragment f,String titulo) {
+        fragments.add(f);
+        titulos.add(titulo);
     }
 }
