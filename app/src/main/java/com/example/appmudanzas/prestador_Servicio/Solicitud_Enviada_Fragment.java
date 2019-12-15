@@ -35,7 +35,7 @@ public class Solicitud_Enviada_Fragment extends Fragment {
     private Button btnSolicitudEnviada;
     private View vista;
     private String UPLOAD_URL_RANKING = "http://mudanzito.site/api/auth/servicios/insertar_servicio_ranking/";
-
+    private String id_prestador="";
     public Solicitud_Enviada_Fragment() {
     }
 
@@ -62,6 +62,10 @@ public class Solicitud_Enviada_Fragment extends Fragment {
                              Bundle savedInstanceState) {
 
         vista = inflater.inflate(R.layout.fragment_solicitud__enviada_, container, false);
+        Bundle datos=getArguments();
+        id_prestador=datos.getString("id_prestador");
+        Toast.makeText(getContext(),id_prestador,Toast.LENGTH_LONG).show();
+
         btnSolicitudEnviada = vista.findViewById(R.id.btn_finalizar);
         btnSolicitudEnviada.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -110,7 +114,7 @@ public class Solicitud_Enviada_Fragment extends Fragment {
                 new Response.Listener<String>() {
                     @Override
                     public void onResponse(String response) {
-
+                        Toast.makeText(getContext(),"Correctamente",Toast.LENGTH_SHORT).show();
                     }
                 }, new Response.ErrorListener() {
             @Override
@@ -121,7 +125,8 @@ public class Solicitud_Enviada_Fragment extends Fragment {
             @Override
             protected Map<String, String> getParams() throws AuthFailureError {
                 Map<String, String> params = new Hashtable<>();
-                params.put("id_prestador", "1");
+                params.put("id_prestador", id_prestador);
+                params.put("valoracion", "0");
                 params.put("dias", "lunes,martes,miercoles,jueves,viernes");
                 params.put("hora_inicio", "09:00:00");
                 params.put("hora_salida", "19:00:00");
@@ -130,7 +135,9 @@ public class Solicitud_Enviada_Fragment extends Fragment {
                 params.put("costoUnitarioCajaM", "100");
                 params.put("costoUnitarioCajaC", "50");
                 params.put("precio", "0");
-                params.put("valoracion", "0");
+                params.put("descripcion", "Bienvenido");
+                params.put("fecha_comentario", "2019-01-01");
+                params.put("id_cliente", "1");
                 return params;
             }
         };
