@@ -142,12 +142,14 @@ private int id_cliente;
         Gson gson = new GsonBuilder().create();
         try {
             JSONArray json = response.getJSONArray("reservacion");
+            if(json.length()>0){
             for(int i = 0; i<json.length(); i++ ) {
                 String solicitud = json.getString(i);
                 SolicitudPojo solicitudPojo = gson.fromJson(solicitud,SolicitudPojo.class);
                 solicitudes.add(solicitudPojo);
             }
             adapter.notifyDataSetChanged();
+            }
         } catch (JSONException e) {
             e.printStackTrace();
         }
