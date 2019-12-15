@@ -1,5 +1,6 @@
 package com.example.appmudanzas.prestador_Servicio;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
@@ -9,12 +10,18 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
+import com.android.volley.Request;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.JsonObjectRequest;
 import com.example.appmudanzas.R;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -22,16 +29,10 @@ import com.google.android.material.textfield.TextInputLayout;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 
+import org.json.JSONArray;
+import org.json.JSONObject;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link Login_Prestador_Servicio_Fragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class Login_Prestador_Servicio_Fragment extends Fragment {
+public class Login_Prestador_Servicio_Fragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
 
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -43,7 +44,11 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     private Button btn_login_prestador,btn_registrar_prestador,btn_reset_password;
     private View vista;
     private OnFragmentInteractionListener mListener;
-
+    private JsonObjectRequest jsonObjectRequest;
+    String URL="";
+    private String id_prestador;
+    private String status;
+    private String solicitud;
     public Login_Prestador_Servicio_Fragment() {
     }
 
@@ -95,7 +100,9 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
             @Override
 
             public void onClick(View v){
+                email="";
                 email=inputCorreo.getEditText().getText().toString().trim();
+                URL="http://mudanzito.site/api/auth/prestador_servicio/correo_activo/"+email;
                 password=inputPassword.getEditText().getText().toString().trim();
                 if(!email.isEmpty()&&!password.isEmpty()){
                     loginUser();
@@ -111,24 +118,27 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 try {
-                    if(task.isSuccessful()&&mAuth.getCurrentUser().isEmailVerified()){
-                        Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
-                        startActivity(i);
+                    verificarCorreoElectornico();
+                    if(status.equals("1")&&solicitud.equals("1")){
+                        if(task.isSuccessful()&&mAuth.getCurrentUser().isEmailVerified()){
+                            Intent i= new Intent(getActivity(),Navigation_Prestador_Servicio.class);
+                            startActivity(i);
 
-                    }else if(!mAuth.getCurrentUser().isEmailVerified()) {
-                        Toast.makeText(getContext(), "Por Favor Verifique su correo", Toast.LENGTH_SHORT).show();
-                    }else {
-                        Toast.makeText(getContext(), "Usuario o contrañsea incorrectos ", Toast.LENGTH_SHORT).show();
-
+                        }else if(!mAuth.getCurrentUser().isEmailVerified()) {
+                            Toast.makeText(getContext(), "Por Favor Verifique su correo", Toast.LENGTH_SHORT).show();
+                        }else {
+                            Toast.makeText(getContext(), "Usuario o contraseña incorrectos ", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(getContext(),"Correo no habilitado",Toast.LENGTH_SHORT).show();
                     }
+
                 }catch (Exception e){
 
                 }
-
             }
         });
     }
-
 
     public void onButtonPressed(Uri uri) {
         if (mListener != null) {
@@ -154,7 +164,6 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
     }
 
     public interface OnFragmentInteractionListener {
-        // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
 
@@ -164,5 +173,36 @@ public class Login_Prestador_Servicio_Fragment extends Fragment {
         btn_reset_password=vista.findViewById(R.id.btn_reset_password);
         inputCorreo=vista.findViewById(R.id.usuario_prestador);
         inputPassword=vista.findViewById(R.id.password_prestador);
+    }
+
+    public void verificarCorreoElectornico(){
+        Log.e("Error",URL);
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+        jsonObjectRequest.setShouldCache(false);
+        jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+    }
+
+    @Override
+    public void onErrorResponse(VolleyError error) {
+        Toast.makeText(getContext(),error.getMessage().toString(),Toast.LENGTH_SHORT).show();
+    }
+
+    @Override
+    public void onResponse(JSONObject response) {
+        JSONArray json=response.optJSONArray("Prestador");
+        Log.e("Error",response.toString());
+        JSONObject jsonObject=null;
+        try{
+            jsonObject=json.getJSONObject(0);
+            id_prestador=String.valueOf(jsonObject.optInt("id_prestador"));
+            status=String.valueOf(jsonObject.optInt("status"));
+            solicitud=String.valueOf(jsonObject.optInt("solicitud"));
+            Log.e("Error",id_prestador);
+            Log.e("Error",status);
+            Log.e("Error",solicitud);
+        }catch(Exception e){
+
+        }
     }
 }

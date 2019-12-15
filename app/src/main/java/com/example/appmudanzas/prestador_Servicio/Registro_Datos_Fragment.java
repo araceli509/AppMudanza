@@ -52,7 +52,6 @@ public class Registro_Datos_Fragment extends Fragment implements Response.Listen
     private String nombre,apellidos,correo,password,direccion,telefono,codigoPostal;
     private ProgressDialog progreso;
     private  boolean bandera=false;
-
     private JsonObjectRequest jsonObjectRequest;
     String URL="http://mudanzito.site/api/auth/prestador_servicio/ultimo";
     private int i=0;
