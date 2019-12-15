@@ -26,6 +26,7 @@ import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Utilidades;
 import com.firebase.geofire.GeoFire;
@@ -104,6 +105,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
         origen=getIntent().getStringExtra("origen");
         destino=getIntent().getStringExtra("destino");
+        request = Volley.newRequestQueue(getApplicationContext());
         webServiceObtenerRuta(origen,destino);
         String datos[]= origen.split(",");
         double Lat= Double.parseDouble(datos[0]);

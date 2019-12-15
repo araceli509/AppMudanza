@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
@@ -35,6 +36,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -100,7 +103,7 @@ public class mudanzaActiva extends Fragment implements Response.Listener<JSONObj
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         view= inflater.inflate(R.layout.fragment_mudanza_activa, container, false);
-        recyclermundazaActiva= view.findViewById(R.id.recyclerMudanzaespera);
+        recyclermundazaActiva= view.findViewById(R.id.recycleractivas);
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
         //tomar el id del prestador actual
@@ -212,7 +215,8 @@ public class mudanzaActiva extends Fragment implements Response.Listener<JSONObj
                     }
                 }));
 
-
+                recyclermundazaActiva.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclermundazaActiva.setItemAnimator(new SlideInUpAnimator());
 
             }else{
                 Toast.makeText(getContext(),"No hay solicitudes nuevas",Toast.LENGTH_LONG).show();

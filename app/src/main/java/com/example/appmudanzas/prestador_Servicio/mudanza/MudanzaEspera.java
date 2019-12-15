@@ -10,6 +10,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.text.TextUtils;
@@ -43,6 +44,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+
+import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -109,11 +112,11 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
         // Inflate the layout for this fragment
         view =inflater.inflate(R.layout.fragment_mudanza_espera, container, false);
         recyclerMudanzaespera= view.findViewById(R.id.recyclerMudanzaespera);
+        recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
-        //tomar el id del prestador actual
         id_prestador= getArguments().getInt("id_prestador");
-        Log.e("id",String.valueOf(id_prestador));
+        Log.e("id_prestador",String.valueOf(id_prestador));
         if(id_prestador>=1){
             try {
                 cargarDatos();
@@ -213,7 +216,9 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
                     }
                 }));
-
+                recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerMudanzaespera.setItemAnimator(new SlideInUpAnimator());
+                Log.d("Informacion",String.valueOf(recyclerMudanzaespera.getAdapter().getItemCount()));
 
 
             }else{

@@ -32,6 +32,7 @@ import com.example.appmudanzas.R;
 import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaEspera;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizada;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzaActiva;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabs;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzas_tab;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
@@ -62,7 +63,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         Response.Listener<JSONObject>,
         Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener,
         MudanzaRealizada.OnFragmentInteractionListener,
-        mudanzas_tab.OnFragmentInteractionListener{
+        mudanzas_tab.OnFragmentInteractionListener, mudanzaActiva.OnFragmentInteractionListener{
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;

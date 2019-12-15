@@ -105,7 +105,7 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view=inflater.inflate(R.layout.fragment_mudanza_realizada, container, false);
-        recyclerMudanzas= (RecyclerView) view.findViewById(R.id.recyclerrealizadas);
+        recyclerMudanzas= view.findViewById(R.id.recyclerrealizadas);
         recyclerMudanzas.setLayoutManager(new LinearLayoutManager(getContext()));
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
@@ -212,6 +212,7 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
 
                     }
                 }));
+                recyclerMudanzas.setLayoutManager(new LinearLayoutManager(getContext()));
                 recyclerMudanzas.setItemAnimator(new SlideInUpAnimator());
 
 

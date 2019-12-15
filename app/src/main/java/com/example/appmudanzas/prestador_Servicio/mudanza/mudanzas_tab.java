@@ -134,8 +134,11 @@ public class mudanzas_tab extends Fragment {
         id.putInt("id_prestador",id_prestador);
         Fragment mRealizada= new MudanzaRealizada();
         Fragment mespera= new MudanzaEspera();
+        Fragment activa = new mudanzaActiva();
+        activa.setArguments(id);
         mRealizada.setArguments(id);
         mespera.setArguments(id);
+        pageAdapter.addFragment(activa,"Activa");
         pageAdapter.addFragment(mespera,"En Espera");
         pageAdapter.addFragment(mRealizada,"Completadas");
         viewPager.setAdapter(pageAdapter);
