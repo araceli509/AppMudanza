@@ -100,7 +100,6 @@ public class mudanzasTabs extends Fragment {
 
     public void addTab(){
         pageAdapter= new pageAdapter(getFragmentManager());
-
         Bundle id= new Bundle();
         id.putInt("id_prestador",id_prestador);
         Fragment mRealizada= new MudanzaRealizada();

@@ -1,14 +1,19 @@
-package com.example.appmudanzas;
+package com.example.appmudanzas.prestador_Servicio.mudanza;
 
 import android.content.Context;
 import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.appmudanzas.R;
+import com.google.android.material.appbar.AppBarLayout;
+import com.google.android.material.tabs.TabLayout;
 
 
 /**
@@ -29,20 +34,20 @@ public class mudanzas_tab extends Fragment {
     private String mParam1;
     private String mParam2;
 
+    View vista;
+    private AppBarLayout appBar;
+    private TabLayout pestañas;
+    private ViewPager viewPager;
+    int id_prestador=0;
+    pageAdapter pageAdapter;
+
     private OnFragmentInteractionListener mListener;
 
     public mudanzas_tab() {
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment mudanzas_tab.
-     */
+
     // TODO: Rename and change types and number of parameters
     public static mudanzas_tab newInstance(String param1, String param2) {
         mudanzas_tab fragment = new mudanzas_tab();
@@ -60,13 +65,28 @@ public class mudanzas_tab extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
+        id_prestador= getArguments().getInt("id_prestador");
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_mudanzas_tab, container, false);
+        vista=inflater.inflate(R.layout.fragment_mudanzas_tab, container, false);
+
+
+        pestañas=vista.findViewById(R.id.tabs);
+        viewPager=vista.findViewById(R.id.viewpager);
+
+        addTab();
+        viewPager.addOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener(){
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels);
+            }
+        });
+        pestañas.setupWithViewPager(viewPager);
+        return vista;
     }
 
     // TODO: Rename method, update argument and hook method into UI event
@@ -107,4 +127,18 @@ public class mudanzas_tab extends Fragment {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
     }
+
+    public void addTab(){
+        pageAdapter= new pageAdapter(getFragmentManager());
+        Bundle id= new Bundle();
+        id.putInt("id_prestador",id_prestador);
+        Fragment mRealizada= new MudanzaRealizada();
+        Fragment mespera= new MudanzaEspera();
+        mRealizada.setArguments(id);
+        mespera.setArguments(id);
+        pageAdapter.addFragment(mespera,"En Espera");
+        pageAdapter.addFragment(mRealizada,"Completadas");
+        viewPager.setAdapter(pageAdapter);
+    }
+
 }

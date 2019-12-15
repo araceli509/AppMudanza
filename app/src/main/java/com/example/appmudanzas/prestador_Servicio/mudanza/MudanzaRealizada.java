@@ -104,8 +104,8 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view=inflater.inflate(R.layout.fragment_solicitudes__servicio, container, false);
-        recyclerMudanzas= (RecyclerView) view.findViewById(R.id.recyclermudanzas);
+        view=inflater.inflate(R.layout.fragment_mudanza_realizada, container, false);
+        recyclerMudanzas= (RecyclerView) view.findViewById(R.id.recyclerrealizadas);
         recyclerMudanzas.setLayoutManager(new LinearLayoutManager(getContext()));
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());

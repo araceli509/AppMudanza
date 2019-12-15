@@ -1,18 +1,23 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
@@ -24,6 +29,11 @@ import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.material.snackbar.Snackbar;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -198,7 +208,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
                         Toast.makeText(getContext(),"ah selecionado un item"+mudanza.getId_mudanza(),Toast.LENGTH_LONG).show();
                         if(mudanza!=null) {
-
+                            acvitarMudanza(mudanza);
                         }
 
                     }
@@ -258,5 +268,34 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
         }
 
+    }
+
+    private void acvitarMudanza(Mudanza mudanza) {
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+        dialog.setTitle("Comenzar Mudanza ");
+        dialog.setMessage("desea comenzar con esta mudanza");
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
+
+        final ImageView mapa = register_layout.findViewById(R.id.map);
+
+
+        dialog.setView(register_layout);
+        dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+
+                Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
+
+            }
+        });
+
+
+
+        dialog.show();
     }
 }
