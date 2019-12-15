@@ -128,7 +128,7 @@ public class Solicitud_Enviada_Fragment extends Fragment {
                 params.put("id_prestador", id_prestador);
                 params.put("valoracion", "0");
                 params.put("dias", "lunes,martes,miercoles,jueves,viernes");
-                params.put("hora_inicio", "09:00:00");
+                params.put("hora_inicio", "07:00:00");
                 params.put("hora_salida", "19:00:00");
                 params.put("costoXcargador", "120");
                 params.put("costoUnitarioCajaG", "150");
