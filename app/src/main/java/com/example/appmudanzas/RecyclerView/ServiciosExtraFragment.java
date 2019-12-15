@@ -1,6 +1,7 @@
 package com.example.appmudanzas.RecyclerView;
 
 import android.app.ProgressDialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -17,7 +18,9 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.RadioGroup;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
@@ -52,8 +55,15 @@ import static android.view.ViewGroup.*;
 import static android.view.ViewGroup.LayoutParams.*;
 import static android.widget.Toast.*;
 
-public class ServiciosExtraFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener {
-
+public class ServiciosExtraFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener,View.OnClickListener,TimePickerDialog.OnTimeSetListener {
+    private static final String CERO = "0";
+    private static final String DOS_PUNTOS = ":";
+    private static final String BARRA = "/";
+    public final Calendar c = Calendar.getInstance();
+    final int hora = c.get(Calendar.HOUR_OF_DAY);
+    final int minuto = c.get(Calendar.MINUTE);
+    private EditText etHora;
+    private ImageButton  ibObtenerHora;
     private OnFragmentInteractionListener mListener;
     private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
@@ -86,6 +96,8 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
     RequestQueue request;
     private String diaseleccionados;
     private String diasagregado;
+    private String auxHoraInicio;
+    private String auxHoraFin;
 
     public ServiciosExtraFragment() {
         // Required empty public constructor
@@ -108,13 +120,24 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         // Inflate the layout for this fragment
         UPLOAD_URL = "http://www.mudanzito.site/api/auth/Servicios_Extras/insertar_Servicios_Extras/";
         vista = inflater.inflate(R.layout.fragment_servicios_extra, container, false);
+
+
+
+        etHora =vista.findViewById(R.id.horainicial);
+
+        ibObtenerHora =vista.findViewById(R.id.ib_obtener_hora);
+
+        ibObtenerHora.setOnClickListener((OnClickListener) this);
+
+
+
         button = vista.findViewById(R.id.btnEnviar);
         txtCostoempaque = vista.findViewById(R.id.txtCostoempaque);
         txtCostoempaquemediano = vista.findViewById(R.id.txtCostoempaquemediano);
         txtCostoempaquepequeño = vista.findViewById(R.id.txtCostoempaquepequeño);
         txtCargadorextra = vista.findViewById(R.id.txtCargadorextra);
         txtPreciokm = vista.findViewById(R.id.txtPreciokm);
-        horaInicial = vista.findViewById(R.id.txthorainicial);
+        //horaInicial = vista.findViewById(R.id.txthorainicial);
         txthorafinalabores = vista.findViewById(R.id.txthorafinalabores);
         lunes = vista.findViewById(R.id.lunes);
         martes = vista.findViewById(R.id.martes);
@@ -174,10 +197,24 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
         });
 
+
         recorrer();
 
         return vista;
     }
+
+    public void onClick(View view) {
+        switch (view.getId()) {
+
+            case R.id.ib_obtener_hora:
+                obtenerHora();
+                break;
+        }
+    }
+
+
+
+
 
     public static boolean compruebaConexion(Context context) {
         boolean connected = false;
@@ -199,10 +236,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         }
     }
 
-
-    public void obtenerId() {
-
-    }
 
     public void optenermetodos() {
         String datos = "";
@@ -257,6 +290,11 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     }
 
+    @Override
+    public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+    }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
 
@@ -287,7 +325,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                     Map<String, String> params = new Hashtable<>();
                     params.put("id_prestador", id_prestador + "");
                     params.put("dias", horario);
-                    params.put("hora_inicio", hora_inicio);
+                    params.put("hora_inicio", auxHoraInicio);
                     params.put("hora_salida", hora_salida);
                     params.put("precio", precio + "");
                     params.put("costoXcargador", costoXcargador + "");
@@ -345,15 +383,35 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
 
     }
-}
-/*
-    public interface OnFragmentInteractionListener {
 
-        void onFragmentInteraction(Uri uri);
+    private void obtenerHora(){
+        TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+            @Override
+            public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                String horaFormateada =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String minutoFormateado = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
+
+                String AM_PM;
+                if(hourOfDay < 12) {
+                    AM_PM = "a.m.";
+                } else {
+                    AM_PM = "p.m.";
+                }
+
+                etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                Log.e("hora",horaFormateada);
+                Log.e("minuto",minutoFormateado);
+                auxHoraInicio=horaFormateada+":"+minutoFormateado+":00";
+                Log.e("aux",auxHoraInicio);
+
+            }
+
+        }, hora, minuto, false);
+        recogerHora.show();
+
+
     }
 
+
 }
-
-
- */
-//http://mudanzito.site/api/auth/cliente/busquedaprestador/freddg02@hotmail.com
