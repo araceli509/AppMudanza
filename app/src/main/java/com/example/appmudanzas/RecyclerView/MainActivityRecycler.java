@@ -52,7 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, Response.ErrorListener{
+, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private TextView txtUsuario,txtCorreo;
     private ImageView imagenPerfilCliente;
@@ -92,7 +92,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         Toast.makeText(this,mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
         URL=URL+mAuth.getCurrentUser().getEmail();
         Toast.makeText(this,URL,Toast.LENGTH_LONG).show();
-        obtenerDatos();
+        //obtenerDatos();
     }
 
     @Override
@@ -174,7 +174,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 
     }
 
-    public void obtenerDatos(){
+    /*public void obtenerDatos(){
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         jsonObjectRequest.setShouldCache(false);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
@@ -201,6 +201,6 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
             e.printStackTrace();
         }
 
-    }
+    }*/
 
 }

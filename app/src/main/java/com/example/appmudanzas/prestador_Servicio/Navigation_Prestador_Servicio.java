@@ -51,15 +51,16 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class Navigation_Prestador_Servicio extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener,
-
+        ServiciosExtraFragment.OnFragmentInteractionListener,
         Solicitudes_Servicio.OnFragmentInteractionListener,
         MudanzaEspera.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,
         Fragment_Principal.OnFragmentInteractionListener,
         FragmentSecundario.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
-         Response.Listener<JSONObject>, Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener, MudanzaRealizada.OnFragmentInteractionListener
-        {
+        Response.Listener<JSONObject>,
+        Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener,
+        MudanzaRealizada.OnFragmentInteractionListener {
 
     DrawerLayout drawerLayout;
     Toolbar toolbar;

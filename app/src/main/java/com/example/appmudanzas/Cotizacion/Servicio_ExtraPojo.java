@@ -3,6 +3,7 @@ package com.example.appmudanzas.Cotizacion;
 public class Servicio_ExtraPojo {
     private String dias;
     private String hora_inicio;
+    private String hora_final;
     private double costoXcargador;
     private double costoUnitarioCajaG;
     private double costoUnitarioCajaM;
@@ -12,9 +13,10 @@ public class Servicio_ExtraPojo {
     public Servicio_ExtraPojo() {
     }
 
-    public Servicio_ExtraPojo(String dias, String hora_inicio, double costoXcargador, double costoUnitarioCajaG, double costoUnitarioCajaM, double costoUnitarioCajaC, double precio) {
+    public Servicio_ExtraPojo(String dias, String hora_inicio,String hora_final, double costoXcargador, double costoUnitarioCajaG, double costoUnitarioCajaM, double costoUnitarioCajaC, double precio) {
         this.dias = dias;
         this.hora_inicio = hora_inicio;
+        this.hora_final= hora_final;
         this.costoXcargador = costoXcargador;
         this.costoUnitarioCajaG = costoUnitarioCajaG;
         this.costoUnitarioCajaM = costoUnitarioCajaM;
@@ -36,6 +38,12 @@ public class Servicio_ExtraPojo {
 
     public void setHora_inicio(String hora_inicio) {
         this.hora_inicio = hora_inicio;
+    }
+
+    public String getHora_final() { return hora_final; }
+
+    public void setHora_final(String hora_inicio) {
+        this.hora_final= hora_final;
     }
 
     public double getCostoXcargador() {

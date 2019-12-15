@@ -49,14 +49,14 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Cotizacion extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
+public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
     private ProgressDialog progreso;
     private ProgressDialog progreso2;
     private TextView txtOrigen;
     private TextView txtDestino;
     private TextView txtKilometro;
     private TextView txtTotal;
-    private Button btnPagar;
+    private Button btnPagar;;
     private String origenLatLong;
     private String destinoLatLong;
     private String UPLOAD_URL;

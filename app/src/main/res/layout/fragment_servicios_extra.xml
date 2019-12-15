@@ -30,8 +30,6 @@
 
 
 
-
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -54,7 +52,7 @@
                     android:textSize="20sp" />
 
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txtCostoempaque"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -72,7 +70,7 @@
                     android:textSize="20sp" />
 
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txtCostoempaquemediano"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -91,7 +89,7 @@
                     android:textSize="20sp" />
 
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txtCostoempaquepequeño"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -108,7 +106,7 @@
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txtCargadorextra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -142,7 +140,7 @@
                 android:orientation="horizontal">
 
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txtPreciokm"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
@@ -244,34 +242,37 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
-                <TextView
+                <EditText
                     android:layout_width="199dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
-                    android:layout_marginTop="5dp"
 
+                    android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-condensed-medium"
                     android:text="Hora inicial de labores:"
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
 
 
-                <com.google.android.material.textfield.TextInputEditText
+                <EditText
                     android:id="@+id/txthorainicial"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Hora inicial de labores:"
                     android:inputType="text" />
 
-                <TextView
-                    android:id="@+id/horainicial"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginTop="5dp"
-                    android:layout_weight="1"
-                    android:fontFamily="sans-serif-condensed-medium"
-                    android:text=""
-                    android:textSize="20sp" />
+                    <TextView
+                        android:id="@+id/horainicial"
+                        android:layout_width="207dp"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="5dp"
+                        android:layout_weight="1"
+                        android:fontFamily="sans-serif-condensed-medium"
+                        android:text=""
+                        android:textSize="20sp" />
+
+
+
 
             </LinearLayout>
 
@@ -291,14 +292,15 @@
                     android:text="Hora final de labores:"
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
-                <com.google.android.material.textfield.TextInputEditText
+
+                <EditText
                     android:id="@+id/txthorafinalabores"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Hora final de labores:"
                     android:inputType="text" />
 
-                <TextView
+                <EditText
                     android:id="@+id/direccionPrestador"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
