@@ -92,7 +92,6 @@ public class LoginPrincipal extends AppCompatActivity implements GoogleApiClient
         setContentView(R.layout.activity_login_principal);
 
 
-
         GoogleSignInOptions gso= new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
@@ -127,9 +126,6 @@ public class LoginPrincipal extends AppCompatActivity implements GoogleApiClient
             }
         };
 
-
-
-
         Button buttonConductor = (Button) findViewById(R.id.buttonConductor);
         buttonConductor.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -142,7 +138,6 @@ public class LoginPrincipal extends AppCompatActivity implements GoogleApiClient
 
     @Override
     protected void onStop() {
-
         super.onStop();
         if (firebaseAuthListener != null) {
             firebaseAuth.removeAuthStateListener(firebaseAuthListener);
