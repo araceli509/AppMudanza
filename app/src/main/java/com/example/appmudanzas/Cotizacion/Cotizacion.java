@@ -209,10 +209,10 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                     params.put("destinoLatLong",destinoLatLong);
                     params.put("distancia",km+"");
                     params.put("seguro","0");
-                    params.put("numeroCajas","0");
-                    params.put("numTrabajadores","0");
                     params.put("numero_pisos", (String)spinnerpisos.getSelectedItem());
                     params.put("monto",txtTotal.getText().toString());
+                    params.put("numeroCajas","0");
+                    params.put("numTrabajadores","0");
                     return params;
                 }
             };
@@ -230,7 +230,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
         progreso2.setMessage("Enviando");
         progreso2.show();
         if(compruebaConexion(getContext())){
-            String url = "http://mudanzito.site/api/auth/Servicios_Extras/mostrar_Servicios_Extras_Xid_Prestador/" + id_prestador;
+            String url = "http://mudanzito.site/api/auth/servicios/mostrar_servicios/" + id_prestador;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
         }else{

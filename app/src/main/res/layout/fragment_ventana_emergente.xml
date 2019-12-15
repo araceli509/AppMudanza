@@ -1,6 +1,117 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:orientation="vertical"
+    android:layout_width="350dp"
+    android:layout_height="475dp"
+    android:padding="5dp"
+    android:layout_gravity="center">
 
+
+    <TextView
+        android:id="@+id/txtcerrar"
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:text="X"
+        android:textStyle="bold"
+        android:layout_gravity="end"
+        android:gravity="center"
+        android:background="@drawable/circulobackground"/>
+     <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Precio:"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/txtCostoempaque"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Costo empaque grande:"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Costo de empaque mediano:"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/txtCostoempaquemediano"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Costo empaque mediano:"
+                android:inputType="text" />
+
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Costo de empaque pequeño:"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/txtCostoempaquepequeño"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Costo empaque pequeño:"
+                android:inputType="text" />
+
+            <TextView
+                android:layout_width="158dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Cargador extra:"
+                android:textColor="#2E4053"
+                android:textSize="20sp" />
+
+            <EditText
+                android:id="@+id/txtCargadorextra"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Cargador extra:"
+                android:inputType="text" />
+
+            <TextView
+                android:id="@+id/nombrePrestador"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:layout_weight="1"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text=""
+                android:textSize="20sp" />
+
+            <TextView
+                android:layout_width="186dp"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="20dp"
+                android:layout_marginTop="5dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Precio por kilometro:"
+                android:textColor="#2E4053"
+                android:textSize="20sp" />
+        </LinearLayout>
 </LinearLayout>

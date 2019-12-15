@@ -1,6 +1,7 @@
 package com.example.appmudanzas.RecyclerView;
 
 
+import android.app.Dialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -9,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,15 +53,16 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     RecyclerView recyclerView;
     List<ChoferPojo> choferes;
     ChoferAdapter adapter;
-
     DatabaseReference database;
     List<String> keys;
     String llave;
+    Button inicio;
     private FirebaseAuth mAuth;
     Bundle extras;
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     FloatingActionButton fabfiltro;
+    Dialog dialogo;
     public InicioFragment() {
     }
 
@@ -75,20 +78,26 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.fragment_inicio, container, false);
-
         request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-
+        inicio = v.findViewById(R.id.btncerrarinicio);
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
+        dialogo= new Dialog(getContext());
 
+        inicio.setOnClickListener(new View.OnClickListener() {
+    @Override
+    public void onClick(View view) {
+        showPopup(view);
+    }
+});
         choferes = new ArrayList<>();
         keys = new ArrayList<>();
         obtenerDatos();
-
         adapter = new ChoferAdapter(choferes);
         recyclerView.setAdapter(adapter);
+
        // fabfiltro = v.findViewById(R.id.fabfiltro);
         /*fabfiltro.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -114,7 +123,20 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         return v;
     }
 
-    public void showDialog() {
+    public void showPopup(View v){
+        /*TextView txtclose;
+        dialogo.setContentView(R.layout.fragment_ventana_emergente);
+        txtclose = dialogo.findViewById(R.id.txtcerrar);
+        txtclose.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                dialogo.dismiss();
+            }
+        });
+        dialogo.show();*/
+    }
+
+    /*public void showDialog() {
         FragmentManager fragmentManager = getFragmentManager();
         VentanaEmergente newFragment = new VentanaEmergente();
 
@@ -127,7 +149,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
             transaction.add(android.R.id.content, newFragment)
                     .addToBackStack(null).commit();
 
-    }
+    }*/
 
     public static boolean compruebaConexion(Context context) {
         boolean connected = false;
