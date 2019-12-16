@@ -332,7 +332,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
             progreso.dismiss();
             Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
         }
-                 
+
 
 
             }
@@ -400,6 +400,10 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     }
     private void terminarmimudanza(final Mudanza mudanza){
         if (compruebaConexion(getContext())) {
+            progreso = new ProgressDialog(getContext());
+            progreso.setMessage("Activando Mudanza");
+            progreso.show();
+
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
             StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/cambiarestadomudazas",
                     new Response.Listener<String>() {

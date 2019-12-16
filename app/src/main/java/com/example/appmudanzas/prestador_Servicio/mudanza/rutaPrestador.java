@@ -136,6 +136,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
                 locationStart();
                 insertaruid();
+                comenzar.setVisibility(View.INVISIBLE);
             }
         });
 
