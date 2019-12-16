@@ -50,12 +50,12 @@ import java.util.Calendar;
 import java.util.Hashtable;
 import java.util.Map;
 
-public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
+public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener{
     private ProgressDialog progreso;
     private ProgressDialog progreso2;
     private TextView txtOrigen,txtverificar;
     private TextView txtDestino;
-    private TextView txtKilometro;
+    private TextView txtKilometro,numpisos;
     private TextView txtTotal;
     private Button btnPagar;
     private String origenLatLong;
@@ -99,6 +99,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
         numcm = v.findViewById(R.id.numcm);
         numcg = v.findViewById(R.id.numcg);
         numt = v.findViewById(R.id.numt);
+        numpisos = v.findViewById(R.id.numpisos);
         txtverificar = v.findViewById(R.id.txtverificar);
         txtOrigen = v.findViewById(R.id.textOrigen);
         txtDestino = v.findViewById(R.id.textDestino);
@@ -115,25 +116,6 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
         btnPagar = v.findViewById(R.id.btnPagar);
         getidcliente();
         obtenerPrecios();
-        txtverificar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String ca = "0";
-                try {
-                    double cc = Double.parseDouble(numcc.getText().toString())*cajac;
-                    double cm = Double.parseDouble(numcm.getText().toString())*cajam;
-                    double cg = Double.parseDouble(numcg.getText().toString())*cajag;
-                    double nt = Double.parseDouble(numt.getText().toString())*numtra;
-                    double tot = cc+cm+cg+nt+total;
-                    ca =""+tot;
-
-                }catch (NumberFormatException n){
-
-                }
-
-                txtTotal.setText(ca );
-            }
-        });
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,10 +128,30 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 fragmentTransaction.commit();
             }
         });
-        spinnerpisos = v.findViewById(R.id.spinnerpisos);
+        //spinnerpisos = v.findViewById(R.id.spinnerpisos);
         final ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
-        spinnerpisos.setAdapter(adapter);
-        spinnerpisos.setOnItemSelectedListener(this);
+       // spinnerpisos.setAdapter(adapter);
+       // spinnerpisos.setOnItemSelectedListener(this);
+        txtverificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ca = "0";
+                try {
+                    double cc = Double.parseDouble(numcc.getText().toString())*cajac;
+                    double cm = Double.parseDouble(numcm.getText().toString())*cajam;
+                    double cg = Double.parseDouble(numcg.getText().toString())*cajag;
+                    double nt = Double.parseDouble(numt.getText().toString())*numtra;
+                    double np = Double.parseDouble(numpisos.getText().toString())*100;
+                    double tot = cc+cm+cg+nt+np+total;
+                    ca =""+tot;
+
+                }catch (NumberFormatException n){
+
+                }
+
+                txtTotal.setText(ca );
+            }
+        });
         // Inflate the layout for this fragment
         return v;
     }
@@ -182,13 +184,13 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     private void getDatos() {
         Bundle datosRecuperados = getArguments();
         km = datosRecuperados.getFloat("kilometros");
-        total= (float) (km*precio);
         origenLatLong = datosRecuperados.getString("origenLatLong");
         destinoLatLong = datosRecuperados.getString("destinoLatLong");
         origen = datosRecuperados.getString("origen");
         destino = datosRecuperados.getString("destino");
         txtOrigen.setText("Direccion de origen: " + origen);
         txtDestino.setText("Direccion de destino: " + destino);
+        total= (float) (km*precio);
         txtKilometro.setText(km + " Km");
         txtTotal.setText(total+"");
     }
@@ -302,12 +304,13 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 String chofer = json.getString(i);
                 choferpojo = gson.fromJson(chofer,Servicio_ExtraPojo.class);
             }
-            tvtarifaprecio.setText("$ "+choferpojo.getPrecio()+"/Km");
+            precio=choferpojo.getPrecio();
+            tvtarifaprecio.setText("$ "+precio+"/Km");
             cajac = choferpojo.getCostoUnitarioCajaC();
             cajam = choferpojo.getCostoUnitarioCajaM();
             cajag = choferpojo.getCostoUnitarioCajaG();
             numtra = choferpojo.getCostoXcargador();
-            precio=choferpojo.getPrecio();
+
 
         } catch (JSONException e) {
             e.printStackTrace();
@@ -315,7 +318,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
 
     }
 
-    @Override
+    /*@Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         String item = parent.getItemAtPosition(position).toString();
         float var = total+(Integer.parseInt(item)*100);
@@ -325,7 +328,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
 
-    }
+    }*/
 
 
 }
