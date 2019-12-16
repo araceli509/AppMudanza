@@ -54,7 +54,7 @@
 
 
                 <EditText
-                    android:id="@+id/txtCostoempaque"
+                    android:id="@+id/txtCostoEmpaqueG"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque grande:"
@@ -73,7 +73,7 @@
 
 
                 <EditText
-                    android:id="@+id/txtCostoempaquemediano"
+                    android:id="@+id/txtCostoEmpaqueM"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque mediano:"
@@ -93,7 +93,7 @@
 
 
                 <EditText
-                    android:id="@+id/txtCostoempaquepequeño"
+                    android:id="@+id/txtCostoEmpaqueC"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque pequeño:"
@@ -111,7 +111,7 @@
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/txtCargadorextra"
+                    android:id="@+id/txtCargadorExtra"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Cargador extra:"
@@ -249,18 +249,18 @@
                 android:orientation="horizontal">
 
 
-                <EditText
-                    android:layout_width="wrap_content"
+                <TextView
+                    android:layout_width="136dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="Hora inicial de labores:"
+                    android:text="Inicio de labores:"
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
 
                 <EditText
-                    android:id="@+id/horainicial"
+                    android:id="@+id/txtHoraInicio"
                     android:layout_width="207dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="12dp"
@@ -301,13 +301,13 @@
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
                     android:fontFamily="sans-serif-condensed-medium"
-                    android:text="Hora final de labores:"
+                    android:text="Fin de labores:"
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
 
 
                 <EditText
-                    android:id="@+id/txthorafinalabores"
+                    android:id="@+id/txtHoraFin"
                     android:layout_width="182dp"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
@@ -327,7 +327,7 @@
                     android:layout_marginEnd="19dp"
                     android:src="@mipmap/ic_access_time_white_24dp"
                     app:layout_constraintHorizontal_bias="0.504"
-                    app:layout_constraintLeft_toRightOf="@+id/txthorafinalabores"
+                    app:layout_constraintLeft_toRightOf="@+id/txtHoraFin"
                     app:layout_constraintRight_toRightOf="parent"
                     tools:ignore="ContentDescription"
                     tools:layout_editor_absoluteY="109dp" />

@@ -1,6 +1,7 @@
 package com.example.appmudanzas.prestador_Servicio;
 
-import androidx.annotation.NonNull;
+import
+        androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBarDrawerToggle;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
@@ -70,7 +71,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
     private TextView txtPrestador,txtCorreoPrestador;
     private FirebaseAuth mAuth;
     CircleImageView imagenPerfilPrestador;
-    int idPrestador;
+    String idPrestador;
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
 
@@ -119,7 +120,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
 
         if (id==R.id.nav_principal) {
             Bundle bundle = new Bundle();
-            bundle.putInt("idprestador", idPrestador);
+            bundle.putString("idprestador", idPrestador);
 
             Fragment solicitudes_servicio = new Solicitudes_Servicio();
             solicitudes_servicio.setArguments(bundle);
@@ -128,13 +129,18 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         }
         else
         if (id==R.id.nav_secundario){
+
             fragmentManager.beginTransaction().replace(R.id.contenedor, new FragmentSecundario()).commit();
         }else if(id==R.id.nav_Serviciosextra){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new ServiciosExtraFragment()).commit();
+            Bundle bundle = new Bundle();
+            bundle.putString("id_prestador", idPrestador);
+            ServiciosExtraFragment s= new ServiciosExtraFragment();
+            s.setArguments(bundle);
+            fragmentManager.beginTransaction().replace(R.id.contenedor, s).commit();
 
         }else if(id==R.id.nav_mudanzas){
             Bundle datos= new Bundle();
-            datos.putInt("id_prestador",idPrestador);
+            datos.putString("id_prestador",idPrestador);
             Fragment mudanzas=new mudanzas_tab();
             mudanzas.setArguments(datos);
             fragmentManager.beginTransaction().replace(R.id.contenedor,mudanzas).commit();
@@ -143,6 +149,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         DrawerLayout drawer=(DrawerLayout)findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+
     }
 
     @Override
@@ -220,7 +227,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         try {
             JSONArray jsonArray = response.getJSONArray("prestador");
             JSONObject jsonObject = jsonArray.getJSONObject(0);
-            idPrestador= jsonObject.getInt("id_prestador");
+            idPrestador= jsonObject.getString("id_prestador");
             Toast.makeText(getApplicationContext(),String.valueOf(idPrestador),Toast.LENGTH_LONG).show();
 
         } catch (JSONException e) {
