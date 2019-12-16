@@ -58,7 +58,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque grande:"
-                    android:inputType="text" />
+                    android:maxLength="8"
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:layout_width="match_parent"
@@ -76,7 +77,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque mediano:"
-                    android:inputType="text" />
+                    android:maxLength="8"
+                    android:inputType="numberDecimal" />
 
 
                 <TextView
@@ -95,7 +97,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Costo empaque pequeño:"
-                    android:inputType="text" />
+                    android:maxLength="7"
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:layout_width="158dp"
@@ -112,7 +115,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Cargador extra:"
-                    android:inputType="text" />
+                    android:maxLength="8"
+                    android:inputType="numberDecimal" />
 
                 <TextView
                     android:id="@+id/nombrePrestador"
@@ -146,7 +150,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="Precio por kilometro:"
-                    android:inputType="text" />
+                    android:maxLength="8"
+                    android:inputType="numberDecimal" />
 
             </LinearLayout>
 
@@ -243,8 +248,9 @@
                 android:layout_height="match_parent"
                 android:orientation="horizontal">
 
+
                 <EditText
-                    android:layout_width="199dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"
@@ -253,22 +259,18 @@
                     android:textColor="#2E4053"
                     android:textSize="20sp" />
 
-
-
-
-                    <EditText
-                        android:id="@+id/horainicial"
-                        android:layout_width="207dp"
-                        android:layout_marginLeft="12dp"
-                        android:layout_height="wrap_content"
-                        android:layout_marginTop="5dp"
-                        android:layout_weight="1"
-                        android:ems="10"
-                        android:hint="@string/formato_hora"
-                        android:inputType="time"
-                        app:layout_constraintLeft_toLeftOf="parent"
-                        tools:layout_editor_absoluteY="99dp"
-                         />
+                <EditText
+                    android:id="@+id/horainicial"
+                    android:layout_width="207dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="12dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_weight="1"
+                    android:ems="10"
+                    android:hint="@string/formato_hora"
+                    android:inputType="time"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    tools:layout_editor_absoluteY="99dp" />
 
                 <ImageButton
                     android:id="@+id/ib_obtener_hora"
@@ -294,7 +296,7 @@
                 android:orientation="horizontal">
 
                 <TextView
-                    android:layout_width="211dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="20dp"
                     android:layout_marginTop="5dp"

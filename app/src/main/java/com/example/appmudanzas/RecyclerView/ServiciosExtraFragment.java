@@ -55,7 +55,7 @@ import static android.view.ViewGroup.*;
 import static android.view.ViewGroup.LayoutParams.*;
 import static android.widget.Toast.*;
 
-public class ServiciosExtraFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener,View.OnClickListener,TimePickerDialog.OnTimeSetListener {
+public class ServiciosExtraFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener, View.OnClickListener, TimePickerDialog.OnTimeSetListener {
     private static final String CERO = "0";
     private static final String DOS_PUNTOS = ":";
     private static final String BARRA = "/";
@@ -153,26 +153,20 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         sabado = vista.findViewById(R.id.sabado);
         domingo = vista.findViewById(R.id.domingo);
 
-//obtenerServicio();
-        //String horario = "";
+        obtenerServicio();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//subirDatoservicio();
                 diaseleccionados = "";
                 if (lunes.isChecked()) {
                     diaseleccionados += "lunes,";
                 }
-
                 if (martes.isChecked()) {
                     diaseleccionados += "martes,";
                 }
-
-
                 if (miercoles.isChecked()) {
                     diaseleccionados += "miercoles,";
                 }
-
                 if (jueves.isChecked()) {
                     diaseleccionados += "jueves,";
                 }
@@ -197,12 +191,9 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                 Log.e("", horario);
                 optenermetodos();
                 obtenerServicio();
-
-
             }
 
         });
-
 
         recorrer();
 
@@ -250,8 +241,8 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         Toast.makeText(getContext(), txtCargadorextra.getText().toString(), LENGTH_SHORT).show();
         Toast.makeText(getContext(), txtPreciokm.getText().toString(), LENGTH_SHORT).show();
         Toast.makeText(getContext(), horario, LENGTH_SHORT).show();
-        Toast.makeText(getContext(), horaInicial.getText().toString(), LENGTH_SHORT).show();
-        Toast.makeText(getContext(), txthorafinalabores.getText().toString(), LENGTH_SHORT).show();
+        // Toast.makeText(getContext(), horaInicial.getText().toString(), LENGTH_SHORT).show();
+        //Toast.makeText(getContext(), txthorafinalabores.getText().toString(), LENGTH_SHORT).show();
         //datos += txtCostoempaque.getText().toString() + "" + txtCostoempaquemediano.getText().toString() + "" + txtCostoempaquepequeño.getText().toString() + "" + txtCargadorextra.getText().toString() + "" + txtPreciokm.getText().toString()+ "" + horaInicial.getText().toString() + "" + txthorafinalabores.getText().toString();
 
         //Toast.makeText(getContext(),datos, LENGTH_LONG).show();
@@ -355,7 +346,8 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         progreso2.setMessage("Enviando");
         progreso2.show();
         if (compruebaConexion(getContext())) {
-            String url = "http://mudanzito.site/api/auth/Servicios_Extras/mostrar_Servicios_Extras_Xid_Prestador/" + id_prestador;
+            String url = "http://mudanzito.site/api/auth/servicios/mostrar_servicios/" + id_prestador;
+            Log.e("error", id_prestador + "");
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
         } else {
@@ -375,9 +367,9 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                 String chofer = json.getString(i);
                 choferpojo = gson.fromJson(chofer, Servicio_ExtraPojo.class);
             }
-            txtCostoempaque.setText("" + choferpojo.getCostoUnitarioCajaC());
+            txtCostoempaque.setText("" + choferpojo.getCostoUnitarioCajaG());
             txtCostoempaquemediano.setText("" + choferpojo.getCostoUnitarioCajaM());
-            txtCostoempaquepequeño.setText("" + choferpojo.getCostoUnitarioCajaG());
+            txtCostoempaquepequeño.setText("" + choferpojo.getCostoUnitarioCajaC());
             txtCargadorextra.setText("" + choferpojo.getCostoXcargador());
             txtPreciokm.setText("" + choferpojo.getPrecio());
             horaInicial.setText("" + choferpojo.getHora_inicio());
@@ -389,26 +381,26 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     }
 
-    private void obtenerHora(){
+    private void obtenerHora() {
         TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                String horaFormateada =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
-                String minutoFormateado = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
+                String horaFormateada = (hourOfDay < 9) ? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String minutoFormateado = (minute < 9) ? String.valueOf(CERO + minute) : String.valueOf(minute);
 
                 String AM_PM;
-                if(hourOfDay < 12) {
+                if (hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
                 }
 
                 etHora.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
-                Log.e("hora",horaFormateada);
-                Log.e("minuto",minutoFormateado);
-                auxHoraInicio=horaFormateada+":"+minutoFormateado+":00";
-                Log.e("aux",auxHoraInicio);
+                Log.e("hora", horaFormateada);
+                Log.e("minuto", minutoFormateado);
+                auxHoraInicio = horaFormateada + ":" + minutoFormateado + ":00";
+                Log.e("aux", auxHoraInicio);
 
             }
 
@@ -418,26 +410,27 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     }
 
-    private void obtenerHoraFinal(){
+    private void obtenerHoraFinal() {
         TimePickerDialog recogerHorafinal = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
             @Override
             public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
 
-                String horaFormateadafinal =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
-                String minutoFormateadofinal = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
+                String horaFormateadafinal = (hourOfDay < 9) ? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                String minutoFormateadofinal = (minute < 9) ? String.valueOf(CERO + minute) : String.valueOf(minute);
 
                 String AM_PM;
-                if(hourOfDay < 12) {
+                if (hourOfDay < 12) {
                     AM_PM = "a.m.";
                 } else {
                     AM_PM = "p.m.";
                 }
 
                 etHoraFinal.setText(horaFormateadafinal + DOS_PUNTOS + minutoFormateadofinal + " " + AM_PM);
-                Log.e("hora",horaFormateadafinal);
-                Log.e("minuto",minutoFormateadofinal);
-                auxHoraInicio=horaFormateadafinal+":"+minutoFormateadofinal+":00";
-                Log.e("aux",auxHoraInicio);
+                Log.e("hora", horaFormateadafinal);
+                Log.e("minuto", minutoFormateadofinal);
+                auxHoraFin = horaFormateadafinal + ":" + minutoFormateadofinal + ":00";
+                Log.e("aux", auxHoraFin);
+
 
             }
 
@@ -446,6 +439,4 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
 
     }
-
-
 }

@@ -52,7 +52,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-, solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
+, CatalogoFragment.OnFragmentInteractionListener,solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private TextView txtUsuario,txtCorreo;
     private ImageView imagenPerfilCliente;
@@ -134,6 +134,11 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 
         if (id==R.id.nav_inicio) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new InicioFragment()).commit();
+        }
+
+        else
+        if (id==R.id.nav_catalago){
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new CatalogoFragment()).commit();
         }
         else
         if (id==R.id.nav_galeria){

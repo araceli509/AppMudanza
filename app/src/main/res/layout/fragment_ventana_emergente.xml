@@ -1,33 +1,96 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="350dp"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="380dp"
     android:layout_height="475dp"
+    android:layout_gravity="center"
+    android:orientation="vertical"
     android:padding="5dp"
-    android:layout_gravity="center">
-
-
+    tools:context=".RecyclerView.VentanaEmergente">
+<ScrollView
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/txtcerrar"
         android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="X"
-        android:textStyle="bold"
+        android:layout_height="wrap_content"
         android:layout_gravity="end"
+        android:background="@drawable/circulobackground"
         android:gravity="center"
-        android:background="@drawable/circulobackground"/>
-     <LinearLayout
+        android:text="X"
+        android:textStyle="bold" />
+
+    <LinearLayout
+        android:layout_width="350dp"
+        android:layout_height="579dp">
+
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
             <TextView
+                android:id="@+id/filtros"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="Precio:"
+                android:text="  Filtros(Facilita tu busqueda)"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/txtTamanialtura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Tamaño del carro(Altura metros):"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/txttamanioAnchura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Costo empaque grande:"
+                android:maxLength="8"
+                android:inputType="numberDecimal"/>
+
+            <TextView
+                android:id="@+id/anchura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Tamaño del carro(Anchura metros):"
+                android:textColor="#212F3D"
+                android:textSize="20sp" />
+
+
+            <EditText
+                android:id="@+id/txtTamanioanchura"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="Costo empaque grande:"
+                android:maxLength="8"
+                android:inputType="numberDecimal" />
+
+            <TextView
+                android:id="@+id/txtTamaniocoche"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="10dp"
+                android:layout_marginTop="20dp"
+                android:fontFamily="sans-serif-condensed-medium"
+                android:text="Tamaño del carro(Largo metros):"
                 android:textColor="#212F3D"
                 android:textSize="20sp" />
 
@@ -37,25 +100,10 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Costo empaque grande:"
-                android:inputType="text" />
-
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="20dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="Costo de empaque mediano:"
-                android:textColor="#212F3D"
-                android:textSize="20sp" />
+                android:maxLength="8"
+                android:inputType="numberDecimal" />
 
 
-            <EditText
-                android:id="@+id/txtCostoempaquemediano"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Costo empaque mediano:"
-                android:inputType="text" />
 
 
             <TextView
@@ -64,17 +112,18 @@
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="20dp"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="Costo de empaque pequeño:"
+                android:text="Ranking"
                 android:textColor="#212F3D"
                 android:textSize="20sp" />
 
 
-            <EditText
-                android:id="@+id/txtCostoempaquepequeño"
-                android:layout_width="match_parent"
+            <androidx.appcompat.widget.AppCompatRatingBar
+                android:id="@+id/ranking"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:hint="Costo empaque pequeño:"
-                android:inputType="text" />
+                android:numStars="5"
+                android:stepSize="0.5" />
+
 
             <TextView
                 android:layout_width="158dp"
@@ -82,35 +131,49 @@
                 android:layout_marginLeft="20dp"
                 android:layout_marginTop="5dp"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="Cargador extra:"
+                android:text="Hora disponible:"
                 android:textColor="#2E4053"
                 android:textSize="20sp" />
+
+            <ImageButton
+                android:id="@+id/ib_horadisponibleButton"
+                android:layout_width="109dp"
+                android:layout_height="43dp"
+                android:layout_marginStart="8dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="19dp"
+                android:src="@mipmap/ic_access_time_white_24dp"
+                app:layout_constraintHorizontal_bias="0.504"
+                app:layout_constraintLeft_toRightOf="@+id/horadisponible"
+                app:layout_constraintRight_toRightOf="parent"
+                tools:ignore="ContentDescription"
+                tools:layout_editor_absoluteY="109dp" />
 
             <EditText
-                android:id="@+id/txtCargadorextra"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:hint="Cargador extra:"
-                android:inputType="text" />
-
-            <TextView
-                android:id="@+id/nombrePrestador"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:id="@+id/horadisponible"
+                android:layout_width="108dp"
+                android:layout_height="55dp"
+                android:layout_marginLeft="12dp"
                 android:layout_marginTop="5dp"
                 android:layout_weight="1"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text=""
-                android:textSize="20sp" />
+                android:ems="10"
+                android:hint="@string/formato_hora"
+                android:inputType="time"
+                app:layout_constraintLeft_toLeftOf="parent"
+                tools:layout_editor_absoluteY="99dp" />
 
-            <TextView
-                android:layout_width="186dp"
+            <Button
+                android:id="@+id/buttonEnviar"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginLeft="20dp"
-                android:layout_marginTop="5dp"
-                android:fontFamily="sans-serif-condensed-medium"
-                android:text="Precio por kilometro:"
-                android:textColor="#2E4053"
-                android:textSize="20sp" />
+                android:text="Enviar" />
+
+
         </LinearLayout>
+
+
+    </LinearLayout>
+
 </LinearLayout>
+</ScrollView>
+    </LinearLayout>

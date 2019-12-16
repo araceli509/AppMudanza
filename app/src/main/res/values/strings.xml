@@ -21,4 +21,17 @@
     <string name="formato_fecha">dd/mm/yyyy</string>
     <string name="formato_hora">hh:mm</string>
 
+    <string-array name="Seleccione">
+        <item>Seleccionar</item>
+        <item>Refrijerador</item>
+        <item>Lavadora</item>
+        <item>Estufa</item>
+        <item>Cama</item>
+        <item>Mesa</item>
+        <item>Tocador</item>
+        <item>Televisión</item>
+        <item>Otro</item>
+
+    </string-array>
+
 </resources>

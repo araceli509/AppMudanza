@@ -2,6 +2,7 @@ package com.example.appmudanzas.RecyclerView;
 
 
 import android.app.Dialog;
+import android.app.TimePickerDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -11,7 +12,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.RatingBar;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
@@ -50,8 +55,21 @@ import java.util.List;
  * A simple {@link Fragment} subclass.
  */
 public class InicioFragment extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
+
+
+    private static final String CERO = "0";
+    private static final String DOS_PUNTOS = ":";
+    private static final String BARRA = "/";
+    public final Calendar c = Calendar.getInstance();
+
+    //Hora
+    final int hora = c.get(Calendar.HOUR_OF_DAY);
+    final int minuto = c.get(Calendar.MINUTE);
+
+
     RecyclerView recyclerView;
     List<ChoferPojo> choferes;
+    EditText horadisponible;
     ChoferAdapter adapter;
     DatabaseReference database;
     List<String> keys;
@@ -123,18 +141,89 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         return v;
     }
 
-    public void showPopup(View v){
-        /*TextView txtclose;
+    public void showPopup(View v) {
+
+
+        final RatingBar ranking;
+        ImageButton ib_horadisponibleButton;
+
+        TextView txtclose;
+        Button buttonEnviar;
         dialogo.setContentView(R.layout.fragment_ventana_emergente);
         txtclose = dialogo.findViewById(R.id.txtcerrar);
+
+        horadisponible = dialogo.findViewById(R.id.horadisponible);
+        ib_horadisponibleButton = dialogo.findViewById(R.id.ib_horadisponibleButton);
+        ranking=dialogo.findViewById(R.id.ranking);
+        buttonEnviar=dialogo.findViewById(R.id.buttonEnviar);
+        buttonEnviar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String rating =String.valueOf(ranking.getRating());
+                Log.e("error",rating);
+            }
+        });
+
+
         txtclose.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dialogo.dismiss();
             }
         });
-        dialogo.show();*/
+
+        dialogo.show();
+               ib_horadisponibleButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                switch (v.getId()) {
+
+                    case R.id.ib_horadisponibleButton:
+                        obtenerHora1();
+                        break;
+                }
+            }
+        });
     }
+
+        private void obtenerHora1(){
+            TimePickerDialog recogerHora = new TimePickerDialog(getContext(), new TimePickerDialog.OnTimeSetListener() {
+                @Override
+                public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
+
+                    String horaFormateada =  (hourOfDay < 9)? String.valueOf(CERO + hourOfDay) : String.valueOf(hourOfDay);
+                    String minutoFormateado = (minute < 9)? String.valueOf(CERO + minute):String.valueOf(minute);
+
+                    String AM_PM;
+                    if(hourOfDay < 12) {
+                        AM_PM = "a.m.";
+                    } else {
+                        AM_PM = "p.m.";
+                    }
+
+                    horadisponible.setText(horaFormateada + DOS_PUNTOS + minutoFormateado + " " + AM_PM);
+                    Log.e("hora",horaFormateada);
+                    Log.e("minuto",minutoFormateado);
+                    String aux=horaFormateada+":"+minutoFormateado+":00";
+                    Log.e("aux",aux);
+
+                }
+
+            }, hora, minuto, false);
+
+            recogerHora.show();
+
+        }
+
+
+
+
+
+
+
+
+
+
 
     /*public void showDialog() {
         FragmentManager fragmentManager = getFragmentManager();
