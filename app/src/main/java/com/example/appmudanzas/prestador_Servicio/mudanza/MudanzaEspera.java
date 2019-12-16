@@ -242,7 +242,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
                                     dialog.dismiss();
                                     if (compruebaConexion(getContext())) {
                                         RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
+                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/cambiarestadomudazas",
                                                 new Response.Listener<String>() {
                                                     @Override
                                                     public void onResponse(String response) {

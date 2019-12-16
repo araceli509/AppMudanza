@@ -11,7 +11,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
@@ -39,6 +41,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -270,6 +273,80 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
         }
 
     }
+
+    private void insertarComentario(final Mudanza mudanza){
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+        dialog.setTitle("Califica tu Mudanza");
+        dialog.setMessage("Cuentanos, ¿como estuvo?");
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View register_layout = inflater.inflate(R.layout.dialogo_comentariomudanza,null);
+
+        final EditText texto = register_layout.findViewById(R.id.textocomentario);
+        final RatingBar barrita = register_layout.findViewById(R.id.barraratingcomentario);
+        java.util.Date date = new java.util.Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        dateFormat.format(date);
+        final String fecha=dateFormat.format(date);
+
+        dialog.setView(register_layout);
+        dialog.setPositiveButton("Enviar Comentario", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Enviando..");
+                progreso.show();
+                dialog.dismiss();
+
+                if (compruebaConexion(getContext())) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/comentario/agregar_comentario",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            progreso.hide();
+                            Snackbar.make(getView(),"Enviando comentario",Snackbar.LENGTH_LONG).show();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), "Algo salio mal", Toast.LENGTH_LONG).show();
+                    progreso.hide();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<>();
+                    params.put("descripcion", texto.getText().toString());
+                    params.put("id_cliente", String.valueOf(mudanza.getId_cliente()));
+                    params.put("fecha_comentario",fecha);
+                    params.put("id_prestador",String.valueOf(mudanza.getId_prestador()));
+                    return params;
+                }
+            };
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+        } else {
+            progreso.dismiss();
+            Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
+        }
+                 
+
+
+            }
+        });
+        dialog.setNeutralButton("Mejor despues", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+
+                dialog.dismiss();
+            }
+        });
+        dialog.show();
+
+    }
     private void terminarMudanza(final Mudanza mudanza) {
 
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
@@ -300,7 +377,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
 
                 Fragment AcercaDeFragment= new AcercaDeFragment();
                 getActivity().getSupportFragmentManager().beginTransaction()
-                        .replace(R.id.map,AcercaDeFragment)
+                        .replace(R.id.contenedor,AcercaDeFragment)
                         .addToBackStack(null)
                         .commit();
 
@@ -312,7 +389,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 terminarmimudanza(mudanza);
-                //brir ventana para calificar
+                insertarComentario(mudanza);
             }
         });
         dialog.show();
@@ -324,7 +401,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     private void terminarmimudanza(final Mudanza mudanza){
         if (compruebaConexion(getContext())) {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/cambiarestadomudazan/",
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/cambiarestadomudazas",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
