@@ -129,4 +129,23 @@ public class Mudanza {
     public void setPrestador(Prestador_Servicio prestador) {
         this.prestador = prestador;
     }
+
+    @Override
+    public String toString() {
+        return "Mudanza{" +
+                "id_mudanza=" + id_mudanza +
+                ", id_cliente=" + id_cliente +
+                ", id_prestador=" + id_prestador +
+                ", origen='" + origen + '\'' +
+                ", destino='" + destino + '\'' +
+                ", distancia=" + distancia +
+                ", tiempo='" + tiempo + '\'' +
+                ", fecha='" + fecha + '\'' +
+                ", hora='" + hora + '\'' +
+                ", status=" + status +
+                ", estado='" + estado + '\'' +
+                ", cliente=" + cliente +
+                ", prestador=" + prestador +
+                '}';
+    }
 }
