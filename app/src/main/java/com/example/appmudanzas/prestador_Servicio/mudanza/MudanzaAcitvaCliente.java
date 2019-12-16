@@ -264,7 +264,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     private void cargarDatos(){
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
-            String url = "http://mudanzito.site/api/auth/mudanzas/mismudanzasenesperacliente/" + id_cliente;
+            String url = "http://mudanzito.site/api/auth/mudanzas/mismudanzasactivascliente/" + id_cliente;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             requestQueue.add(jsonObjectRequest);
         }else{
