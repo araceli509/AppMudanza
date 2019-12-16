@@ -1,6 +1,7 @@
 package com.example.appmudanzas.RecyclerView;
 
 public class PerfilPojo {
+    private int id_cliente;
     private String nombre;
     private String apellidos;
     private String correo;
@@ -12,7 +13,8 @@ public class PerfilPojo {
     public PerfilPojo() {
     }
 
-    public PerfilPojo(String nombre, String apellidos, String correo, String direccion, String telefono, String codigo_postal, String fecha_registro) {
+    public PerfilPojo(int id_cliente, String nombre, String apellidos, String correo, String direccion, String telefono, String codigo_postal, String fecha_registro) {
+        this.id_cliente = id_cliente;
         this.nombre = nombre;
         this.apellidos = apellidos;
         this.correo = correo;
@@ -20,6 +22,14 @@ public class PerfilPojo {
         this.telefono = telefono;
         this.codigo_postal = codigo_postal;
         this.fecha_registro = fecha_registro;
+    }
+
+    public int getId_cliente() {
+        return id_cliente;
+    }
+
+    public void setId_cliente(int id_cliente) {
+        this.id_cliente = id_cliente;
     }
 
     public String getNombre() {

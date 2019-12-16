@@ -56,7 +56,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     private TextView txtDestino;
     private TextView txtKilometro;
     private TextView txtTotal;
-    private Button btnPagar;;
+    private Button btnPagar;
     private String origenLatLong;
     private String destinoLatLong;
     private String UPLOAD_URL;
