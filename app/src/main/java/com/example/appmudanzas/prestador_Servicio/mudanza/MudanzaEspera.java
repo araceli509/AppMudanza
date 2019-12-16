@@ -1,5 +1,6 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.net.ConnectivityManager;
@@ -21,13 +22,16 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -44,6 +48,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -74,6 +80,8 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
     private int id_prestador;
+    ProgressDialog progreso;
+
 
     public MudanzaEspera() {
         // Required empty public constructor
@@ -275,7 +283,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
     }
 
-    private void acvitarMudanza(Mudanza mudanza) {
+    private void acvitarMudanza(final Mudanza mudanza) {
         AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
 
         dialog.setTitle("Comenzar Mudanza ");
@@ -291,16 +299,49 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
         dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-
+                progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Activando Mudanza");
+                progreso.show();
                 dialog.dismiss();
+                if (compruebaConexion(getContext())) {
+                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                    StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
+                            new Response.Listener<String>() {
+                                @Override
+                                public void onResponse(String response) {
 
-                Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
+                                    progreso.hide();
+                                    Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
+                                }
+                            }, new Response.ErrorListener() {
+                        @Override
+                        public void onErrorResponse(VolleyError error) {
+                            Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
+                            progreso.hide();
+                        }
+                    }) {
+                        @Override
+                        protected Map<String, String> getParams() throws AuthFailureError {
+                            Map<String, String> params = new Hashtable<>();
+                            params.put("id_mudanza", String.valueOf(mudanza.getId_mudanza()));
+                            params.put("status", String.valueOf(3));
+                            return params;
+                        }
+                    };
+                    VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+                } else {
+                    progreso.dismiss();
+                    Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
+                }
+
+
 
             }
         });
 
 
 
-        dialog.show();
+
     }
 }

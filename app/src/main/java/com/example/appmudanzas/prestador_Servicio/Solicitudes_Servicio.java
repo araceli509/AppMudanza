@@ -62,7 +62,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
 
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
-    private int id_cliente;
+    private String id_cliente;
     // TODO: Rename and change types and number of parameters
     public static Solicitudes_Servicio newInstance(String param1, String param2) {
         Solicitudes_Servicio fragment = new Solicitudes_Servicio();
@@ -92,8 +92,8 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
         requestQueue= Volley.newRequestQueue(getContext());
 
         //tomar el id del prestador actual
-        id_cliente= getArguments().getInt("idprestador");
-        if(id_cliente>1){
+        id_cliente= getArguments().getString("idprestador");
+        if(id_cliente!=null){
             try {
                 cargarDatos();
             }catch (Exception e){

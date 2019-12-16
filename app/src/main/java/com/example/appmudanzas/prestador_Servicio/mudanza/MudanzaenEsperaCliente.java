@@ -1,5 +1,6 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -62,6 +63,7 @@ public class MudanzaenEsperaCliente extends Fragment implements Response.Listene
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
     private int id_cliente;
+
 
     View view;
 
@@ -215,7 +217,6 @@ public class MudanzaenEsperaCliente extends Fragment implements Response.Listene
 
             }else{
                 Toast.makeText(getContext(),"No hay solicitudes nuevas",Toast.LENGTH_LONG).show();
-
             }
         } catch(JSONException e){
             e.printStackTrace();
