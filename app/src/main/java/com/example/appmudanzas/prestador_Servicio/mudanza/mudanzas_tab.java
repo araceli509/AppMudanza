@@ -65,7 +65,7 @@ public class mudanzas_tab extends Fragment {
             mParam1 = getArguments().getString(ARG_PARAM1);
             mParam2 = getArguments().getString(ARG_PARAM2);
         }
-        id_prestador= getArguments().getInt("id_prestador");
+        id_prestador=Integer.parseInt( getArguments().getString("id_prestador"));
     }
 
     @Override

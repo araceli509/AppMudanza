@@ -15,6 +15,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.appmudanzas.R;
@@ -44,7 +45,7 @@ public class PayPalFragment extends Fragment {
             .clientId(Config.PAYPAL_CLIENT_ID);
 
     private Button btnPagar;
-    private EditText txtMonto;
+    private TextView txtMonto;
     private String monto = "";
     private View vista;
     private OnFragmentInteractionListener mListener;
@@ -76,7 +77,7 @@ public class PayPalFragment extends Fragment {
                              Bundle savedInstanceState) {
         vista=inflater.inflate(R.layout.fragment_pay_pal, container, false);
         //INICIAR servicio paypal
-        Bundle b= new Bundle();
+        Bundle b= getArguments();
         monto=b.getString("monto");
         Intent intent = new Intent(getContext(), PayPalService.class);
         intent.putExtra(PayPalService.EXTRA_PAYPAL_CONFIGURATION, config);
@@ -84,7 +85,7 @@ public class PayPalFragment extends Fragment {
 
         btnPagar = vista.findViewById(R.id.btnPagar);
         txtMonto = vista.findViewById(R.id.txtMonto);
-        txtMonto.setText("25.76");
+        txtMonto.setText(monto);
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

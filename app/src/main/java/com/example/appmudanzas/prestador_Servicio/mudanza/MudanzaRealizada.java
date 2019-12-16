@@ -170,6 +170,7 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
                     mudanza = new Mudanza();
                     JSONObject jsonObjects = null;
                     jsonObjects = jsonArray.getJSONObject(i);
+                    mudanza.setId_mudanza(jsonObjects.getInt("id_mudanza"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
                     mudanza.setId_cliente(jsonObjects.getInt("id_cliente"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));

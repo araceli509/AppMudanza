@@ -95,7 +95,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="Mail@gmail.com"
-                        android:inputType="text" />
+                        android:inputType="textEmailAddress" />
 
                     <TextView
                         android:layout_width="158dp"
@@ -142,7 +142,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="951...."
-                        android:inputType="text" />
+                        android:inputType="phone" />
 
 
                     <TextView
@@ -160,7 +160,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="cp.."
-                        android:inputType="text" />
+                        android:inputType="textPostalAddress" />
                     <TextView
                         android:layout_width="190dp"
                         android:layout_height="wrap_content"
@@ -176,7 +176,7 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:hint="aa/mm/dd"
-                        android:inputType="text" />
+                        android:inputType="date" />
                 </LinearLayout>
 
 

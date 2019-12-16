@@ -50,7 +50,8 @@ import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener,PerfilFragment.OnFragmentInteractionListener, mudanzasTabsCliente.OnFragmentInteractionListener, MudanzaRealizadaCliente.OnFragmentInteractionListener,
-        Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, MudanzaAcitvaCliente.OnFragmentInteractionListener, MudanzaenEsperaCliente.OnFragmentInteractionListener {
+        Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, MudanzaAcitvaCliente.OnFragmentInteractionListener, MudanzaenEsperaCliente.OnFragmentInteractionListener
+        {
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private String URLcorreo="http://mudanzito.site/api/auth/cliente/busquedacliente_correo/";
 

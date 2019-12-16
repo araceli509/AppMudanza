@@ -166,6 +166,7 @@ public class mudanzaActiva extends Fragment implements Response.Listener<JSONObj
                     mudanza = new Mudanza();
                     JSONObject jsonObjects = null;
                     jsonObjects = jsonArray.getJSONObject(i);
+                    mudanza.setId_mudanza(jsonObjects.getInt("id_mudanza"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
                     mudanza.setId_cliente(jsonObjects.getInt("id_cliente"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
@@ -209,6 +210,7 @@ public class mudanzaActiva extends Fragment implements Response.Listener<JSONObj
                             intentomaps.putExtra("origen",mudanza.getOrigen());
                             intentomaps.putExtra("id_prestador",mudanza.getId_prestador());
                             intentomaps.putExtra("id_mudanza",mudanza.getId_mudanza());
+                            intentomaps.putExtra("id_cliente",mudanza.getId_cliente());
                             startActivity(intentomaps);
                         }
 

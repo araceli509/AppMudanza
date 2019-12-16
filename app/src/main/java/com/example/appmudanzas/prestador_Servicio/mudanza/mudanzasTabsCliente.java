@@ -112,7 +112,7 @@ public class mudanzasTabsCliente extends Fragment implements Response.Listener<J
         mRealizada.setArguments(id);
         mEspera.setArguments(id);
         mActiva.setArguments(id);
-        pageAdapter.addFragment(mActiva,"En Espera");
+        pageAdapter.addFragment(mActiva,"Activa");
         pageAdapter.addFragment(mRealizada,"Completadas");
         pageAdapter.addFragment(mEspera,"En Espera");
         viewPager.setAdapter(pageAdapter);
