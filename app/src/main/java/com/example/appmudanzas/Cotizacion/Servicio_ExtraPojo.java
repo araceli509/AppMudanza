@@ -1,6 +1,7 @@
 package com.example.appmudanzas.Cotizacion;
 
 public class Servicio_ExtraPojo {
+    private int id_prestador;
     private String dias;
     private String hora_inicio;
     private String hora_final;
@@ -13,15 +14,24 @@ public class Servicio_ExtraPojo {
     public Servicio_ExtraPojo() {
     }
 
-    public Servicio_ExtraPojo(String dias, String hora_inicio,String hora_final, double costoXcargador, double costoUnitarioCajaG, double costoUnitarioCajaM, double costoUnitarioCajaC, double precio) {
+    public Servicio_ExtraPojo(int id_prestador, String dias, String hora_inicio, String hora_final, double costoXcargador, double costoUnitarioCajaG, double costoUnitarioCajaM, double costoUnitarioCajaC, double precio) {
+        this.id_prestador = id_prestador;
         this.dias = dias;
         this.hora_inicio = hora_inicio;
-        this.hora_final= hora_final;
+        this.hora_final = hora_final;
         this.costoXcargador = costoXcargador;
         this.costoUnitarioCajaG = costoUnitarioCajaG;
         this.costoUnitarioCajaM = costoUnitarioCajaM;
         this.costoUnitarioCajaC = costoUnitarioCajaC;
         this.precio = precio;
+    }
+
+    public int getId_prestador() {
+        return id_prestador;
+    }
+
+    public void setId_prestador(int id_prestador) {
+        this.id_prestador = id_prestador;
     }
 
     public String getDias() {

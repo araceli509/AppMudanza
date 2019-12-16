@@ -121,7 +121,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         Bundle datos=getArguments();
         id_prestador=datos.getString("id_prestador");
         vista = inflater.inflate(R.layout.fragment_servicios_extra, container, false);
@@ -130,6 +129,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         etHora=vista.findViewById(R.id.txtHoraInicio);
         etHoraFinal=vista.findViewById(R.id.txtHoraFin);
         ibObtenerHora = vista.findViewById(R.id.ib_obtener_hora);
+        UPDATE_URL = "http://mudanzito.site/api/auth/servicios/actualizar_servicio/";
         ibObtenerHora.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -160,43 +160,84 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         sabado = vista.findViewById(R.id.sabado);
         domingo = vista.findViewById(R.id.domingo);
 
+        txtCostoempaque.setEnabled(false);
+        txtCostoempaquemediano.setEnabled(false);
+        txtCostoempaquepequeño.setEnabled(false);
+        txtCargadorextra.setEnabled(false);
+        txtPreciokm.setEnabled(false);
+        lunes.setEnabled(false);
+        martes.setEnabled(false);
+        miercoles.setEnabled(false);
+        jueves.setEnabled(false);
+        viernes.setEnabled(false);
+        sabado.setEnabled(false);
+        domingo.setEnabled(false);
+        etHora.setEnabled(false);
+        etHoraFinal.setEnabled(false);
+
         obtenerServicio();
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                diaseleccionados = "";
-                if (lunes.isChecked()) {
-                    diaseleccionados += "lunes,";
+                if(!txtCostoempaquemediano.isEnabled()){
+                    button.setText("ENVIAR");
+                    editable(true);
+                }else{
+                    button.setText("EDITAR");
+                    editable(false);
+                    diaseleccionados = "";
+                    if (lunes.isChecked()) {
+                        diaseleccionados += "lunes,";
+                    }
+                    if (martes.isChecked()) {
+                        diaseleccionados += "martes,";
+                    }
+                    if (miercoles.isChecked()) {
+                        diaseleccionados += "miercoles,";
+                    }
+                    if (jueves.isChecked()) {
+                        diaseleccionados += "jueves,";
+                    }
+                    if (viernes.isChecked()) {
+                        diaseleccionados += "viernes,";
+                    }
+                    if (sabado.isChecked()) {
+                        diaseleccionados += "sabado,";
+                    }
+                    if (domingo.isChecked()) {
+                        diaseleccionados += "domingo,";
+                    }
+                    if(!diaseleccionados.equals("")){
+                        diaseleccionados = diaseleccionados.substring(0, diaseleccionados.length() - 1);
+                    }
+                    horario = diaseleccionados;
+                    Log.e("", horario);
+                    obtenerServicio();
+                    subirDatoservicio();
                 }
-                if (martes.isChecked()) {
-                    diaseleccionados += "martes,";
-                }
-                if (miercoles.isChecked()) {
-                    diaseleccionados += "miercoles,";
-                }
-                if (jueves.isChecked()) {
-                    diaseleccionados += "jueves,";
-                }
-                if (viernes.isChecked()) {
-                    diaseleccionados += "viernes,";
-                }
-                if (sabado.isChecked()) {
-                    diaseleccionados += "sabado,";
-                }
-                if (domingo.isChecked()) {
-                    diaseleccionados += "domingo,";
-                }
-                diaseleccionados = diaseleccionados.substring(0, diaseleccionados.length() - 1);
-                horario = diaseleccionados;
-                Log.e("", horario);
-                obtenerServicio();
             }
-
         });
 
         recorrer();
 
         return vista;
+    }
+
+    public void editable ( boolean b){
+        txtCostoempaque.setEnabled(b);
+        txtCostoempaquemediano.setEnabled(b);
+        txtCostoempaquepequeño.setEnabled(b);
+        txtCargadorextra.setEnabled(b);
+        txtPreciokm.setEnabled(b);
+        lunes.setEnabled(b);
+        martes.setEnabled(b);
+        miercoles.setEnabled(b);
+        jueves.setEnabled(b);
+        viernes.setEnabled(b);
+        sabado.setEnabled(b);
+        domingo.setEnabled(b);
+        etHora.setEnabled(b);
+        etHoraFinal.setEnabled(b);
     }
 
     public static boolean compruebaConexion(Context context) {
@@ -322,17 +363,22 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
     }
 
     private void subirDatoservicio() {
+        progreso= new ProgressDialog(getContext());
+        progreso.setMessage("Enviando");
+        progreso.show();
         if (compruebaConexion(getContext())) {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_URL,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_URL + id_prestador,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
-
+                            Toast.makeText(getContext(),"Datos enviados correctamente",Toast.LENGTH_LONG).show();
+                            progreso.hide();
                         }
                     }, new Response.ErrorListener() {
                 @Override
                 public void onErrorResponse(VolleyError error) {
-
+                    Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
+                    progreso.hide();
                 }
             }) {
                 @Override
@@ -342,12 +388,11 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                     params.put("dias", horario);
                     params.put("hora_inicio", auxHoraInicio);
                     params.put("hora_salida", auxHoraFin);
-                    params.put("precio", precio + "");
-                    params.put("costoXcargador", costoXcargador + "");
-                    params.put("costoUnitarioCajaG", costoUnitarioCajaG + "");
-                    params.put("costoUnitarioCajaM", cosotUnitarioCajaM + "");
-                    params.put("costoUnitarioCajaC", costoUnitarioCajaC + "");
-
+                    params.put("precio", txtPreciokm.getText().toString());
+                    params.put("costoXcargador", txtCargadorextra.getText().toString());
+                    params.put("costoUnitarioCajaG", txtCostoempaque.getText().toString());
+                    params.put("costoUnitarioCajaM", txtCostoempaquemediano.getText().toString());
+                    params.put("costoUnitarioCajaC", txtCostoempaquepequeño.getText().toString());
                     return params;
                 }
             };
