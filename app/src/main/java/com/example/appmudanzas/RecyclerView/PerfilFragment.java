@@ -67,7 +67,7 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener,R
         // Inflate the layout for this fragment
         View vista = inflater.inflate(R.layout.fragment_perfil, container, false);
         txtnombre = vista.findViewById(R.id.txtNombre);
-        txtapellidos = vista.findViewById(R.id.txtApellidos);
+        txtapellidos = vista.findViewById(R.id.txtapellido);
         txtcorreo = vista.findViewById(R.id.txtcorreo);
         txtdireccion = vista.findViewById(R.id.txtdireccion);
         txttelefono = vista.findViewById(R.id.txttelefono);
@@ -114,32 +114,33 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener,R
 
     @Override
     public void onResponse(JSONObject response) {
+        Log.e("hola",response.toString());
+
         Gson gson = new GsonBuilder().create();
         PerfilPojo choferpojo=null;
         try {
-            JSONArray json = response.getJSONArray("servicios_extras");
+            JSONArray json = response.getJSONArray("cliente");
             for(int i = 0; i<json.length(); i++ ) {
                 String chofer = json.getString(i);
                 choferpojo = gson.fromJson(chofer,PerfilPojo.class);
             }
-            txtnombre.setText(choferpojo.getNombre()+"");
-            txtapellidos.setText(choferpojo.getApellidos()+"");
-            txtcorreo.setText(choferpojo.getCorreo()+"");
-            txtdireccion.setText(choferpojo.getDireccion()+"");
-            txttelefono.setText(choferpojo.getTelefono()+"");
-            txtcodigo_postal.setText(choferpojo.getCodigo_postal()+"");
-            txtfecha_registro.setText(choferpojo.getFecha_registro()+"");
-            Log.e("hola",choferpojo.getNombre());
-            Log.e("hola",choferpojo.getApellidos());
-            Log.e("hola",choferpojo.getCorreo());
-            Log.e("hola",choferpojo.getDireccion());
-            Log.e("hola",choferpojo.getTelefono());
-            Log.e("hola",choferpojo.getCodigo_postal());
-            Log.e("hola",choferpojo.getFecha_registro());
-
         } catch (JSONException e) {
             e.printStackTrace();
         }
+        txtnombre.setText(choferpojo.getNombre());
+        txtapellidos.setText(choferpojo.getApellidos());
+        txtcorreo.setText(choferpojo.getCorreo());
+        txtdireccion.setText(choferpojo.getDireccion());
+        txttelefono.setText(choferpojo.getTelefono());
+        txtcodigo_postal.setText(choferpojo.getCodigo_postal());
+        txtfecha_registro.setText(choferpojo.getFecha_registro());
+        Log.e("hola",choferpojo.getNombre());
+        Log.e("hola",choferpojo.getApellidos());
+        Log.e("hola",choferpojo.getCorreo());
+        Log.e("hola",choferpojo.getDireccion());
+        Log.e("hola",choferpojo.getTelefono());
+        Log.e("hola",choferpojo.getCodigo_postal());
+        Log.e("hola",choferpojo.getFecha_registro());
     }
 
     public interface OnFragmentInteractionListener {
@@ -167,6 +168,8 @@ public class PerfilFragment extends Fragment implements Response.ErrorListener,R
         progreso2.show();
         if(compruebaConexion(getContext())){
             String url = "http://mudanzito.site/api/auth/cliente/cliente_correo/" + mAuth.getCurrentUser().getEmail();
+            Log.e("hola",mAuth.getCurrentUser().getEmail());
+
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, (Response.Listener<JSONObject>) this, this);
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
         }else{
