@@ -130,7 +130,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         etHora=vista.findViewById(R.id.txtHoraInicio);
         etHoraFinal=vista.findViewById(R.id.txtHoraFin);
         ibObtenerHora = vista.findViewById(R.id.ib_obtener_hora);
-        //ibObtenerHora.setOnClickListener((OnClickListener) this);
         ibObtenerHora.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v) {
@@ -139,7 +138,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
         });
 
         ib_obtener_hora_final = vista.findViewById(R.id.ib_obtener_hora_final);
-        //ib_obtener_hora_final.setOnClickListener((OnClickListener) this);
         ib_obtener_hora_final.setOnClickListener(new View.OnClickListener(){
 
             @Override
@@ -185,12 +183,9 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
                 if (sabado.isChecked()) {
                     diaseleccionados += "sabado,";
                 }
-
-
                 if (domingo.isChecked()) {
                     diaseleccionados += "domingo,";
                 }
-
                 diaseleccionados = diaseleccionados.substring(0, diaseleccionados.length() - 1);
                 horario = diaseleccionados;
                 Log.e("", horario);
@@ -269,7 +264,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
-
     }
 
     private void obtenerHora() {
@@ -297,8 +291,6 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
         }, hora, minuto, false);
         recogerHora.show();
-
-
     }
 
     private void obtenerHoraFinal() {
@@ -331,7 +323,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     private void subirDatoservicio() {
         if (compruebaConexion(getContext())) {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
