@@ -177,6 +177,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
                     mudanza = new Mudanza();
                     JSONObject jsonObjects = null;
                     jsonObjects = jsonArray.getJSONObject(i);
+                    mudanza.setId_mudanza(jsonObjects.getInt("id_mudanza"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
                     mudanza.setId_cliente(jsonObjects.getInt("id_cliente"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
@@ -311,9 +312,10 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 terminarmimudanza(mudanza);
-                //abrir ventana para calificar
+                //brir ventana para calificar
             }
         });
+        dialog.show();
 
 
 
@@ -322,7 +324,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     private void terminarmimudanza(final Mudanza mudanza){
         if (compruebaConexion(getContext())) {
             RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/cambiarestadomudazan/",
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {

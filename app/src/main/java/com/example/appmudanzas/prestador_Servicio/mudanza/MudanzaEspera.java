@@ -182,6 +182,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
                     mudanza = new Mudanza();
                     JSONObject jsonObjects = null;
                     jsonObjects = jsonArray.getJSONObject(i);
+                    mudanza.setId_mudanza(jsonObjects.getInt("id_mudanza"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
                     mudanza.setId_cliente(jsonObjects.getInt("id_cliente"));
                     mudanza.setId_prestador(jsonObjects.getInt("id_prestador"));
@@ -215,11 +216,70 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
                 recyclerMudanzaespera.setAdapter(new mudanzaAdapter(listaMudanzas, new solicitudAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        Mudanza mudanza=listaMudanzas.get(recyclerMudanzaespera.getChildAdapterPosition(itemView));
+                        final Mudanza mudanza=listaMudanzas.get(recyclerMudanzaespera.getChildAdapterPosition(itemView));
 
                         Toast.makeText(getContext(),"ah selecionado un item"+mudanza.getId_mudanza(),Toast.LENGTH_LONG).show();
                         if(mudanza!=null) {
-                            acvitarMudanza(mudanza);
+                            AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+                            dialog.setTitle("Comenzar Mudanza ");
+                            dialog.setMessage("desea comenzar con esta mudanza");
+
+                            LayoutInflater inflater = LayoutInflater.from(getContext());
+                            View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
+
+                            final ImageView mapa = register_layout.findViewById(R.id.map);
+
+
+                            dialog.setView(register_layout);
+
+                            dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    progreso = new ProgressDialog(getContext());
+                                    progreso.setMessage("Activando Mudanza");
+                                    progreso.show();
+                                    dialog.dismiss();
+                                    if (compruebaConexion(getContext())) {
+                                        RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+                                        StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
+                                                new Response.Listener<String>() {
+                                                    @Override
+                                                    public void onResponse(String response) {
+
+                                                        progreso.hide();
+                                                        Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
+                                                    }
+                                                }, new Response.ErrorListener() {
+                                            @Override
+                                            public void onErrorResponse(VolleyError error) {
+                                                Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
+                                                progreso.hide();
+                                            }
+                                        }) {
+                                            @Override
+                                            protected Map<String, String> getParams() throws AuthFailureError {
+                                                Map<String, String> params = new Hashtable<>();
+                                                params.put("id_mudanza", String.valueOf(mudanza.getId_mudanza()));
+                                                params.put("status", String.valueOf(3));
+                                                return params;
+                                            }
+                                        };
+                                        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+                                    } else {
+                                        progreso.dismiss();
+                                        Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
+                                    }
+
+
+
+                                }
+                            });
+                            dialog.show();
+
+
+                            Log.d("entre",mudanza.toString());
                         }
 
                     }
@@ -284,61 +344,6 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
     }
 
     private void acvitarMudanza(final Mudanza mudanza) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
-
-        dialog.setTitle("Comenzar Mudanza ");
-        dialog.setMessage("desea comenzar con esta mudanza");
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
-
-        final ImageView mapa = register_layout.findViewById(R.id.map);
-
-
-        dialog.setView(register_layout);
-        dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                progreso = new ProgressDialog(getContext());
-                progreso.setMessage("Activando Mudanza");
-                progreso.show();
-                dialog.dismiss();
-                if (compruebaConexion(getContext())) {
-                    RequestQueue requestQueue = Volley.newRequestQueue(getContext());
-                    StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
-                            new Response.Listener<String>() {
-                                @Override
-                                public void onResponse(String response) {
-
-                                    progreso.hide();
-                                    Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
-                                }
-                            }, new Response.ErrorListener() {
-                        @Override
-                        public void onErrorResponse(VolleyError error) {
-                            Toast.makeText(getContext(), error.toString(), Toast.LENGTH_LONG).show();
-                            progreso.hide();
-                        }
-                    }) {
-                        @Override
-                        protected Map<String, String> getParams() throws AuthFailureError {
-                            Map<String, String> params = new Hashtable<>();
-                            params.put("id_mudanza", String.valueOf(mudanza.getId_mudanza()));
-                            params.put("status", String.valueOf(3));
-                            return params;
-                        }
-                    };
-                    VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
-
-                } else {
-                    progreso.dismiss();
-                    Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
-                }
-
-
-
-            }
-        });
 
 
 

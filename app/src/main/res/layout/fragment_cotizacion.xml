@@ -27,23 +27,27 @@
             android:layout_height="1dp"
             />
 
-        <TextView
-            android:id="@+id/textOrigen"
-            android:layout_width="match_parent"
-            android:layout_height="42dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+<LinearLayout
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
 
-        <TextView
-            android:id="@+id/textDestino"
-            android:layout_width="match_parent"
-            android:layout_height="42dp" />
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="1dp"/>
+    <TextView
+        android:id="@+id/tvcajaGr"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed"
+        android:text="caja grande(.5m*.6m):"
+        android:textSize="20sp" />
+
+    <EditText
+        android:id="@+id/tvcajaG"
+        android:layout_width="85dp"
+        android:layout_height="wrap_content"
+        android:fontFamily="sans-serif-condensed-medium"></EditText>
+</LinearLayout>
+            android:textSize="18sp" />
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -51,61 +55,61 @@
 
             <TextView
                 android:id="@+id/tvtarifa"
-                android:layout_width="214dp"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Tarifa:"
-                android:textSize="24sp" />
+                android:text="caja mediana(.60m*1.2m):"
+                android:textSize="20sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/tvtarifaprecio"
-                android:layout_width="186dp"
+                android:layout_width="85dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
-                android:text="$106/km"
+
                 android:textSize="18sp" />
 
         </LinearLayout>
+
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="298dp"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvkm"
-                android:layout_width="214dp"
+                android:layout_width="208dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed"
-                android:text="km(s) recorridos: "
-                android:textSize="24sp" />
+                android:text="caja pequeña(.5m*.6m):"
+                android:textSize="20sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textKilometros"
-                android:layout_width="186dp"
+                android:layout_width="86dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textSize="18sp" />
         </LinearLayout>
 
-        <TextView
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content" />
+
+
         <LinearLayout
             android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_height="35dp"
             android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/tvpagar"
-                android:layout_width="214dp"
-                android:layout_height="wrap_content"
+                android:layout_width="204dp"
+                android:layout_height="54dp"
                 android:fontFamily="sans-serif-condensed"
-                android:text="Total:                                   $"
-                android:textSize="24sp" />
+                android:text=" Num ayudantes extras:"
+                android:textSize="20sp" />
 
-            <TextView
+            <EditText
                 android:id="@+id/textTotal"
-                android:layout_width="186dp"
+                android:layout_width="90dp"
                 android:layout_height="wrap_content"
                 android:fontFamily="sans-serif-condensed-medium"
                 android:textSize="18sp" />
@@ -113,26 +117,28 @@
         </LinearLayout>
 
         <LinearLayout
-            android:layout_width="349dp"
-            android:layout_height="64dp"
+            android:layout_width="270dp"
+            android:layout_height="55dp"
             android:orientation="vertical">
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="41dp"
+                android:layout_width="277dp"
+                android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
                 <TextView
-                    android:id="@+id/tvspinner"
-                    android:layout_width="wrap_content"
+                    android:id="@+id/tvpisos"
+                    android:layout_width="193dp"
                     android:layout_height="wrap_content"
-                    android:text="Num Pisos :   "
+                    android:text="Numero de Pisos :   "
                     android:textSize="18sp" />
 
-                <Spinner
-                    android:id="@+id/spinnerpisos"
-                    android:layout_width="68dp"
+                <EditText
+                    android:id="@+id/txtpisos"
+                    android:layout_width="97dp"
                     android:layout_height="wrap_content" />
+
+
             </LinearLayout>
 
         </LinearLayout>

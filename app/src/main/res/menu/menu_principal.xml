@@ -8,10 +8,7 @@
         android:id="@+id/nav_inicio"
         android:icon="@drawable/baseline_filter_1_24"
         android:title="Inicio"/>
-        <item
-            android:id="@+id/nav_catalago"
-            android:icon="@drawable/baseline_filter_2_24"
-            android:title="Catalogo"/>
+
     <item
         android:id="@+id/nav_galeria"
         android:icon="@drawable/baseline_filter_3_24"

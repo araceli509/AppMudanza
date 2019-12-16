@@ -23,12 +23,12 @@
         android:layout_marginBottom="20dp"/>
 
     <TextView
+        android:id="@+id/txtUsuarioNav"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="@dimen/nav_cabecera_espacio_vertical"
         android:text="@string/nav_titulo_cabecera"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:id="@+id/txtUsuarioNav"/>
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
     <TextView
         android:id="@+id/txtCorreoNav"
         android:layout_width="wrap_content"

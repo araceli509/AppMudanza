@@ -8,12 +8,13 @@ public class ChoferPojo {
     private double alto;
     private double precio;
     private float valoracion;
+    private String imagenfrontal;
 
     public ChoferPojo() {
 
     }
 
-    public ChoferPojo(int id_prestador, String nombre, double largo, double ancho, double alto, double precio, float valoracion) {
+    public ChoferPojo(int id_prestador, String nombre, double largo, double ancho, double alto, double precio, float valoracion,String imagenfrontal) {
         this.id_prestador = id_prestador;
         this.nombre = nombre;
         this.largo = largo;
@@ -21,6 +22,15 @@ public class ChoferPojo {
         this.alto = alto;
         this.precio = precio;
         this.valoracion = valoracion;
+        this.imagenfrontal=imagenfrontal;
+    }
+
+    public String getImagenfrontal() {
+        return imagenfrontal;
+    }
+
+    public void setImagenfrontal(String imagenfrontal) {
+        this.imagenfrontal = imagenfrontal;
     }
 
     public double volumen(){

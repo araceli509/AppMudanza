@@ -38,7 +38,7 @@ import java.util.List;
     public void onBindViewHolder(@NonNull PosicionChoferViewHolder holder, int position) {
         ChoferPojo cliente = chofer.get(position);
         holder.txtnombre.setText("Nombre: " + cliente.getNombre());
-        holder.txtcapacidad.setText("Volumen: " + cliente.volumen()+"C3" );
+        holder.txtcapacidad.setText("Volumen: " + cliente.volumen()+"m³" );
         holder.txtprecio.setText("Precio por km: " + cliente.getPrecio());
         holder.ranking.setRating(cliente.getValoracion());
 }
