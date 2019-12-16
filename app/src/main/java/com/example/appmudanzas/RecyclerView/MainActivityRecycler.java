@@ -49,7 +49,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-        , solicitud_preview.OnFragmentInteractionListener, mudanzasTabsCliente.OnFragmentInteractionListener, MudanzaRealizadaCliente.OnFragmentInteractionListener,
+        , solicitud_preview.OnFragmentInteractionListener,PerfilFragment.OnFragmentInteractionListener, mudanzasTabsCliente.OnFragmentInteractionListener, MudanzaRealizadaCliente.OnFragmentInteractionListener,
         Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, MudanzaAcitvaCliente.OnFragmentInteractionListener, MudanzaenEsperaCliente.OnFragmentInteractionListener {
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private String URLcorreo="http://mudanzito.site/api/auth/cliente/busquedacliente_correo/";
@@ -140,6 +140,9 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         else
         if (id==R.id.nav_galeria){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
+        }else
+        if (id==R.id.nav_perfil){
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new PerfilFragment()).commit();
         }
         else
         if (id==R.id.nav_acercade){

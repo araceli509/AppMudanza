@@ -18,13 +18,18 @@
             android:icon="@drawable/baseline_filter_3_24"
             android:title="Ubicacion prestador"/>
 
+        <item
+            android:id="@+id/nav_perfil"
+            android:icon="@drawable/baseline_filter_4_24"
+            android:title="Perfil"/>
+
     <!--<item
         android:id="@+id/nav_solicitudes"
         android:icon="@drawable/baseline_filter_6_24"
         android:title="Solicitudes"/>-->
         <item
             android:id="@+id/nav_cerrarsesion"
-            android:icon="@drawable/baseline_filter_4_24"
+            android:icon="@drawable/baseline_filter_5_24"
             android:title="Cerrar sesion"/>
 </group>
 
