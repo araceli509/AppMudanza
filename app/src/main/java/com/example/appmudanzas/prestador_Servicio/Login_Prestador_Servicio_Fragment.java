@@ -175,17 +175,18 @@ public class Login_Prestador_Servicio_Fragment extends Fragment implements Respo
         inputPassword=vista.findViewById(R.id.password_prestador);
     }
 
-    public void verificarCorreoElectornico(){
+    public boolean verificarCorreoElectornico(){
         Log.e("Error",URL);
         jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
         jsonObjectRequest.setShouldCache(false);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(jsonObjectRequest);
+        return status.equals("1")&&solicitud.equals("1");
     }
 
     @Override
     public void onErrorResponse(VolleyError error) {
-        Toast.makeText(getContext(),error.getMessage().toString(),Toast.LENGTH_SHORT).show();
+        Toast.makeText(getContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
     }
 
     @Override
