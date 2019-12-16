@@ -97,7 +97,7 @@
 
 
             <EditText
-                android:id="@+id/txtCostoempaque"
+                android:id="@+id/txtCostoEmpaqueG"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="Costo empaque grande:"
