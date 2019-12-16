@@ -21,6 +21,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
+import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,7 +53,7 @@ import java.util.Map;
 public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener, AdapterView.OnItemSelectedListener{
     private ProgressDialog progreso;
     private ProgressDialog progreso2;
-    private TextView txtOrigen;
+    private TextView txtOrigen,txtverificar;
     private TextView txtDestino;
     private TextView txtKilometro;
     private TextView txtTotal;
@@ -69,6 +70,11 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     private FirebaseAuth mAuth;
     private float total;
     private TextView tvtarifaprecio;
+    private double cajac,cajam,cajag,numtra,precio;
+    private EditText numcc;
+    private EditText numcm;
+    private EditText numcg;
+    private EditText numt;
 
     RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
@@ -89,8 +95,13 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cotizacion, container, false);
+        numcc = v.findViewById(R.id.numcc);
+        numcm = v.findViewById(R.id.numcm);
+        numcg = v.findViewById(R.id.numcg);
+        numt = v.findViewById(R.id.numt);
+        txtverificar = v.findViewById(R.id.txtverificar);
         txtOrigen = v.findViewById(R.id.textOrigen);
-       // txtDestino = v.findViewById(R.id.textDestino);
+        txtDestino = v.findViewById(R.id.textDestino);
         txtKilometro = v.findViewById(R.id.textKilometros);
         txtTotal = v.findViewById(R.id.textTotal);
         tvtarifaprecio=v.findViewById(R.id.tvtarifaprecio);
@@ -104,6 +115,25 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
         btnPagar = v.findViewById(R.id.btnPagar);
         getidcliente();
         obtenerPrecios();
+        txtverificar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String ca = "0";
+                try {
+                    double cc = Double.parseDouble(numcc.getText().toString())*cajac;
+                    double cm = Double.parseDouble(numcm.getText().toString())*cajam;
+                    double cg = Double.parseDouble(numcg.getText().toString())*cajag;
+                    double nt = Double.parseDouble(numt.getText().toString())*numtra;
+                    double tot = cc+cm+cg+nt+total;
+                    ca =""+tot;
+
+                }catch (NumberFormatException n){
+
+                }
+
+                txtTotal.setText(ca );
+            }
+        });
         btnPagar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -112,11 +142,11 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
                 InicioFragment fragmento = new InicioFragment();
                 fragmentTransaction.replace(R.id.contenedor, fragmento);
-                  fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
-       // spinnerpisos = v.findViewById(R.id.spinnerpisos);
+        spinnerpisos = v.findViewById(R.id.spinnerpisos);
         final ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
         spinnerpisos.setAdapter(adapter);
         spinnerpisos.setOnItemSelectedListener(this);
@@ -152,7 +182,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
     private void getDatos() {
         Bundle datosRecuperados = getArguments();
         km = datosRecuperados.getFloat("kilometros");
-        total=km*400;
+        total= (float) (km*precio);
         origenLatLong = datosRecuperados.getString("origenLatLong");
         destinoLatLong = datosRecuperados.getString("destinoLatLong");
         origen = datosRecuperados.getString("origen");
@@ -217,7 +247,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 }
             };
             VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
-           // requestQueue.add(stringRequest);
+            // requestQueue.add(stringRequest);
         }else{
             progreso.dismiss();
             Toast.makeText(getContext(),"Comprueba tu conexion a internet",Toast.LENGTH_SHORT).show();
@@ -273,6 +303,11 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 choferpojo = gson.fromJson(chofer,Servicio_ExtraPojo.class);
             }
             tvtarifaprecio.setText("$ "+choferpojo.getPrecio()+"/Km");
+            cajac = choferpojo.getCostoUnitarioCajaC();
+            cajam = choferpojo.getCostoUnitarioCajaM();
+            cajag = choferpojo.getCostoUnitarioCajaG();
+            numtra = choferpojo.getCostoXcargador();
+            precio=choferpojo.getPrecio();
 
         } catch (JSONException e) {
             e.printStackTrace();
