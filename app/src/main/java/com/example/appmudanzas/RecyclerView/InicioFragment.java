@@ -20,11 +20,14 @@ import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.Cotizacion.Cotizacion;
 import com.example.appmudanzas.R;
@@ -41,9 +44,14 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.io.Console;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -63,6 +71,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     private JsonObjectRequest jsonObjectRequest;
     FloatingActionButton fabfiltro;
     Dialog dialogo;
+    private String UPLOAD_URL="http://mudanzito.site/api/auth/cliente/agregar_cliente/";
     public InicioFragment() {
     }
 
@@ -120,6 +129,8 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
                 fragmentTransaction.commit();
             }
         });
+
+        subirDatosCliente();
         return v;
     }
 
@@ -211,6 +222,45 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     public String ffh(String dato){
         dato = (dato.length() == 1) ? "0" + dato : dato;
         return dato;
+    }
+
+    public void subirDatosCliente(){
+        Log.e("Error",mAuth.getCurrentUser().getDisplayName());
+        Log.e("Error",obtenerFechaRegistro());
+
+        StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+                new Response.Listener<String>() {
+                    @Override
+                    public void onResponse(String response) {
+
+                    }
+                },new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getContext(),error.toString(),Toast.LENGTH_LONG).show();
+            }
+        }){
+            @Override
+            protected Map<String, String> getParams() throws AuthFailureError {
+                Map<String, String> params = new Hashtable<>();
+                params.put("nombre", mAuth.getCurrentUser().getDisplayName());
+                params.put("apellidos",mAuth.getCurrentUser().getDisplayName());
+                params.put("correo",mAuth.getCurrentUser().getEmail());
+                params.put("direccion", "Ninguna");
+                params.put("telefono","0000000000");
+                params.put("codigo_postal","00000");
+                params.put("fecha_registro",obtenerFechaRegistro());
+                return params;
+            }
+        };
+        stringRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+        VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+    }
+
+    public String obtenerFechaRegistro(){
+        Date date = new Date();
+        DateFormat dateFormat = new SimpleDateFormat("yyyy/MM/dd");
+        return dateFormat.format(date);
     }
 
 }
