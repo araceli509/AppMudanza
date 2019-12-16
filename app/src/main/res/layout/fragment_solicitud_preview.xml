@@ -302,13 +302,12 @@
                         <TextView
                             android:id="@+id/estadosolicitud"
                             android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="5dp"
+                            android:layout_height="37dp"
                             android:layout_weight="1"
-                            android:fontFamily="sans-serif-medium"
-                            android:text="En Espera"
+                            android:gravity="center_vertical"
+                            android:text="TextView"
                             android:textColor="#FF8F00"
-                            android:textSize="24sp"></TextView>
+                            android:textSize="24sp" />
 
                     </LinearLayout>
 

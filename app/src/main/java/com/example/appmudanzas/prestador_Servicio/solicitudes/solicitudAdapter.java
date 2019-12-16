@@ -73,7 +73,7 @@ public class solicitudAdapter extends RecyclerView.Adapter<solicitudAdapter.soli
         public solicitudHolder(@NonNull final View itemView) {
             super(itemView);
 
-            nombrecliente =(TextView) itemView.findViewById(R.id.clientemudanza);
+            nombrecliente =(TextView) itemView.findViewById(R.id.nombrecliente);
             distancia=(TextView) itemView.findViewById(R.id.distancia);
             monto=(TextView) itemView.findViewById(R.id.monto);
             fecha= (TextView)itemView.findViewById(R.id.fecha);

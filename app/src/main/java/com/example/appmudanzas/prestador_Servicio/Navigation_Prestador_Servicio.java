@@ -8,7 +8,6 @@ import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Context;
 import android.net.ConnectivityManager;
@@ -21,25 +20,23 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.DefaultRetryPolicy;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
-import com.bumptech.glide.Glide;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.RecyclerView.ServiciosExtraFragment;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaEspera;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizada;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzaActiva;
-import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabs;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabsCliente;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzas_tab;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.FragmentSecundario;
 import com.example.appmudanzas.prestador_Servicio.navigation_prestador.Fragment_Principal;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
@@ -61,7 +58,7 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         FragmentSecundario.OnFragmentInteractionListener,
         Login_Prestador_Servicio_Fragment.OnFragmentInteractionListener,
         Response.Listener<JSONObject>,
-        Response.ErrorListener,mudanzasTabs.OnFragmentInteractionListener,
+        Response.ErrorListener, mudanzasTabsCliente.OnFragmentInteractionListener,
         MudanzaRealizada.OnFragmentInteractionListener,
         mudanzas_tab.OnFragmentInteractionListener, mudanzaActiva.OnFragmentInteractionListener{
 
@@ -188,6 +185,9 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
             String correo=user.getEmail();
             String url = "http://mudanzito.site/api/auth/cliente/busquedaprestador/" +correo;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
+            jsonObjectRequest.setShouldCache(false);
+            jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
+
             requestQueue.add(jsonObjectRequest);
         }else{
 
