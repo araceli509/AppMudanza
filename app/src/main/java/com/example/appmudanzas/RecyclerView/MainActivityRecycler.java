@@ -32,7 +32,9 @@ import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Prestador;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaAcitvaCliente;
 import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizadaCliente;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaenEsperaCliente;
 import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabsCliente;
 import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
 import com.firebase.ui.auth.AuthUI;
@@ -48,7 +50,7 @@ import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
         , solicitud_preview.OnFragmentInteractionListener, mudanzasTabsCliente.OnFragmentInteractionListener, MudanzaRealizadaCliente.OnFragmentInteractionListener,
-        Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject> {
+        Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, MudanzaAcitvaCliente.OnFragmentInteractionListener, MudanzaenEsperaCliente.OnFragmentInteractionListener {
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
     private String URLcorreo="http://mudanzito.site/api/auth/cliente/busquedacliente_correo/";
 
