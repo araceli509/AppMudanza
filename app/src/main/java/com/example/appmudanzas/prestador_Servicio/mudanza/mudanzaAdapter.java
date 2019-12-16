@@ -45,7 +45,14 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
 
                holder.distancia.setText(mudanza.getDistancia()+"KM");
                 holder.fecha.setText(mudanza.getFecha());
-                holder.nombrecliente.setText( mudanza.getCliente().getNombre() + " " + mudanza.getCliente().getApellidos());
+                if(mudanza.getPrestador()!=null){
+
+                    holder.titulo.setText("Prestador");
+                    holder.nombrecliente.setText( mudanza.getPrestador().getNombre() + " " + mudanza.getPrestador().getApellidos());
+
+                }else{
+                    holder.nombrecliente.setText( mudanza.getCliente().getNombre() + " " + mudanza.getCliente().getApellidos());
+                }
                 holder.hora.setText(mudanza.getHora());
                 if(mudanza.getStatus()==1){
 
@@ -74,7 +81,7 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
         public class mudanzaHolder extends RecyclerView.ViewHolder{
 
 
-            TextView nombrecliente,distancia,fecha,hora;
+            TextView nombrecliente,distancia,fecha,hora,titulo;
             ImageView carrito;
 
             public mudanzaHolder(@NonNull final View itemView) {
@@ -85,6 +92,7 @@ public class mudanzaAdapter extends RecyclerView.Adapter<mudanzaAdapter.mudanzaH
                 hora=(TextView) itemView.findViewById(R.id.hora);
                 fecha= (TextView)itemView.findViewById(R.id.mfecha);
                 carrito= (ImageView) itemView.findViewById(R.id.carito);
+                titulo=(TextView) itemView.findViewById(R.id.titulomudanza);
                 itemView.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {

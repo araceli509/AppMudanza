@@ -192,7 +192,7 @@ public class MudanzaRealizada extends Fragment implements Response.Listener<JSON
                     cliente.setApellidos(client.getString("apellidos"));
                     cliente.setCorreo(client.getString("correo"));
                     cliente.setDireccion(client.getString("direccion"));
-                    cliente.setCodigopostal(client.getString("telefono"));
+                    cliente.setTelefono(client.getString("telefono"));
                     cliente.setCodigopostal(client.getString("codigo_postal"));
 
                     mudanza.setCliente(cliente);

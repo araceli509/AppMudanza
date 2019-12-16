@@ -68,7 +68,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
     MarkerOptions mkOp;
     FirebaseAuth auth;
     FirebaseDatabase db;
-    DatabaseReference driver;
+    DatabaseReference drivers;
     Marker miMarcador;
     JsonObjectRequest jsonObjectRequest;
     RequestQueue request;
@@ -106,6 +106,11 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
         origen=getIntent().getStringExtra("origen");
         destino=getIntent().getStringExtra("destino");
         request = Volley.newRequestQueue(getApplicationContext());
+        db = FirebaseDatabase.getInstance();
+        auth = FirebaseAuth.getInstance();
+        drivers = db.getReference("Drivers");
+        geoFire = new GeoFire(drivers);
+
         webServiceObtenerRuta(origen,destino);
         String datos[]= origen.split(",");
         double Lat= Double.parseDouble(datos[0]);
@@ -153,10 +158,10 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
 
 
-        seguimientos = FirebaseDatabase.getInstance().getReference("Drivers");
 
 
-        seguimientos.child(auth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
+
+        drivers.child(auth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
             @Override
             public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
 
@@ -183,7 +188,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
             }
         });
-        geoFire = new GeoFire(seguimientos);
+
 
 
 

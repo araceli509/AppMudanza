@@ -1,9 +1,6 @@
 package com.example.appmudanzas.RecyclerView;
 
-import android.content.Context;
 import android.content.Intent;
-import android.net.ConnectivityManager;
-import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
@@ -20,6 +17,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
 import com.android.volley.DefaultRetryPolicy;
@@ -29,31 +27,33 @@ import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.bumptech.glide.Glide;
-import com.example.appmudanzas.Cotizacion.SolicitudPojo;
 import com.example.appmudanzas.Login.LoginPrincipal;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Prestador;
 import com.example.appmudanzas.prestador_Servicio.Solicitudes_Servicio;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaAcitvaCliente;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaRealizadaCliente;
+import com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaenEsperaCliente;
+import com.example.appmudanzas.prestador_Servicio.mudanza.mudanzasTabsCliente;
 import com.example.appmudanzas.prestador_Servicio.solicitud_preview;
 import com.firebase.ui.auth.AuthUI;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
-import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
 public class MainActivityRecycler extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener, Solicitudes_Servicio.OnFragmentInteractionListener
-, CatalogoFragment.OnFragmentInteractionListener,solicitud_preview.OnFragmentInteractionListener,PayPalFragment.OnFragmentInteractionListener{
+        , solicitud_preview.OnFragmentInteractionListener,PerfilFragment.OnFragmentInteractionListener, mudanzasTabsCliente.OnFragmentInteractionListener, MudanzaRealizadaCliente.OnFragmentInteractionListener,
+        Response.ErrorListener,PayPalFragment.OnFragmentInteractionListener, Response.Listener<JSONObject>, MudanzaAcitvaCliente.OnFragmentInteractionListener, MudanzaenEsperaCliente.OnFragmentInteractionListener {
     private String URL="http://mudanzito.site/api/auth/cliente/busquedaprestador/";
+    private String URLcorreo="http://mudanzito.site/api/auth/cliente/busquedacliente_correo/";
+
     private TextView txtUsuario,txtCorreo;
     private ImageView imagenPerfilCliente;
     private FirebaseAuth mAuth;
@@ -61,6 +61,7 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
     private RequestQueue request;
     private JsonObjectRequest jsonObjectRequest;
     private int idPrestador;
+    private int id_cliente;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -93,7 +94,8 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         Toast.makeText(this,mAuth.getCurrentUser().getEmail(),Toast.LENGTH_LONG).show();
         URL=URL+mAuth.getCurrentUser().getEmail();
         Toast.makeText(this,URL,Toast.LENGTH_LONG).show();
-        //obtenerDatos();
+        obtenerDatos();
+
     }
 
     @Override
@@ -135,18 +137,20 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         if (id==R.id.nav_inicio) {
             fragmentManager.beginTransaction().replace(R.id.contenedor, new InicioFragment()).commit();
         }
-
-        else
-        if (id==R.id.nav_catalago){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new CatalogoFragment()).commit();
-        }
         else
         if (id==R.id.nav_galeria){
             fragmentManager.beginTransaction().replace(R.id.contenedor, new GaleriaFragment()).commit();
+        }else
+        if (id==R.id.nav_perfil){
+            fragmentManager.beginTransaction().replace(R.id.contenedor, new PerfilFragment()).commit();
         }
         else
         if (id==R.id.nav_acercade){
-            fragmentManager.beginTransaction().replace(R.id.contenedor, new AcercaDeFragment()).commit();
+            Bundle idcliente= new Bundle();
+            idcliente.putInt("id_cliente",id_cliente);
+            Fragment mudanzasTabs= new mudanzasTabsCliente();
+            mudanzasTabs.setArguments(idcliente);
+            fragmentManager.beginTransaction().replace(R.id.contenedor, mudanzasTabs).commit();
         }
 
             if (id==R.id.nav_cerrarsesion){
@@ -180,8 +184,8 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
 
     }
 
-    /*public void obtenerDatos(){
-        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URL,null,this,this);
+    public void obtenerDatos(){
+        jsonObjectRequest=new JsonObjectRequest(Request.Method.GET,URLcorreo+mAuth.getCurrentUser().getEmail(),null,this,this);
         jsonObjectRequest.setShouldCache(false);
         jsonObjectRequest.setRetryPolicy(new DefaultRetryPolicy(DefaultRetryPolicy.DEFAULT_TIMEOUT_MS * 2, DefaultRetryPolicy.DEFAULT_MAX_RETRIES, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT));
         VolleySingleton.getInstanciaVolley(getApplicationContext()).addToRequestQueue(jsonObjectRequest);
@@ -198,16 +202,16 @@ public class MainActivityRecycler extends AppCompatActivity implements Navigatio
         Prestador p=new Prestador();
 
         try {
-            JSONArray json=response.getJSONArray("prestador");
+            JSONArray json=response.getJSONArray("cliente");
             JSONObject jsonObject=null;
             jsonObject=json.getJSONObject(0);
-            idPrestador=jsonObject.optInt("id_prestador");
+            id_cliente=jsonObject.optInt("id_cliente");
 
-            Toast.makeText(this,"id "+jsonObject.optInt("id_prestador"),Toast.LENGTH_SHORT).show();
+            Toast.makeText(this,"id "+jsonObject.optInt("id_cliente"),Toast.LENGTH_SHORT).show();
         } catch (JSONException e) {
             e.printStackTrace();
         }
 
-    }*/
+    }
 
 }

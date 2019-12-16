@@ -13,6 +13,7 @@ public class Mudanza {
     private String estado;
 
     private com.example.appmudanzas.prestador_Servicio.solicitudes.cliente cliente;
+    private Prestador_Servicio prestador;
 
     public Mudanza() {
     }
@@ -119,5 +120,13 @@ public class Mudanza {
 
     public void setCliente(com.example.appmudanzas.prestador_Servicio.solicitudes.cliente cliente) {
         this.cliente = cliente;
+    }
+
+    public Prestador_Servicio getPrestador() {
+        return prestador;
+    }
+
+    public void setPrestador(Prestador_Servicio prestador) {
+        this.prestador = prestador;
     }
 }

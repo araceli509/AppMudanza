@@ -1,25 +1,19 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.AlertDialog;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.Toast;
+
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
@@ -28,13 +22,7 @@ import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
-import com.example.appmudanzas.prestador_Servicio.solicitudes.cliente;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.material.snackbar.Snackbar;
-import com.google.firebase.auth.AuthResult;
-import com.google.firebase.auth.FirebaseAuth;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -50,12 +38,12 @@ import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 /**
  * A simple {@link Fragment} subclass.
  * Activities that contain this fragment must implement the
- * {@link MudanzaEspera.OnFragmentInteractionListener} interface
+ * {@link MudanzaenEsperaCliente.OnFragmentInteractionListener} interface
  * to handle interaction events.
- * Use the {@link MudanzaEspera#newInstance} factory method to
+ * Use the {@link MudanzaenEsperaCliente#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class MudanzaEspera extends Fragment  implements Response.Listener<JSONObject>, Response.ErrorListener {
+public class MudanzaenEsperaCliente extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -67,15 +55,17 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
     private OnFragmentInteractionListener mListener;
 
-    private View view;
-    RecyclerView recyclerMudanzaespera;
+    RecyclerView recyclerMudanzas;
     ArrayList<Mudanza> listaMudanzas;
     mudanzaAdapter mudanzaAdapter;
+
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
-    private int id_prestador;
+    private int id_cliente;
 
-    public MudanzaEspera() {
+    View view;
+
+    public MudanzaenEsperaCliente() {
         // Required empty public constructor
     }
 
@@ -85,11 +75,11 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
      *
      * @param param1 Parameter 1.
      * @param param2 Parameter 2.
-     * @return A new instance of fragment MudanzaEspera.
+     * @return A new instance of fragment MudanzaRealizada.
      */
     // TODO: Rename and change types and number of parameters
-    public static MudanzaEspera newInstance(String param1, String param2) {
-        MudanzaEspera fragment = new MudanzaEspera();
+    public static MudanzaenEsperaCliente newInstance(String param1, String param2) {
+        MudanzaenEsperaCliente fragment = new MudanzaenEsperaCliente();
         Bundle args = new Bundle();
         args.putString(ARG_PARAM1, param1);
         args.putString(ARG_PARAM2, param2);
@@ -109,15 +99,15 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        view =inflater.inflate(R.layout.fragment_mudanza_espera, container, false);
-        recyclerMudanzaespera= view.findViewById(R.id.recyclerMudanzaespera);
-        recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
+        view=inflater.inflate(R.layout.fragment_mudanza_espera, container, false);
+        recyclerMudanzas= view.findViewById(R.id.recyclerMudanzaespera);
+        recyclerMudanzas.setLayoutManager(new LinearLayoutManager(getContext()));
         listaMudanzas= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
-        id_prestador= getArguments().getInt("id_prestador");
-        Log.e("id_prestador",String.valueOf(id_prestador));
-        if(id_prestador>=1){
+        //tomar el id del prestador actual
+        id_cliente= getArguments().getInt("id_cliente");
+        Log.e("id",String.valueOf(id_cliente));
+        if(id_cliente>=1){
             try {
                 cargarDatos();
             }catch (Exception e){
@@ -125,7 +115,7 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
             }
 
         }else{
-            Toast.makeText(getContext(),"Error al consultar de la base de datos"+ id_prestador,Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(),"Error al consultar de la base de datos"+ id_cliente,Toast.LENGTH_LONG).show();
 
         }
 
@@ -158,11 +148,12 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
     @Override
     public void onErrorResponse(VolleyError error) {
-            Toast.makeText(getContext(),"Error"+error.getMessage(),Toast.LENGTH_LONG);
+            Toast.makeText(getContext(),"Error",Toast.LENGTH_LONG).show();
     }
 
     @Override
     public void onResponse(JSONObject response) {
+
         Mudanza mudanza = null;
 
         try {
@@ -189,36 +180,37 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
                     mudanza.setDistancia(jsonObjects.getDouble("distancia"));
 
 
-                    JSONObject client = jsonObjects.getJSONObject("cliente");
-                    cliente cliente = new cliente();
-                    cliente.setId_cliente(client.getInt("id_cliente"));
-                    cliente.setNombre(client.getString("nombre"));
-                    cliente.setApellidos(client.getString("apellidos"));
-                    cliente.setCorreo(client.getString("correo"));
-                    cliente.setDireccion(client.getString("direccion"));
-                    cliente.setTelefono(client.getString("telefono"));
-                    cliente.setCodigopostal(client.getString("codigo_postal"));
+                    JSONObject client = jsonObjects.getJSONObject("prestador");
+                    Prestador_Servicio prestador_servicio = new Prestador_Servicio();
+                    prestador_servicio.setId_prestador(client.getInt("id_prestador"));
+                    prestador_servicio.setNombre(client.getString("nombre"));
+                    prestador_servicio.setApellidos(client.getString("apellidos"));
+                    prestador_servicio.setCorreo(client.getString("correo"));
+                    prestador_servicio.setDireccion(client.getString("direccion"));
+                    prestador_servicio.setTelefono(client.getString("telefono"));
+                    prestador_servicio.setCodigo_postal(client.getString("codigo_postal"));
+                    prestador_servicio.setStatus(client.getInt("status"));
 
-                    mudanza.setCliente(cliente);
+                    mudanza.setPrestador(prestador_servicio);
 
                     listaMudanzas.add(mudanza);
                 }
 
-                recyclerMudanzaespera.setAdapter(new mudanzaAdapter(listaMudanzas, new solicitudAdapter.OnItemClickListener() {
+                recyclerMudanzas.setAdapter(new mudanzaAdapter(listaMudanzas, new solicitudAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View itemView, int position) {
-                        Mudanza mudanza=listaMudanzas.get(recyclerMudanzaespera.getChildAdapterPosition(itemView));
+                Mudanza mudanza=listaMudanzas.get(recyclerMudanzas.getChildAdapterPosition(itemView));
 
                         Toast.makeText(getContext(),"ah selecionado un item"+mudanza.getId_mudanza(),Toast.LENGTH_LONG).show();
                         if(mudanza!=null) {
-                            acvitarMudanza(mudanza);
+
                         }
 
                     }
                 }));
-                recyclerMudanzaespera.setLayoutManager(new LinearLayoutManager(getContext()));
-                recyclerMudanzaespera.setItemAnimator(new SlideInUpAnimator());
-                Log.d("Informacion",String.valueOf(recyclerMudanzaespera.getAdapter().getItemCount()));
+                recyclerMudanzas.setLayoutManager(new LinearLayoutManager(getContext()));
+                recyclerMudanzas.setItemAnimator(new SlideInUpAnimator());
+
 
 
             }else{
@@ -264,10 +256,9 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
     private void cargarDatos(){
         boolean conexion=compruebaConexion(getContext());
         if(conexion) {
-            String url = "http://mudanzito.site/api/auth/mudanzas/listarmismudanzaspendientes/" + id_prestador;
+            String url = "http://mudanzito.site/api/auth/mudanzas/mismudanzasenesperacliente/" + id_cliente;
             jsonObjectRequest = new JsonObjectRequest(Request.Method.GET, url, null, this, this);
             requestQueue.add(jsonObjectRequest);
-            Toast.makeText(getContext(),"cargando datos",Toast.LENGTH_LONG).show();
         }else{
 
             Toast.makeText(getContext(),"Revise su conexion a internet",Toast.LENGTH_LONG).show();
@@ -275,32 +266,5 @@ public class MudanzaEspera extends Fragment  implements Response.Listener<JSONOb
 
     }
 
-    private void acvitarMudanza(Mudanza mudanza) {
-        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
 
-        dialog.setTitle("Comenzar Mudanza ");
-        dialog.setMessage("desea comenzar con esta mudanza");
-
-        LayoutInflater inflater = LayoutInflater.from(getContext());
-        View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
-
-        final ImageView mapa = register_layout.findViewById(R.id.map);
-
-
-        dialog.setView(register_layout);
-        dialog.setPositiveButton("Comenzar", new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-
-                dialog.dismiss();
-
-                Snackbar.make(getView(),"Comenzando Viaje..",Snackbar.LENGTH_LONG).show();
-
-            }
-        });
-
-
-
-        dialog.show();
-    }
 }

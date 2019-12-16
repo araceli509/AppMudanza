@@ -30,6 +30,8 @@ import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
+import java.text.DecimalFormat;
+
 
 public class solicitud_preview extends Fragment implements Response.Listener<JSONObject>, Response.ErrorListener{
     // TODO: Rename parameter arguments, choose names that match
@@ -53,7 +55,7 @@ public class solicitud_preview extends Fragment implements Response.Listener<JSO
     * */
     private TextView idsolicitud,cliente,numero,correo;
 
-    private TextView pago,origencalles,destinocalles,pisos,estadosol,fecha,km;
+    private TextView pago,origencalles,destinocalles,pisos,estadosol,fecha,km,estado;
 
     private ImageView eliminar,rutamaps,aceptar;
 
@@ -108,6 +110,7 @@ public class solicitud_preview extends Fragment implements Response.Listener<JSO
          eliminar=view.findViewById(R.id.eliminar);
          rutamaps=view.findViewById(R.id.rutamaps);
          aceptar=view.findViewById(R.id.aceptar);
+         estado=view.findViewById(R.id.estadosolicitud);
 
         requestQueue= Volley.newRequestQueue(getContext());
         reservacion= (reservacion) getArguments().getSerializable("reservacion");
@@ -153,13 +156,14 @@ public class solicitud_preview extends Fragment implements Response.Listener<JSO
              cliente.setText(cliente_datos.getNombre()+" "+cliente_datos.getApellidos());
              numero.setText(cliente_datos.getTelefono());
              correo.setText(cliente_datos.getCorreo());
-
-             pago.setText("$"+String.valueOf(reservacion.getMonto())+" MXN");
+             DecimalFormat formateador=new DecimalFormat("######.##");
+             pago.setText("$"+String.valueOf(formateador.format(reservacion.getMonto()))+" MXN");
              origencalles.setText(reservacion.getOrigen());
              destinocalles.setText(reservacion.getDestino());
              pisos.setText(String.valueOf(reservacion.getNumero_pisos()));
-             //estatus.setText(reservacion.getStatus());
-             fecha.setText(String.valueOf(reservacion.getFecha()));
+             Log.d("estado soliciutd",reservacion.getEstatustexto());
+             estado.setText(reservacion.getEstatustexto());
+             fecha.setText(reservacion.getFecha().toString());
              km.setText(String.valueOf(reservacion.getDistancia())+" km");
          }
 

@@ -34,6 +34,7 @@ import org.json.JSONException;
 import org.json.JSONObject;
 
 import java.sql.Date;
+import java.text.DecimalFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -89,7 +90,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
         solicitudesV.setLayoutManager(new LinearLayoutManager(getContext()));
         listareservaciones= new ArrayList<>();
         requestQueue= Volley.newRequestQueue(getContext());
-        id_cliente=7;
+
         //tomar el id del prestador actual
         id_cliente= getArguments().getInt("idprestador");
         if(id_cliente>1){
@@ -166,7 +167,9 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-mm-dd");
                     String fecha = jsonObject.getString("fecha_hora");
                     java.util.Date date = sdf1.parse(fecha);
+                    Log.d("fecha util",date.toString());
                     Date sqlStartDate = new Date(date.getTime());
+                    Log.d("fecha",sqlStartDate.toString());
                     reservacion.setFecha(sqlStartDate);
                     reservacion.setOrigen(jsonObject.getString("origen"));
                     reservacion.setDestino(jsonObject.getString("destino"));
@@ -178,6 +181,9 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     reservacion.setStatus(jsonObject.getInt("status"));
                     reservacion.setDistancia(jsonObject.getDouble("distancia"));
                     reservacion.setDistancia(reservacion.getDistancia()/1000);
+                    DecimalFormat formateador=new DecimalFormat("######.##");
+                    double monto=Double.valueOf(formateador.format(reservacion.getMonto()));
+                    reservacion.setMonto(monto);
 
                     JSONObject client = jsonObject.getJSONObject("cliente");
                     cliente cliente = new cliente();
@@ -186,7 +192,7 @@ public class Solicitudes_Servicio extends Fragment implements Response.Listener<
                     cliente.setApellidos(client.getString("apellidos"));
                     cliente.setCorreo(client.getString("correo"));
                     cliente.setDireccion(client.getString("direccion"));
-                    cliente.setCodigopostal(client.getString("telefono"));
+                    cliente.setTelefono(client.getString("telefono"));
                     cliente.setCodigopostal(client.getString("codigo_postal"));
                     reservacion.setCliente(cliente);
                     listareservaciones.add(reservacion);
