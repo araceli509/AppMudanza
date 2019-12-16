@@ -102,9 +102,13 @@ public class Navigation_Prestador_Servicio extends AppCompatActivity
         //imagenPerfilPrestador.setMaxHeight(30);
         //imagenPerfilPrestador.setMaxWidth(30);
         //Glide.with(this).load(mAuth.getCurrentUser().getPhotoUrl()).into(imagenPerfilPrestador);
+        Bundle bundle = new Bundle();
+        bundle.putString("idprestador", idPrestador);
 
+        Fragment solicitudes_servicio = new Solicitudes_Servicio();
+        solicitudes_servicio.setArguments(bundle);
         FragmentManager fragmentManager = getSupportFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.contenedor, new Fragment_Principal()).commit();
+        fragmentManager.beginTransaction().replace(R.id.contenedor, solicitudes_servicio).commit();
         navigationView.setNavigationItemSelectedListener(this);
         requestQueue= Volley.newRequestQueue(getApplicationContext());
 

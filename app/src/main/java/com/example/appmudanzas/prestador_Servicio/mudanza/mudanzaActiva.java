@@ -209,6 +209,7 @@ public class mudanzaActiva extends Fragment implements Response.Listener<JSONObj
                             intentomaps.putExtra("origen",mudanza.getOrigen());
                             intentomaps.putExtra("id_prestador",mudanza.getId_prestador());
                             intentomaps.putExtra("id_mudanza",mudanza.getId_mudanza());
+                            intentomaps.putExtra("id_cliente",mudanza.getId_cliente());
                             startActivity(intentomaps);
                         }
 

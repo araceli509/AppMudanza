@@ -21,14 +21,17 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
 import com.example.appmudanzas.prestador_Servicio.Utilidades;
+import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.firebase.geofire.GeoFire;
 import com.firebase.geofire.GeoLocation;
 import com.google.android.gms.maps.CameraUpdateFactory;
@@ -39,6 +42,7 @@ import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolylineOptions;
+import com.google.android.material.snackbar.Snackbar;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.ChildEventListener;
 import com.google.firebase.database.DataSnapshot;
@@ -52,7 +56,11 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Hashtable;
 import java.util.List;
+import java.util.Map;
+
+import static com.example.appmudanzas.prestador_Servicio.mudanza.MudanzaAcitvaCliente.compruebaConexion;
 
 public class rutaPrestador extends FragmentActivity implements OnMapReadyCallback {
 
@@ -76,6 +84,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
     Localizacion Local;
     Button comenzar;
     DatabaseReference seguimientos;
+    int id_cliente,id_prestador,uid_prestador;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -105,6 +114,8 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
         origen=getIntent().getStringExtra("origen");
         destino=getIntent().getStringExtra("destino");
+        id_cliente=getIntent().getIntExtra("id_cliente",1);
+        id_prestador=getIntent().getIntExtra("id_prestador",1);
         request = Volley.newRequestQueue(getApplicationContext());
         db = FirebaseDatabase.getInstance();
         auth = FirebaseAuth.getInstance();
@@ -118,7 +129,15 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
         LatLng origin = new LatLng(Lat, Long);
         mMap.addMarker(new MarkerOptions().position(origin).title("Ubicacion de la mudanza"));
         mMap.moveCamera(CameraUpdateFactory.newLatLng(origin));
-        locationStart();
+        comenzar = (Button) findViewById(R.id.continuar);
+        comenzar.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                locationStart();
+                insertaruid();
+            }
+        });
 
         Handler handlerr = new Handler();
         handlerr.postDelayed(new Runnable() {
@@ -135,6 +154,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
     private void locationStart() {
         LocationManager mlocManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Localizacion Local = new Localizacion();
+
         Local.setMainActivity(this);
         final boolean gpsEnabled = mlocManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
         if (!gpsEnabled) {
@@ -148,46 +168,7 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
         mlocManager.requestLocationUpdates(LocationManager.NETWORK_PROVIDER, 0, 0, (LocationListener) Local);
         mlocManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 0, 0, (LocationListener) Local);
 
-        comenzar = (Button) findViewById(R.id.continuar);
-        comenzar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //cambiar estado mudanza ,enviar datos
-            }
-        });
 
-
-
-
-
-
-        drivers.child(auth.getCurrentUser().getUid()).addChildEventListener(new ChildEventListener() {
-            @Override
-            public void onChildAdded(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onChildChanged(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-                //geoFire.getLocation(auth.getCurrentUser().getUid(),);
-                Log.e("Ubicacion","Holaaa");
-            }
-
-            @Override
-            public void onChildRemoved(@NonNull DataSnapshot dataSnapshot) {
-
-            }
-
-            @Override
-            public void onChildMoved(@NonNull DataSnapshot dataSnapshot, @Nullable String s) {
-
-            }
-
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
-        });
 
 
 
@@ -216,24 +197,28 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
             latitud = loc.getLatitude();
             longitud = loc.getLongitude();
 
-            String sLatitud = String.valueOf(loc.getLatitude());
-            String sLongitud = String.valueOf(loc.getLongitude());
-            MiUbicacion = new LatLng(Double.parseDouble(sLatitud), Double.parseDouble(sLongitud));
+
+            MiUbicacion = new LatLng(latitud,longitud);
 
             mkOp = new MarkerOptions()
                     .visible(true)
                     .position(MiUbicacion).title("Tú");
 
             miMarcador = mMap.addMarker(mkOp);
-            geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), new GeoLocation(Double.parseDouble(sLatitud), Double.parseDouble(sLongitud)), new GeoFire.CompletionListener() {
+
+            geoFire.setLocation(FirebaseAuth.getInstance().getCurrentUser().getUid(), new GeoLocation(latitud, longitud), new GeoFire.CompletionListener() {
                 @Override
                 public void onComplete(String key, DatabaseError error) {
                     if (miMarcador != null) {
-                        miMarcador.remove();
-                        miMarcador = mMap.addMarker(mkOp);
+                        miMarcador.setPosition(new LatLng(latitud,longitud));
                         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(MiUbicacion, 15.0f));
 
                     }
+                    mkOp=null;
+                    miMarcador.remove();
+                    MiUbicacion=null;
+
+
 
                 }
             });
@@ -255,6 +240,42 @@ public class rutaPrestador extends FragmentActivity implements OnMapReadyCallbac
 
         }
     }
+
+
+    private void insertaruid(){
+        if (compruebaConexion(getApplicationContext())) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getApplicationContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.site/api/auth/mudanzas/insertarubicacion",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getApplicationContext(), "Algo salio mal"+ error.getMessage(), Toast.LENGTH_LONG).show();
+
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<>();
+                    params.put("id_prestador", String.valueOf(id_prestador));
+                    params.put("id_cliente", String.valueOf(id_cliente));
+                    params.put("uid_prestador", auth.getCurrentUser().getUid());
+                    return params;
+                }
+            };
+            VolleySingleton.getInstanciaVolley(getApplication()).addToRequestQueue(stringRequest);
+
+        } else {
+
+
+        }
+    }
+
 
     private void webServiceObtenerRuta(String origenLatLong, String destinoLatLong) {
         String url="";

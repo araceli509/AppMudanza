@@ -1,6 +1,8 @@
 package com.example.appmudanzas.prestador_Servicio.mudanza;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -9,20 +11,28 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
 import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.RecyclerView.AcercaDeFragment;
+import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.example.appmudanzas.prestador_Servicio.solicitudes.solicitudAdapter;
+import com.google.android.material.snackbar.Snackbar;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -32,6 +42,8 @@ import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Hashtable;
+import java.util.Map;
 
 import jp.wasabeef.recyclerview.animators.SlideInUpAnimator;
 
@@ -62,6 +74,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     private RequestQueue requestQueue;
     private JsonObjectRequest jsonObjectRequest;
     private int id_cliente;
+    ProgressDialog progreso;
 
     View view;
 
@@ -90,10 +103,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
@@ -118,6 +128,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
             Toast.makeText(getContext(),"Error al consultar de la base de datos"+ id_cliente,Toast.LENGTH_LONG).show();
 
         }
+
 
         return view;
     }
@@ -155,6 +166,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
     public void onResponse(JSONObject response) {
 
         Mudanza mudanza = null;
+
 
         try {
             JSONArray jsonArray= response.getJSONArray("mudanzas");
@@ -203,6 +215,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
 
                         Toast.makeText(getContext(),"ah selecionado un item"+mudanza.getId_mudanza(),Toast.LENGTH_LONG).show();
                         if(mudanza!=null) {
+                            terminarMudanza(mudanza);
 
                         }
 
@@ -224,16 +237,7 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
         }
     }
 
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
+
     public interface OnFragmentInteractionListener {
         // TODO: Update argument type and name
         void onFragmentInteraction(Uri uri);
@@ -265,6 +269,88 @@ public class MudanzaAcitvaCliente extends Fragment implements Response.Listener<
         }
 
     }
+    private void terminarMudanza(final Mudanza mudanza) {
 
+        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+
+        dialog.setTitle("Tu Mudanza esta activa");
+        dialog.setMessage("Selecciona una opcion");
+
+        LayoutInflater inflater = LayoutInflater.from(getContext());
+        View register_layout = inflater.inflate(R.layout.dialogo_comenzarmudanza,null);
+
+        final ImageView mapa = register_layout.findViewById(R.id.map);
+
+
+        dialog.setView(register_layout);
+        dialog.setPositiveButton("Ubicacion Prestador", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                progreso = new ProgressDialog(getContext());
+                progreso.setMessage("Activando Mudanza");
+                progreso.show();
+                dialog.dismiss();
+
+                terminarmimudanza(mudanza);
+                Bundle data= new Bundle();
+                data.putInt("id_cliente",mudanza.getId_cliente());
+                data.putInt("id_prestador",mudanza.getId_prestador());
+                data.putInt("id_mudanza",mudanza.getId_mudanza());
+
+                Fragment AcercaDeFragment= new AcercaDeFragment();
+                getActivity().getSupportFragmentManager().beginTransaction()
+                        .replace(R.id.map,AcercaDeFragment)
+                        .addToBackStack(null)
+                        .commit();
+
+
+
+            }
+        });
+        dialog.setNeutralButton("Terminar y Evaluar", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                terminarmimudanza(mudanza);
+                //abrir ventana para calificar
+            }
+        });
+
+
+
+
+    }
+    private void terminarmimudanza(final Mudanza mudanza){
+        if (compruebaConexion(getContext())) {
+            RequestQueue requestQueue = Volley.newRequestQueue(getContext());
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, "http://mudanzito.com/api/auth/mudanzas/cambiarestadomudazan/",
+                    new Response.Listener<String>() {
+                        @Override
+                        public void onResponse(String response) {
+
+                            progreso.hide();
+                            Snackbar.make(getView(),"Mudanza Completada..",Snackbar.LENGTH_LONG).show();
+                        }
+                    }, new Response.ErrorListener() {
+                @Override
+                public void onErrorResponse(VolleyError error) {
+                    Toast.makeText(getContext(), "Algo salio mal", Toast.LENGTH_LONG).show();
+                    progreso.hide();
+                }
+            }) {
+                @Override
+                protected Map<String, String> getParams() throws AuthFailureError {
+                    Map<String, String> params = new Hashtable<>();
+                    params.put("id_mudanza", String.valueOf(mudanza.getId_mudanza()));
+                    params.put("status", String.valueOf(2));
+                    return params;
+                }
+            };
+            VolleySingleton.getInstanciaVolley(getContext()).addToRequestQueue(stringRequest);
+
+        } else {
+            progreso.dismiss();
+            Snackbar.make(getView(),"upps algo salio mal :(",Snackbar.LENGTH_LONG).show();
+        }
+    }
 
 }
