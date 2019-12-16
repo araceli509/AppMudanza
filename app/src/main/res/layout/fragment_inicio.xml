@@ -6,15 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".RecyclerView.InicioFragment">
-    <Button
-        android:id="@+id/btncerrarinicio"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:text="X"
-        android:textStyle="bold"
-        android:layout_gravity="end"
-        android:gravity="center"
-        android:background="@drawable/circulobackground" />
+
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -48,7 +40,7 @@
             android:layout_height="wrap_content"/>
 
         <ImageView
-
+            android:id="@+id/imagenfrontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:scaleType="centerCrop" />

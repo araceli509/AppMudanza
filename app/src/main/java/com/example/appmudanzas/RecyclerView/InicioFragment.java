@@ -14,6 +14,7 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -36,6 +37,8 @@ import com.android.volley.toolbox.StringRequest;
 import com.android.volley.toolbox.Volley;
 import com.example.appmudanzas.Cotizacion.Cotizacion;
 import com.example.appmudanzas.R;
+import com.example.appmudanzas.mCloud.CloudinaryClient;
+import com.example.appmudanzas.mCloud.PicassoClient;
 import com.example.appmudanzas.prestador_Servicio.VolleySingleton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.firebase.auth.FirebaseAuth;
@@ -83,6 +86,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     List<String> keys;
     String llave;
     Button inicio;
+    ImageView imagenfrontal;
     private FirebaseAuth mAuth;
     Bundle extras;
     private RequestQueue request;
@@ -108,17 +112,20 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         request= Volley.newRequestQueue(getContext());
         database = FirebaseDatabase.getInstance().getReference();
         mAuth = FirebaseAuth.getInstance();
-        inicio = v.findViewById(R.id.btncerrarinicio);
+        //inicio = v.findViewById(R.id.btncerrarinicio);
+        imagenfrontal=v.findViewById(R.id.imagenfrontal);
         recyclerView = v.findViewById(R.id.recycler);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         dialogo= new Dialog(getContext());
-
+/*
         inicio.setOnClickListener(new View.OnClickListener() {
     @Override
     public void onClick(View view) {
         showPopup(view);
     }
 });
+
+ */
         choferes = new ArrayList<>();
         keys = new ArrayList<>();
         obtenerDatos();
@@ -285,6 +292,7 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
     public void onResponse(JSONObject response) {
 
         Gson gson = new GsonBuilder().create();
+
         try {
             JSONArray json = response.getJSONArray("prestador");
             for(int i = 0; i<json.length(); i++ ) {
@@ -296,6 +304,8 @@ public class InicioFragment extends Fragment implements Response.Listener<JSONOb
         } catch (JSONException e) {
             e.printStackTrace();
         }
+
+
     }
 
     private String obtenerHora (){

@@ -90,7 +90,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_cotizacion, container, false);
         txtOrigen = v.findViewById(R.id.textOrigen);
-        txtDestino = v.findViewById(R.id.textDestino);
+       // txtDestino = v.findViewById(R.id.textDestino);
         txtKilometro = v.findViewById(R.id.textKilometros);
         txtTotal = v.findViewById(R.id.textTotal);
         tvtarifaprecio=v.findViewById(R.id.tvtarifaprecio);
@@ -116,7 +116,7 @@ public class Cotizacion<cosotUnitarioCajaM> extends Fragment  implements Respons
                 fragmentTransaction.commit();
             }
         });
-        spinnerpisos = v.findViewById(R.id.spinnerpisos);
+       // spinnerpisos = v.findViewById(R.id.spinnerpisos);
         final ArrayAdapter<CharSequence>adapter=ArrayAdapter.createFromResource(v.getContext(),R.array.opcionpisos,android.R.layout.simple_spinner_item);
         spinnerpisos.setAdapter(adapter);
         spinnerpisos.setOnItemSelectedListener(this);

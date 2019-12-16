@@ -331,7 +331,7 @@ public class ServiciosExtraFragment extends Fragment implements Response.Listene
 
     private void subirDatoservicio() {
         if (compruebaConexion(getContext())) {
-            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPLOAD_URL,
+            StringRequest stringRequest = new StringRequest(Request.Method.POST, UPDATE_URL,
                     new Response.Listener<String>() {
                         @Override
                         public void onResponse(String response) {
